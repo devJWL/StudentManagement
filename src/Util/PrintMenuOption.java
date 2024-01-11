@@ -39,7 +39,8 @@ public class PrintMenuOption {
                         1. 수강생 관리
                         2. 점수 관리
                         3. 프로그램 종료
-                        =================================="""
+                        ==================================
+                        """
                 );
         menuOptionStringMap.put(MenuOption.STUDENT_MAIN_MENU,
                 """
