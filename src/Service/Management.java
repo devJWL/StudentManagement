@@ -1,50 +1,53 @@
 package Service;
-
-
 import Data.DataBase;
+import Util.MenuOption;
+import Util.PrintMenuOption;
+import Util.MenuOption.*;
+
 
 // App
 // "ID : %-5s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s"
 public class Management{
-    private final DataBase dataBase = new DataBase();
-
-    public static void run() {
-
+    public void run() {
+        DataBase dataBase = new DataBase();
+        PrintMenuOption printMenuOption = new PrintMenuOption();
+        System.out.println(printMenuOption.getStringData(MenuOption.MAIN_MENU));
+        mainMenu();
     }
-    static public void mainMenu() {
+    private void mainMenu() {
         // 1 -> studentMenu()
         // 2 -> scoreMenu()
     }
     // 수강생 관리 메뉴
-    public void studentMenu() {
+    private void studentMenu() {
         // 1 -> registerStudentMenu()
         // 2->inquireStudentMenu()
         // 3->changeStudentMenu()
         // 4-> deleteStudentMenu()
     }
 
-    public void registerStudentMenu() {}
-    public void inquireStudentMenu() {
+    private void registerStudentMenu() {}
+    private void inquireStudentMenu() {
         // 1--> id로 조회
         // 2--> 한 상태에 대해 조회
     }
-    public void changeStudentMenu() {}
-    public void deleteStudentMenu() {}
+    private void changeStudentMenu() {}
+    private void deleteStudentMenu() {}
     // 수강생 관련 메뉴 끝
 
 
     // 점수 관리 메뉴
-    public void scoreMenu() {
+    private void scoreMenu() {
         // 1->registerScoreMenu
         // 2->inquireScoreMenu
         // 3->changeScoreMenu
     }
-    public void registerScoreMenu() {}
-    public void inquireScoreMenu() {
+    private void registerScoreMenu() {}
+    private void inquireScoreMenu() {
         // 1-> id로 조회
         // 2-> 한 상태에 대해 조회
     }
-    public void changeScoreMenu() {}
+    private void changeScoreMenu() {}
 
     // 점수 관리 메뉴 끝
 }
