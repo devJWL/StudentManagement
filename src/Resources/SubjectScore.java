@@ -30,7 +30,5 @@ public class SubjectScore {
         return grade;
     }
 
-    public void setGrade(char grade) {
-        this.grade = grade;
-    }
+    public void setGrade(char grade) { this.grade = grade; }
 }

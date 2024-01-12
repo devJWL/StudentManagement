@@ -10,10 +10,6 @@ public class Student {
     // 이 학생이 수강하고 있는 과목 목록
     private final List<String> subjectList = new ArrayList<>();
 
-//    public Student() {
-//        studentId = "STU" + NO;
-//        ++NO;
-//    }
 
     public Student(String studentName, String status) {
         studentId = "STU" + NO;
@@ -38,9 +34,7 @@ public class Student {
         this.studentName = studentName;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
     public void setStatus(String status) {
         this.status = status;

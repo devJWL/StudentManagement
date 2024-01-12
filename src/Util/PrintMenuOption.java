@@ -3,6 +3,7 @@ package Util;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class PrintMenuOption {
 
     private final Map<MenuOption, String> menuOptionStringMap = new HashMap<>();
@@ -15,18 +16,6 @@ public class PrintMenuOption {
         return menuOptionStringMap.get(menuOption);
     }
 
-    /*
-    MAIN_MENU,
-    STUDENT_MAIN_MENU,
-    STUDENT_REGISTER_MENU,
-    STUDENT_INQUIRE_MENU,
-    STUDENT_CHANGE_MENU,
-    STUDENT_DELETE_MENU,
-    SCORE_MAIN_MENU,
-    SCORE_REGISTER_MENU,
-    SCORE_INQUIRE_MENU,
-    SCORE_CHANGE_MENU,
-     */
     private void initMenuOptionStringMap() {
         menuOptionStringMap.put(MenuOption.MAIN_MENU,
                 """

@@ -9,19 +9,11 @@ public class Subject {
         this.isMandatory = isMandatory;
     }
 
-    public String getSubjectName() {
-        return subjectName;
-    }
+    public String getSubjectName() { return subjectName; }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
+    public void setSubjectName(String subjectName) { this.subjectName = subjectName; }
 
-    public boolean isMandatory() {
-        return isMandatory;
-    }
+    public boolean isMandatory() { return isMandatory; }
 
-    public void setMandatory(boolean mandatory) {
-        isMandatory = mandatory;
-    }
+    public void setMandatory(boolean mandatory) { isMandatory = mandatory; }
 }

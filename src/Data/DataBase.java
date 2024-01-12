@@ -3,7 +3,6 @@ package Data;
 import Resources.Student;
 import Resources.Subject;
 import Resources.SubjectScore;
-
 import java.util.*;
 
 public class DataBase {
@@ -18,12 +17,11 @@ public class DataBase {
 
     // key : studentId + subjectName    value : 과목이름
     private final Set<String> subjectSet = new HashSet<>();
-
-
-    // key : studentId + subjectName   value : 해당id의 학생의 해당 과목의 회차별 점수 목록
+    
+    // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
 
-    // key : 상태                      value : 학생리스트
+    // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
 
     public DataBase() {
@@ -70,11 +68,13 @@ public class DataBase {
         }
     }
 
+
     public void inputSubjectScore(String key, List<SubjectScore> subjectScoreList) {
         for (SubjectScore subjectScore : subjectScoreList) {
             subjectScoreMap.get(key).add(subjectScore);
         }
     }
+
 
     private void databaseInit() {
         subjectList.add(new Subject("Java", true));

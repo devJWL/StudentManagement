@@ -2,30 +2,39 @@ package Service;
 import Data.DataBase;
 import Util.MenuOption;
 import Util.PrintMenuOption;
+import Util.SelectNumber;
+
 import java.util.Scanner;
 
 
 // App
 // "ID : %-5s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s"
 public class Management{
-    private Scanner sc = new Scanner(System.in);
-    private DataBase dataBase = new DataBase();
-    private PrintMenuOption printMenuOption = new PrintMenuOption();
+    private final Scanner sc = new Scanner(System.in);
+    private final DataBase dataBase = new DataBase();
+    private final PrintMenuOption printMenuOption = new PrintMenuOption();
+
     public void run() {
         mainMenu();
     }
+
+    // 선택사항에 대한 입력 처리 함수
+    private SelectNumber selectInput()  {
+        String input = sc.nextLine();
+        return SelectNumber.FOUR;
+    }
+
     private void mainMenu() {
-        boolean flag = true;
-        while (flag) {
+        while (true) {
             System.out.println(printMenuOption.getStringData(MenuOption.MAIN_MENU));
-            String input = sc.nextLine();
-            switch (inputSelect(input)) {
-                case 1 -> studentMenu(); // 수강생 관리
-                case 2 -> scoreMenu(); // 점수 관리
-                case 3 -> flag = false; // 프로그램 종료
-                default -> {
-                    System.out.println("잘못된 입력입니다.\n되돌아갑니다!");
-                }
+            SelectNumber select = selectInput();
+            if (select == SelectNumber.TREE) {
+                System.out.println("프로그램 종료");
+            }
+            switch (select) {
+                // 수강생 관리
+                // 점수 관리
+                // 프로그램 종료
             }
         }
     }
