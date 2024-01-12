@@ -17,9 +17,6 @@ public class DataBase {
     // 등록된 학생 목록
     private final List<Student> studentList = new ArrayList<>();
 
-    // 모든 과목 목록
-    private final Set<Subject> subjectList = new HashSet<>();
-
     // key : studentId + subjectName    value : 과목이름
     private final Set<String> subjectSet = new HashSet<>();
     
@@ -29,6 +26,26 @@ public class DataBase {
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
 
+    public DataBase() {
+        databaseInit();
+    }
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+
+    public Set<String> getSubjectSet() {
+        return subjectSet;
+    }
+    public Map<String, List<SubjectScore>> getSubjectScore() {
+        return subjectScoreMap;
+    }
+    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
+        return subjectScoreMap;
+    }
+    public Map<String, List<Student>> getStudentByStatusMap() {
+        return studentByStatusMap;
+    }
 
     // ================================== 메뉴 관련 EnumClass HashMap =============================
     private final Map<Integer, MainMenuOption>  mainMenuOptionMap = new HashMap<>();
@@ -39,7 +56,7 @@ public class DataBase {
     private final Map<Integer, ScoreRegisterMenuOption> scoreRegisterMenuOptionMap = new HashMap<>();
     private final Map<Integer, ScoreInquireMenuOption> scoreInquireMenuOptionMap = new HashMap<>();
     private final Map<Integer, ScoreChangeMenuOption> scoreChangeMenuOptionMap = new HashMap<>();
-
+    private final Map<Integer, YesOrNoOption> yesOrNoOptionMap = new HashMap<>();
 
 
 
@@ -70,6 +87,10 @@ public class DataBase {
     public Map<Integer, ScoreChangeMenuOption> getScoreChangeMenuOptionMap() {
         return scoreChangeMenuOptionMap;
     }
+
+    public Map<Integer, YesOrNoOption> getYesOrNoOptionMap() {
+        return yesOrNoOptionMap;
+    }
     // ================================== 메뉴 관련 EnumClass HashMap =============================
 
 
@@ -87,27 +108,7 @@ public class DataBase {
 
     // ================================== 과목 EnumClass HashMap ============================
 
-    public DataBase() {
-        databaseInit();
-    }
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-    public Set<Subject> getSubjectList() {
-        return subjectList;
-    }
-    public Set<String> getSubjectSet() {
-        return subjectSet;
-    }
-    public Map<String, List<SubjectScore>> getSubjectScore() {
-        return subjectScoreMap;
-    }
-    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
-        return subjectScoreMap;
-    }
-    public Map<String, List<Student>> getStudentByStatusMap() {
-        return studentByStatusMap;
-    }
+
 
 
     // 학생 삭제
@@ -229,6 +230,10 @@ public class DataBase {
         ScoreChangeMenuOption[] scoreChangeMenuOptions = ScoreChangeMenuOption.values();
         for (int i = 0; i < scoreChangeMenuOptions.length; ++i) {
             scoreChangeMenuOptionMap.put(i, scoreChangeMenuOptions[i]);
+        }
+        YesOrNoOption[] yesOrNoOptions = YesOrNoOption.values();
+        for (int i = 0; i < yesOrNoOptions.length; ++i) {
+            yesOrNoOptionMap.put(i, yesOrNoOptions[i]);
         }
     }
 }
