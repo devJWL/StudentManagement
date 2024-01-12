@@ -1,4 +1,4 @@
-package Util;
+package Util.Menu;
 
 public enum MenuOption {
     MAIN_MENU,
@@ -11,4 +11,5 @@ public enum MenuOption {
     SCORE_REGISTER_MENU,
     SCORE_INQUIRE_MENU,
     SCORE_CHANGE_MENU,
+    INPUT_ERROR_MENU
 }
