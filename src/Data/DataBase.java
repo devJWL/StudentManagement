@@ -3,10 +3,7 @@ package Data;
 import Resources.Student;
 import Resources.Subject;
 import Resources.SubjectScore;
-import Util.Options.MainMenuOption;
-import Util.Options.StudentInquireMenuOption;
-import Util.Options.StudentMenuOption;
-import Util.Options.StudentRegisterMenuOption;
+import Util.Options.*;
 import Util.Subject.MandatorySubject;
 import Util.Subject.SelectSubject;
 
@@ -33,23 +30,15 @@ public class DataBase {
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
 
 
-    // ================================== EuumClass HashMap =============================
+    // ================================== 메뉴 관련 EnumClass HashMap =============================
     private final Map<Integer, MainMenuOption>  mainMenuOptionMap = new HashMap<>();
-    private final Map<Integer, MandatorySubject> mandatorySubjectHashMap = new HashMap<>();
-    private final Map<Integer, SelectSubject> selectSubjectMap = new HashMap<>();
     private final Map<Integer, StudentMenuOption> studentMenuOptionMap = new HashMap<>();
     private final Map<Integer, StudentRegisterMenuOption> studentRegisterMenuOptionMap = new HashMap<>();
     private final Map<Integer, StudentInquireMenuOption> studentInquireMenuOptionMap = new HashMap<>();
-
+    private final Map<Integer, ScoreMenuOption> scoreMenuOptionMap = new HashMap<>();
 
     public Map<Integer, MainMenuOption> getMainMenuOptionMap() {
         return mainMenuOptionMap;
-    }
-    public Map<Integer, MandatorySubject> getMandatorySubjectHashMap() {
-        return mandatorySubjectHashMap;
-    }
-    public Map<Integer, SelectSubject> getSelectSubjectMap() {
-        return selectSubjectMap;
     }
     public Map<Integer, StudentMenuOption> getStudentMenuOptionMap() {
         return studentMenuOptionMap;
@@ -60,8 +49,25 @@ public class DataBase {
     public Map<Integer, StudentInquireMenuOption> getStudentInquireMenuOptionMap() {
         return studentInquireMenuOptionMap;
     }
-    // ================================== EuumClass HashMap =============================
+    public Map<Integer, ScoreMenuOption> getScoreMenuOptionMap() {
+        return scoreMenuOptionMap;
+    }
+    // ================================== 메뉴 관련 EnumClass HashMap =============================
 
+
+    // ================================== 과목 EnumClass HashMap ============================
+    private final Map<Integer, MandatorySubject> mandatorySubjectMap = new HashMap<>();
+    private final Map<Integer, SelectSubject> selectSubjectMap = new HashMap<>();
+
+    public Map<Integer, MandatorySubject> getMandatorySubjectMap() {
+        return mandatorySubjectMap;
+    }
+
+    public Map<Integer, SelectSubject> getSelectSubjectMap() {
+        return selectSubjectMap;
+    }
+
+    // ================================== 과목 EnumClass HashMap ============================
 
     public DataBase() {
         databaseInit();
@@ -175,6 +181,21 @@ public class DataBase {
         StudentInquireMenuOption[] studentInquireMenuOptions = StudentInquireMenuOption.values();
         for (int i = 0; i < studentInquireMenuOptions.length; ++i) {
             studentInquireMenuOptionMap.put(i, studentInquireMenuOptions[i]);
+        }
+
+        MandatorySubject[] mandatorySubjects = MandatorySubject.values();
+        for (int i = 0; i < mandatorySubjects.length; ++i) {
+            mandatorySubjectMap.put(i, mandatorySubjects[i]);
+        }
+
+        SelectSubject[] selectSubjects = SelectSubject.values();
+        for (int i = 0; i < selectSubjects.length; ++i) {
+            selectSubjectMap.put(i, selectSubjects[i]);
+        }
+
+        ScoreMenuOption[] scoreMenuOptions = ScoreMenuOption.values();
+        for (int i = 0; i < scoreMenuOptions.length; ++i) {
+            scoreMenuOptionMap.put(i, scoreMenuOptions[i]);
         }
     }
 }
