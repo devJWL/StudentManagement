@@ -3,7 +3,15 @@ package Data;
 import Resources.Student;
 import Resources.Subject;
 import Resources.SubjectScore;
+import Util.Options.MainMenuOption;
+import Util.Options.StudentInquireMenuOption;
+import Util.Options.StudentMenuOption;
+import Util.Options.StudentRegisterMenuOption;
+import Util.Subject.MandatorySubject;
+import Util.Subject.SelectSubject;
+
 import java.util.*;
+
 
 public class DataBase {
     // 모든 정보가 저장
@@ -24,25 +32,59 @@ public class DataBase {
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
 
+
+    // ================================== EuumClass HashMap =============================
+    private final Map<Integer, MainMenuOption>  mainMenuOptionMap = new HashMap<>();
+    private final Map<Integer, MandatorySubject> mandatorySubjectHashMap = new HashMap<>();
+    private final Map<Integer, SelectSubject> selectSubjectMap = new HashMap<>();
+    private final Map<Integer, StudentMenuOption> studentMenuOptionMap = new HashMap<>();
+    private final Map<Integer, StudentRegisterMenuOption> studentRegisterMenuOptionMap = new HashMap<>();
+    private final Map<Integer, StudentInquireMenuOption> studentInquireMenuOptionMap = new HashMap<>();
+
+
+    public Map<Integer, MainMenuOption> getMainMenuOptionMap() {
+        return mainMenuOptionMap;
+    }
+    public Map<Integer, MandatorySubject> getMandatorySubjectHashMap() {
+        return mandatorySubjectHashMap;
+    }
+    public Map<Integer, SelectSubject> getSelectSubjectMap() {
+        return selectSubjectMap;
+    }
+    public Map<Integer, StudentMenuOption> getStudentMenuOptionMap() {
+        return studentMenuOptionMap;
+    }
+    public Map<Integer, StudentRegisterMenuOption> getStudentRegisterMenuOptionMap() {
+        return studentRegisterMenuOptionMap;
+    }
+    public Map<Integer, StudentInquireMenuOption> getStudentInquireMenuOptionMap() {
+        return studentInquireMenuOptionMap;
+    }
+    // ================================== EuumClass HashMap =============================
+
+
     public DataBase() {
         databaseInit();
     }
-
     public List<Student> getStudentList() {
         return studentList;
     }
-
     public Set<Subject> getSubjectList() {
         return subjectList;
     }
-
     public Set<String> getSubjectSet() {
         return subjectSet;
     }
-
     public Map<String, List<SubjectScore>> getSubjectScore() {
         return subjectScoreMap;
     }
+    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
+        return subjectScoreMap;
+    }
+    public Map<String, List<Student>> getStudentByStatusMap() {
+        return studentByStatusMap;
+    }
+
 
     // 학생 삭제
     public void deleteStudent (Student student) {
@@ -77,6 +119,8 @@ public class DataBase {
 
 
     private void databaseInit() {
+        enumClassInit();
+
         subjectList.add(new Subject("Java", true));
         subjectList.add(new Subject("객체지향", true));
         subjectList.add(new Subject("Spring", true));
@@ -108,5 +152,29 @@ public class DataBase {
                 "Java", "MySQL", "Spring", "MongoDB", "Redis"
         ));
         // inputSubjectScore();
+    }
+
+
+
+    private void enumClassInit()  {
+
+        MainMenuOption[] mainMenuOptions = MainMenuOption.values();
+        for (int i = 0; i < mainMenuOptions.length; ++i) {
+            mainMenuOptionMap.put(i, mainMenuOptions[i]);
+        }
+
+        StudentMenuOption[] studentMenuOptions = StudentMenuOption.values();
+        for (int i = 0; i < studentMenuOptions.length; ++i) {
+            studentMenuOptionMap.put(i, studentMenuOptions[i]);
+        }
+
+        StudentRegisterMenuOption[] studentRegisterMenuOptions = StudentRegisterMenuOption.values();
+        for (int i = 0; i < studentRegisterMenuOptions.length; ++i) {
+            studentRegisterMenuOptionMap.put(i, studentRegisterMenuOptions[i]);
+        }
+        StudentInquireMenuOption[] studentInquireMenuOptions = StudentInquireMenuOption.values();
+        for (int i = 0; i < studentInquireMenuOptions.length; ++i) {
+            studentInquireMenuOptionMap.put(i, studentInquireMenuOptions[i]);
+        }
     }
 }
