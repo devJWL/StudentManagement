@@ -1,4 +1,4 @@
-package Util.Menu;
+package Util.Options;
 
 import java.util.HashMap;
 import java.util.Map;
