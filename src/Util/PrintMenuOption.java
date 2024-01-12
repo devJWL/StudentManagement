@@ -20,7 +20,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.MAIN_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         관리자 메뉴에 오신 것을 환영합니다.
                         아래 메뉴 중 하나를 선택해주세요.
@@ -34,7 +34,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.STUDENT_MAIN_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         수강생 관리 페이지입니다.
                         
@@ -47,7 +47,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.STUDENT_REGISTER_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         수강생 등록 페이지입니다.
                        
@@ -55,14 +55,18 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         수강생 조회 페이지입니다.
+                        
+                        1. 고유번호로 조회하기
+                        2. 상태별로 조회하기
+                        
                         """);
         menuOptionStringMap.put(MenuOption.STUDENT_CHANGE_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         수강생 수정 페이지입니다.
                         
@@ -70,7 +74,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.STUDENT_DELETE_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         수강생 삭제 페이지입니다.
                         
@@ -79,7 +83,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.SCORE_MAIN_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         점수 관리 페이지입니다
                         
@@ -91,7 +95,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.SCORE_REGISTER_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         점수 입력 페이지입니다
                         
@@ -99,7 +103,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.SCORE_INQUIRE_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         점수 조회 페이지입니다
                         
@@ -107,7 +111,7 @@ public class PrintMenuOption {
         menuOptionStringMap.put(MenuOption.SCORE_CHANGE_MENU,
                 """
                         ==================================
-                        내일배움캠프 스프링 수강생 관리 프로그램
+                        수강생 관리 프로그램
                         ==================================
                         점수 수정 페이지입니다
                         

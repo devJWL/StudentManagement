@@ -1,5 +1,5 @@
-package Fuc;
-
-public interface Func {
-    public void functionCall()
-}
+//package Fuc;
+//
+//public interface Func {
+//    public void functionCall()
+//}

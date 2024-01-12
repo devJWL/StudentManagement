@@ -7,4 +7,5 @@ public enum SelectNumber {
     THREE,
     FOUR,
     FIVE,
+    ERROR
 }
