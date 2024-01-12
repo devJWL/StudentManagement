@@ -1,7 +1,7 @@
 package Util.Subject;
 
 public enum SelectSubject {
-    ERROR,
+    SELECT_SUBJECT_ERROR,
     DESIGN_PATTERN,
     SPRING_SECURITY,
     REDIS,

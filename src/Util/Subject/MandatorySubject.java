@@ -1,7 +1,7 @@
 package Util.Subject;
 
 public enum MandatorySubject {
-    ERROR,
+    MANDATORY_SUBJECT_ERROR,
     JAVA,
     OOP,
     SPRING,
