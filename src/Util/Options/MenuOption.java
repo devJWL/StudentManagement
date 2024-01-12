@@ -1,4 +1,4 @@
-package Util.Menu;
+package Util.Options;
 
 public enum MenuOption {
     MAIN_MENU,
