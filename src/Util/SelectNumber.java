@@ -4,7 +4,7 @@ public enum SelectNumber {
     ZERO,
     ONE,
     TWO,
-    TREE,
+    THREE,
     FOUR,
     FIVE,
 }
