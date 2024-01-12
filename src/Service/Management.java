@@ -4,6 +4,7 @@ import Util.Options.*;
 import java.util.Scanner;
 import static Util.Options.MenuOption.*;
 import static Util.Options.MainMenuOption.*;
+import static Util.Options.ScoreChangeMenuOption.*;
 import static Util.Options.ScoreMenuOption.*;
 import static Util.Options.ScoreRegisterMenuOption.*;
 import static Util.Options.StudentInquireMenuOption.*;
@@ -202,7 +203,21 @@ public class Management{
         }
     }
     private void changeScore() {
-
+        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
+        ScoreChangeMenuOption select = dataBase.getScoreChangeMenuOptionMap()
+                .get(returnVaildOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
+        switch (select) {
+            case SCORE_CHANGE_MENU_OPTION_CHANGE-> {
+                // 1. 변경하기
+            }
+            case SCORE_CHANGE_MENU_OPTION_BACK-> {
+                // 2. 뒤로가기
+            }
+            // ERROR
+            default ->  {
+                return;
+            }
+        }
     }
 
     private boolean isDigit(String number) {

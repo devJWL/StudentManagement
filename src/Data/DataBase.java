@@ -38,7 +38,7 @@ public class DataBase {
     private final Map<Integer, ScoreMenuOption> scoreMenuOptionMap = new HashMap<>();
     private final Map<Integer, ScoreRegisterMenuOption> scoreRegisterMenuOptionMap = new HashMap<>();
     private final Map<Integer, ScoreInquireMenuOption> scoreInquireMenuOptionMap = new HashMap<>();
-
+    private final Map<Integer, ScoreChangeMenuOption> scoreChangeMenuOptionMap = new HashMap<>();
 
 
 
@@ -65,6 +65,10 @@ public class DataBase {
 
     public Map<Integer, ScoreInquireMenuOption> getScoreInquireMenuOptionMap() {
         return scoreInquireMenuOptionMap;
+    }
+
+    public Map<Integer, ScoreChangeMenuOption> getScoreChangeMenuOptionMap() {
+        return scoreChangeMenuOptionMap;
     }
     // ================================== 메뉴 관련 EnumClass HashMap =============================
 
@@ -220,6 +224,11 @@ public class DataBase {
         ScoreInquireMenuOption[] scoreInquireMenuOptions = ScoreInquireMenuOption.values();
         for (int i = 0; i < scoreInquireMenuOptions.length; ++i) {
             scoreInquireMenuOptionMap.put(i, scoreInquireMenuOptions[i]);
+        }
+
+        ScoreChangeMenuOption[] scoreChangeMenuOptions = ScoreChangeMenuOption.values();
+        for (int i = 0; i < scoreChangeMenuOptions.length; ++i) {
+            scoreChangeMenuOptionMap.put(i, scoreChangeMenuOptions[i]);
         }
     }
 }
