@@ -1,0 +1,7 @@
+package Util.Options;
+
+public enum StudentRegisterMenuOption {
+    STUDENT_REGISTER_MENU_OPTION_ERROR,
+    STUDENT_REGISTER_MENU_OPTION_REGISTER,
+    STUDENT_REGISTER_MENU_OPTION_BACK
+}
