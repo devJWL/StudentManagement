@@ -1,0 +1,9 @@
+package Util.Options;
+
+public enum ScoreMenuOption {
+    SCORE_MENU_OPTION_ERROR,
+    SCORE_MENU_OPTION_REGISTER,
+    SCORE_MENU_OPTION_INQUIRE,
+    SCORE_MENU_OPTION_CHANGE,
+    SCORE_MENU_OPTION_BACK
+}
