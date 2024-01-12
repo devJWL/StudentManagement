@@ -1,11 +1,15 @@
 package Service;
 import Data.DataBase;
-import Util.MenuOption;
-import Util.Number;
-import Util.PrintMenuOption;
-import Util.SelectNumber;
+import Util.Options.*;
+
 import java.util.Scanner;
-import static Util.SelectNumber.*;
+
+
+import static Util.Options.MenuOption.*;
+import static Util.Options.MainMenuOption.*;
+import static Util.Options.StudentInquireMenuOption.*;
+import static Util.Options.StudentMenuOption.*;
+import static Util.Options.StudentRegisterMenuOption.*;
 
 
 // App
@@ -14,120 +18,143 @@ public class Management{
     private final Scanner sc = new Scanner(System.in);
     private final DataBase dataBase = new DataBase();
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
-    private final Number number = new Number();
 
     public void run() {
         mainMenu();
     }
 
 
+    // 메인 메뉴
     private void mainMenu() {
         while (true) {
-            System.out.println(printMenuOption.getStringData(MenuOption.MAIN_MENU));
-            SelectNumber select = selectInput(ONE.ordinal(), THREE.ordinal());
-            if (select == THREE) {
-                System.out.println("프로그램 종료");
-            }
+            System.out.println(printMenuOption.getStringData(MAIN_MENU));
+            MainMenuOption select = dataBase.getMainMenuOptionMap()
+                    .get(returnVaildOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
+
             switch (select) {
-                case ONE-> {
+                case MAIN_MENU_OPTION_STU-> {
                     studentMenu();
                 }
-                case TWO-> {
+                case MAIN_MENU_OPTION_SCORE-> {
                     scoreMenu();
+                }
+                case MAIN_MENU_OPTION_EXIT -> {
+                    return;
+                }
+                // MAIN_MENU_OPTION_ERROR
+                default ->  {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
                 }
             }
         }
     }
     // 수강생 관리 메뉴
     private void studentMenu() {
-        System.out.println(printMenuOption.getStringData(MenuOption.STUDENT_MAIN_MENU));
-        // 1-> registerStudentMenu()
-        // 2-> inquireStudentMenu()
-        // 3-> changeStudentMenu()
-        // 4-> deleteStudentMenu()
-        SelectNumber select = selectInput(ONE.ordinal(), FIVE.ordinal());
-        switch (select) {
-            case ONE-> {
-                registerStudent();
-            }
-            case TWO-> {
-                inquireStudent();
-            }
-            case THREE-> {
-                changeStudent();
-            }
-            case FOUR-> {
-                deleteStudent();
-            }
-            case FIVE-> {
-                return;
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
+            StudentMenuOption select = dataBase.getStudentMenuOptionMap()
+                    .get(returnVaildOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case STUDENT_MENU_OPTION_REGISTER-> {
+                    registerStudent();
+                }
+                case STUDENT_MENU_OPTION_INQUIRE-> {
+                    inquireStudent();
+                }
+                case STUDENT_MENU_OPTION_CHANGE-> {
+                    changeStudent();
+                }
+                case STUDENT_MENU_OPTION_DELETE-> {
+                    deleteStudent();
+                }
+                case STUDENT_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // STUDENT_MENU_OPTION_ERROR
+                default ->  {
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
+                }
             }
         }
     }
 
     private void registerStudent() {
-        System.out.println(printMenuOption.getStringData(MenuOption.STUDENT_REGISTER_MENU));
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
+            StudentRegisterMenuOption select = dataBase.getStudentRegisterMenuOptionMap()
+                    .get(returnVaildOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case STUDENT_REGISTER_MENU_OPTION_REGISTER-> {
+
+                }
+                case STUDENT_REGISTER_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // MAIN_MENU_OPTION_ERROR
+                default ->  {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
+            }
+        }
     }
 
     private void inquireStudent() {
-        System.out.println(printMenuOption.getStringData(MenuOption.STUDENT_INQUIRE_MENU));
-        SelectNumber select = selectInput(ONE.ordinal(), TWO.ordinal());
-        switch (select) {
-            case ONE-> {
-                // 1--> id로 조회
-            }
-            case TWO-> {
-                // 2--> 한 상태에 대해 조회
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
+            StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
+                    .get(returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case STUDENT_INQUIRE_MENU_OPTION_ID-> {
+                    // 1--> id로 조회
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
+                    // 2--> 한 상태에 대해 조회
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_BACK -> {
+                    return;
+                }
+                default ->  {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
             }
         }
     }
 
     private void changeStudent() {
-        System.out.println(printMenuOption.getStringData(MenuOption.STUDENT_CHANGE_MENU));
+        System.out.println(printMenuOption.getStringData(STUDENT_CHANGE_MENU));
     }
 
     private void deleteStudent() {
-        System.out.println(printMenuOption.getStringData(MenuOption.STUDENT_DELETE_MENU));
+        System.out.println(printMenuOption.getStringData(STUDENT_DELETE_MENU));
     }
     // 수강생 관련 메뉴 끝
 
     //------------------------------------------------------------------------------------------------------------------
     // 점수 관리 메뉴
     private void scoreMenu() {
-        System.out.println(printMenuOption.getStringData(MenuOption.SCORE_MAIN_MENU));
-        SelectNumber select = selectInput(ONE.ordinal(), THREE.ordinal());
-        switch (select) {
-            case ONE-> {
-                registerScore();
-            }
-            case TWO-> {
-                inquireScore();
-            }
-            case THREE-> {
-                changeScore();
-            }
-        }
+        System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
+
         // 1->registerScoreMenu
         // 2->inquireScoreMenu
         // 3->changeScoreMenu
     }
     private void registerScore() {
-        System.out.println(printMenuOption.getStringData(MenuOption.SCORE_REGISTER_MENU));
+        System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
     }
     private void inquireScore() {
-        System.out.println(printMenuOption.getStringData(MenuOption.SCORE_INQUIRE_MENU));
-        SelectNumber select = selectInput(ONE.ordinal(), THREE.ordinal());
-        switch (select) {
-            case ONE-> {
-                registerScore();
-            }
-            case TWO-> {
-                inquireScore();
-            }
-        }
+//        System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
+//        SelectNumber select = returnVaildOutput(ONE.ordinal(), THREE.ordinal());
+//        switch (select) {
+//            case ONE-> {
+//                registerScore();
+//            }
+//            case TWO-> {
+//                inquireScore();
+//            }
+//        }
     }
     private void changeScore() {
-        System.out.println(printMenuOption.getStringData(MenuOption.SCORE_CHANGE_MENU));
+        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
     }
 
     private boolean isDigit(String number) {
@@ -139,9 +166,18 @@ public class Management{
     }
 
     // 선택사항에 대한 입력 처리 함수
-    private SelectNumber selectInput(int start, int end)  {
-        int input = sc.nextInt();
-        return number.getSelectNumber(input);
+    private int returnVaildOutput(int start, int end)  {
+        int returnNumber = 0;
+        String input = sc.next();
+        // 숫자만으로 구성되어있는지 확인
+        if (isDigit(input)) {
+            int number = Integer.parseInt(input);
+            // 현재 메뉴옵션의 범위에 존재하는 숫자인지 확인
+            if (number >= start && number <= end){
+                returnNumber = number;
+            }
+        }
+        return returnNumber;
     }
     // 점수 관리 메뉴 끝
 }
