@@ -1,12 +1,11 @@
 package Service;
 import Data.DataBase;
 import Util.Options.*;
-
 import java.util.Scanner;
-
-
 import static Util.Options.MenuOption.*;
 import static Util.Options.MainMenuOption.*;
+import static Util.Options.ScoreMenuOption.*;
+import static Util.Options.ScoreRegisterMenuOption.*;
 import static Util.Options.StudentInquireMenuOption.*;
 import static Util.Options.StudentMenuOption.*;
 import static Util.Options.StudentRegisterMenuOption.*;
@@ -41,7 +40,7 @@ public class Management{
                 case MAIN_MENU_OPTION_EXIT -> {
                     return;
                 }
-                // MAIN_MENU_OPTION_ERROR
+                // ERROR
                 default ->  {
                     printMenuOption.getStringData(INPUT_ERROR_MENU);
                 }
@@ -70,7 +69,7 @@ public class Management{
                 case STUDENT_MENU_OPTION_BACK-> {
                     return;
                 }
-                // STUDENT_MENU_OPTION_ERROR
+                // ERROR
                 default ->  {
                     System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
@@ -90,7 +89,7 @@ public class Management{
                 case STUDENT_REGISTER_MENU_OPTION_BACK-> {
                     return;
                 }
-                // MAIN_MENU_OPTION_ERROR
+                // ERROR
                 default ->  {
                     printMenuOption.getStringData(INPUT_ERROR_MENU);
                 }
@@ -113,6 +112,7 @@ public class Management{
                 case STUDENT_INQUIRE_MENU_OPTION_BACK -> {
                     return;
                 }
+                // ERROR
                 default ->  {
                     printMenuOption.getStringData(INPUT_ERROR_MENU);
                 }
@@ -130,28 +130,68 @@ public class Management{
     // 수강생 관련 메뉴 끝
 
     //------------------------------------------------------------------------------------------------------------------
+
     // 점수 관리 메뉴
     private void scoreMenu() {
-        System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
-
-        // 1->registerScoreMenu
-        // 2->inquireScoreMenu
-        // 3->changeScoreMenu
+        while(true) {
+            System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
+            ScoreMenuOption select = dataBase.getScoreMenuOptionMap()
+                    .get(returnVaildOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case SCORE_MENU_OPTION_REGISTER -> {
+                    registerScore();
+                }
+                case SCORE_MENU_OPTION_INQUIRE -> {
+                    inquireScore();
+                }
+                case SCORE_MENU_OPTION_CHANGE -> {
+                    changeScore();
+                }
+                case SCORE_MENU_OPTION_BACK -> {
+                    return;
+                }
+                // ERROR
+                default -> {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
+            }
+        }
     }
+
     private void registerScore() {
         System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
+        while (true) {
+            System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
+            ScoreRegisterMenuOption select = dataBase.getScoreRegisterMenuOptionMap()
+                    .get(returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case SCORE_REGISTER_MENU_OPTION_REGISTER-> {
+                    registerScore();
+                }
+                case SCORE_REGISTER_MENU_OPTION_BACK-> {
+                    inquireScore();
+                }
+                default -> {
+                    return;
+                }
+            }
+        }
     }
+
     private void inquireScore() {
-//        System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
-//        SelectNumber select = returnVaildOutput(ONE.ordinal(), THREE.ordinal());
-//        switch (select) {
-//            case ONE-> {
-//                registerScore();
-//            }
-//            case TWO-> {
-//                inquireScore();
-//            }
-//        }
+        while (true) {
+            System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
+            ScoreRegisterMenuOption select = dataBase.getScoreRegisterMenuOptionMap()
+                    .get(returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case ONE-> {
+                    registerScore();
+                }
+                case TWO-> {
+                    inquireScore();
+                }
+            }
+        }
     }
     private void changeScore() {
         System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
