@@ -166,11 +166,12 @@ public class Management{
                     .get(returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
             switch (select) {
                 case SCORE_REGISTER_MENU_OPTION_REGISTER-> {
-                    registerScore();
+                    // 점수 등록하기
                 }
                 case SCORE_REGISTER_MENU_OPTION_BACK-> {
-                    inquireScore();
+                    // 뒤로가기
                 }
+                // ERROR
                 default -> {
                     return;
                 }
@@ -181,20 +182,27 @@ public class Management{
     private void inquireScore() {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
-            ScoreRegisterMenuOption select = dataBase.getScoreRegisterMenuOptionMap()
-                    .get(returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+            StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
+                    .get(returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
             switch (select) {
-                case ONE-> {
-                    registerScore();
+                case STUDENT_INQUIRE_MENU_OPTION_ID-> {
+                    // 1. id로 검색
                 }
-                case TWO-> {
-                    inquireScore();
+                case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
+                    // 2. 상태로 검색
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_BACK-> {
+                    // 3. 뒤로가기
+                }
+                // ERROR
+                default ->  {
+                    return;
                 }
             }
         }
     }
     private void changeScore() {
-        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
+
     }
 
     private boolean isDigit(String number) {
