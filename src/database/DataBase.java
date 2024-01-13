@@ -16,25 +16,25 @@ public class DataBase {
     }
 
     // ============================= 데이터 베이스 저장관련 자료 =======================================
-    private final List<Student> studentList = new ArrayList<>();  // 등록된 모든 학생을 가지고 있는 List
-    // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
-
+    private final Set<Student> studentSet = new HashSet<>();  // 등록된 모든 학생을 가지고 있는 Set
+    // key : studentId            value : Student
     private final Map<String, Student> studentByIdMap = new HashMap<>();
-    private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
+    // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
+    private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
 
-    public List<Student> getStudentList() {
-        return studentList;
+    public Set<Student> getStudentSet() {
+        return studentSet;
     }
     public Map<String, Student> getStudentByIdMap() {
         return studentByIdMap;
     }
-    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
-        return subjectScoreMap;
-    }
     public Map<String, List<Student>> getStudentByStatusMap() {
         return studentByStatusMap;
+    }
+    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
+        return subjectScoreMap;
     }
     // ============================= 데이터 베이스 저장관련 자료 =======================================
 
