@@ -1,7 +1,5 @@
 package service;
 import controller.Controller;
-import controller.ScoreMenu;
-import controller.StudentMenu;
 import database.DataBase;
 import util.Vaild;
 import util.options.*;
@@ -35,10 +33,10 @@ public class Management{
 
             switch (select) {
                 case MAIN_MENU_OPTION_STU-> {
-                    studentMenu.studentMenu();
+                    controller.studentMenu();
                 }
                 case MAIN_MENU_OPTION_SCORE-> {
-                    scoreMenu.scoreMenu();
+                    controller.scoreMenu();
                 }
                 case MAIN_MENU_OPTION_EXIT -> {
                     return;
@@ -50,7 +48,4 @@ public class Management{
             }
         }
     }
-    //------------------------------------------------------------------------------------------------------------------
-
-
 }

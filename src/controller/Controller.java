@@ -1,34 +1,25 @@
 package controller;
-
 import database.DataBase;
 import resources.Student;
 import resources.Subject;
 import util.Vaild;
 import util.options.*;
-import util.subject.MandatorySubject;
-import util.subject.SelectSubject;
-
+import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import static util.options.MenuOption.*;
-import static util.options.MenuOption.STUDENT_DELETE_MENU;
-import static util.options.ScoreChangeMenuOption.SCORE_CHANGE_MENU_OPTION_BACK;
-import static util.options.ScoreChangeMenuOption.SCORE_CHANGE_MENU_OPTION_CHANGE;
-import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_BACK;
-import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_REGISTER;
-import static util.options.ScoreRegisterMenuOption.SCORE_REGISTER_MENU_OPTION_BACK;
-import static util.options.ScoreRegisterMenuOption.SCORE_REGISTER_MENU_OPTION_REGISTER;
-import static util.options.StudentInquireMenuOption.STUDENT_INQUIRE_MENU_OPTION_BACK;
-import static util.options.StudentInquireMenuOption.STUDENT_INQUIRE_MENU_OPTION_ID;
-import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_BACK;
-import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_REGISTER;
-import static util.options.StudentRegisterMenuOption.STUDENT_REGISTER_MENU_OPTION_BACK;
-import static util.options.StudentRegisterMenuOption.STUDENT_REGISTER_MENU_OPTION_ERROR;
+import static util.options.ScoreChangeMenuOption.*;
+import static util.options.ScoreMenuOption.*;
+import static util.options.ScoreRegisterMenuOption.*;
+import static util.options.StudentInquireMenuOption.*;
+import static util.options.StudentMenuOption.*;
+import static util.options.StudentRegisterMenuOption.*;
 import static util.options.YesOrNoOption.*;
 import static util.subject.MandatorySubject.*;
 import static util.subject.SelectSubject.*;
+
+
 
 public class Controller {
     private final DataBase dataBase;
@@ -43,7 +34,7 @@ public class Controller {
         //dataBase.databaseInit();
     }
 
-    // 수강생 관리 메뉴
+    // ================================== 수강생 관리 메뉴 =======================================================
     public void studentMenu() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
@@ -81,7 +72,7 @@ public class Controller {
 
             switch (select) {
                 case STUDENT_REGISTER_MENU_OPTION_REGISTER-> {
-                    controller.registerStudentHelper();
+                    registerStudentHelper();
                 }
                 case STUDENT_REGISTER_MENU_OPTION_BACK-> {
                     return;
@@ -103,10 +94,10 @@ public class Controller {
 
             switch (select) {
                 case STUDENT_INQUIRE_MENU_OPTION_ID-> {
-                    // 1--> id로 조회
+                    studentInquireByIdHelper();
                 }
                 case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
-                    // 2--> 한 상태에 대해 조회
+                    studentInquireByStatusHelper();
                 }
                 case STUDENT_INQUIRE_MENU_OPTION_BACK -> {
                     return;
@@ -126,9 +117,10 @@ public class Controller {
     private void deleteStudent() {
         System.out.println(printMenuOption.getStringData(STUDENT_DELETE_MENU));
     }
-    // 수강생 관련 메뉴 끝
+    // ================================== 수강생 관리 메뉴 =======================================================
 
-    // 점수 관리 메뉴
+
+    // ================================== 점수 관리 메뉴 ========================================================
     public void scoreMenu() {
         while(true) {
             System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
@@ -220,8 +212,10 @@ public class Controller {
         }
     }
 
-    // 점수 관리 메뉴 끝
+    // ================================== 점수 관리 메뉴 ========================================================
 
+
+    // ================================== 수강생 관리 헬퍼 메소드 ========================================================
     public void registerStudentHelper() {
         System.out.println("수강생의 이름을 입력해주세요");
         String studentName = sc.nextLine();
@@ -242,7 +236,7 @@ public class Controller {
         System.out.println("1. 네        2. 아니오");
         YesOrNoOption yesOrNoOption = vaild.yesNoInputHelper();
         if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-            createStudent(studentName, status, subjectList);
+            saveStudentToDatabase(studentName, status, subjectList);
             System.out.println("수강생이 등록되었습니다.");
         }
     }
@@ -356,9 +350,30 @@ public class Controller {
         }while(on);
     }
 
+    private void studentInquireByIdHelper() {}
+    private void studentInquireByStatusHelper() {}
+    // ================================== 수강생 관리 헬퍼 메소드 ========================================================
+
+
+    // ================================== 점수 관리 헬퍼 메소드 ========================================================
+
+
+
+
+
+
+
+
+
+    // ================================== 점수 관리 헬퍼 메소드 ========================================================
+
+
+
+    // ================================== 데이터 베이스 반영 메소드 ========================================================
     // 학생 등록
-    private void createStudent(String name, String status, List<Subject> subjectList) {
+    private void saveStudentToDatabase(String name, String status, List<Subject> subjectList) {
         Student student = new Student(name, status, subjectList);
+        dataBase.getStudentList().add(student);
         dataBase.getStudentByStatusMap().get(status).add(student);
     }
 
@@ -379,5 +394,6 @@ public class Controller {
 //        }
 //    }
 
+    // ================================== 데이터 베이스 반영 메소드 ========================================================
 
 }
