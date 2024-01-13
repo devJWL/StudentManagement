@@ -8,10 +8,10 @@ public class Student {
     private String studentName;
     private String status;
     // 이 학생이 수강하고 있는 과목 목록
-    private final List<Subject> subjectList;
+    private final List<String> subjectList;
 
 
-    public Student(String studentName, String status, List<Subject> subjectList) {
+    public Student(String studentName, String status, List<String> subjectList) {
         studentId = "STU" + NO;
         this.studentName = studentName;
         this.status = status;
@@ -41,7 +41,7 @@ public class Student {
         this.status = status;
     }
 
-    public List<Subject> getSubjectList() {
+    public List<String> getSubjectList() {
         return subjectList;
     }
 }

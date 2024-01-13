@@ -1,8 +1,7 @@
 package controller;
 import database.DataBase;
 import resources.Student;
-import resources.Subject;
-import util.Vaild;
+import util.Valid;
 import util.options.*;
 import util.subject.*;
 import java.util.ArrayList;
@@ -25,12 +24,12 @@ public class Controller {
     private final DataBase dataBase;
     private final Scanner sc;
     private final PrintMenuOption printMenuOption;
-    private final Vaild vaild;
-    public Controller(DataBase dataBase, Scanner sc, PrintMenuOption printMenuOption, Vaild vaild) {
+    private final Valid valid;
+    public Controller(DataBase dataBase, Scanner sc, PrintMenuOption printMenuOption, Valid valid) {
         this.dataBase = dataBase;
         this.sc = sc;
         this.printMenuOption = printMenuOption;
-        this.vaild = vaild;
+        this.valid = valid;
         //dataBase.databaseInit();
     }
 
@@ -39,7 +38,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
             StudentMenuOption select = dataBase.getStudentMenuOptionMap()
-                    .get(vaild.returnVaildOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
             switch (select) {
                 case STUDENT_MENU_OPTION_REGISTER-> {
                     registerStudent();
@@ -68,7 +67,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
             StudentRegisterMenuOption select = dataBase.getStudentRegisterMenuOptionMap()
-                    .get(vaild.returnVaildOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case STUDENT_REGISTER_MENU_OPTION_REGISTER-> {
@@ -79,7 +78,7 @@ public class Controller {
                 }
                 // ERROR
                 default ->  {
-                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
@@ -90,7 +89,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
             StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
-                    .get(vaild.returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case STUDENT_INQUIRE_MENU_OPTION_ID-> {
@@ -104,7 +103,7 @@ public class Controller {
                 }
                 // ERROR
                 default ->  {
-                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
@@ -125,7 +124,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
             ScoreMenuOption select = dataBase.getScoreMenuOptionMap()
-                    .get(vaild.returnVaildOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case SCORE_MENU_OPTION_REGISTER -> {
@@ -142,7 +141,7 @@ public class Controller {
                 }
                 // ERROR
                 default -> {
-                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
@@ -153,7 +152,7 @@ public class Controller {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
             ScoreRegisterMenuOption select = dataBase.getScoreRegisterMenuOptionMap()
-                    .get(vaild.returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case SCORE_REGISTER_MENU_OPTION_REGISTER-> {
@@ -161,10 +160,11 @@ public class Controller {
                 }
                 case SCORE_REGISTER_MENU_OPTION_BACK-> {
                     // 뒤로가기
+                    return;
                 }
                 // ERROR
                 default -> {
-                    return;
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
@@ -174,7 +174,7 @@ public class Controller {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
             StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
-                    .get(vaild.returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+                    .get(valid.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case STUDENT_INQUIRE_MENU_OPTION_ID-> {
@@ -185,10 +185,11 @@ public class Controller {
                 }
                 case STUDENT_INQUIRE_MENU_OPTION_BACK-> {
                     // 3. 뒤로가기
+                    return;
                 }
                 // ERROR
                 default ->  {
-                    return;
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
@@ -196,7 +197,7 @@ public class Controller {
     private void changeScore() {
         System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
         ScoreChangeMenuOption select = dataBase.getScoreChangeMenuOptionMap()
-                .get(vaild.returnVaildOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
+                .get(valid.returnValidOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
 
         switch (select) {
             case SCORE_CHANGE_MENU_OPTION_CHANGE-> {
@@ -204,10 +205,11 @@ public class Controller {
             }
             case SCORE_CHANGE_MENU_OPTION_BACK-> {
                 // 2. 뒤로가기
+                return;
             }
             // ERROR
             default ->  {
-                return;
+                System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
         }
     }
@@ -219,44 +221,50 @@ public class Controller {
     public void registerStudentHelper() {
         System.out.println("수강생의 이름을 입력해주세요");
         String studentName = sc.nextLine();
-        System.out.println("수강생의 상태를 입력해주세요");
-        String status = sc.nextLine();
-        List<Subject> subjectList = new ArrayList<>();
-        addMandatorySubjectHelper(studentName, subjectList);
-        addSelectSubjectHelper(studentName, subjectList);
+        sc.nextLine();
+        System.out.println("수강생의 상태를 선택해주세요");
+        printList(dataBase.getStudentStatusList());
+
+        StudentStatus studentStatus = StudentStatus.STUDENT_STATUS_ERROR;
+        do{
+            studentStatus = dataBase.getStudentStatusMap()
+                    .get(valid.returnValidOutput(StudentStatus.STUDENT_STATUS_GREEN.ordinal(), StudentStatus.STUDENT_STATUS_RED.ordinal()));
+            if (studentStatus == StudentStatus.STUDENT_STATUS_ERROR) {
+                printMenuOption.getStringData(INPUT_ERROR_MENU);
+            }
+        }while(studentStatus == StudentStatus.STUDENT_STATUS_ERROR);
+
+        String status =  dataBase.getStudentStatusStringMap().get(studentStatus);
+        List<String> subjectNameList = new ArrayList<>();
+
+        addMandatorySubjectHelper(studentName, subjectNameList);
+        addSelectSubjectHelper(studentName, subjectNameList);
+
         System.out.println("아래의 정보로 수강생을 등록하시겠습니까?");
-        System.out.printf("고유번호 : %-10s\n", "STU" + Student.NO);
-        System.out.printf("이름 : %-10s\n", studentName);
-        System.out.printf("상태 : %-10s\n", status);
+        System.out.printf("고유번호 : %s\n", "STU" + Student.NO);
+        System.out.printf("이름 : %s\n", studentName);
+        System.out.printf("상태 : %s\n", status);
         System.out.println("과목 목록");
-        for (Subject subject : subjectList) {
-            System.out.printf("%s | ", subject.getSubjectName());
-        }
-        System.out.println();
-        System.out.println("1. 네        2. 아니오");
-        YesOrNoOption yesOrNoOption = vaild.yesNoInputHelper();
+        printList(subjectNameList);
+
+        YesOrNoOption yesOrNoOption = dataBase.getYesOrNoOptionMap()
+                .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
         if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-            saveStudentToDatabase(studentName, status, subjectList);
+            saveStudentToDatabase(studentName, status, subjectNameList);
             System.out.println("수강생이 등록되었습니다.");
         }
     }
 
-    private void addMandatorySubjectHelper(String studentName, List<Subject> subjectList) {
-        System.out.println("수강생이 수강 중인 필수과목을 입력해주세요");
-        System.out.println("필수과목 목록");
-        int subjectNumber = 1;
-        for (Subject mandatorySubject : dataBase.getMandatorySubjectList()) {
-            System.out.printf("%-3d. %-20s\n", subjectNumber, mandatorySubject.getSubjectName());
-            ++subjectNumber;
-        }
-        System.out.println();
-
-        List<Subject> mandatorySubjects = new ArrayList<>();
+    private void addMandatorySubjectHelper(String studentName, List<String> subjectList) {
+        List<String> mandatorySubjects = new ArrayList<>();
         boolean on = true;
         do {
+            System.out.println("수강생이 수강 중인 필수과목을 입력해주세요");
+            System.out.println("필수과목 목록");
+            printList(dataBase.getMandatorySubjecNametList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = dataBase.getMandatorySubjectMap()
-                    .get(vaild.returnVaildOutput(JAVA.ordinal(), MYSQL.ordinal()));
+                    .get(valid.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
 
             if (mandatorySubject == MANDATORY_SUBJECT_ERROR) {
                 printMenuOption.getStringData(MenuOption.INPUT_ERROR_MENU);
@@ -271,12 +279,12 @@ public class Controller {
                 }
                 else {
                     dataBase.getSubjectSet().add(key);
-                    mandatorySubjects.add(new Subject(subjectName, true));
+                    mandatorySubjects.add(subjectName);
                 }
             }
-
             System.out.println("과목을 계속 선택하시겠습니까?");
-            YesOrNoOption yesOrNoOption = vaild.yesNoInputHelper();
+            YesOrNoOption yesOrNoOption =  dataBase.getYesOrNoOptionMap()
+                    .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 continue;
             }
@@ -288,49 +296,36 @@ public class Controller {
             else {
                 System.out.println("필수과목은 3개 이상 선택해야합니다.");
                 System.out.println("현재 신청한 필수과목 목록");
-                for (Subject subject : mandatorySubjects) {
-                    System.out.printf("%-20s\n", subject.getSubjectName());
-                }
-                System.out.println();
+                printList(mandatorySubjects);
             }
         }while(on);
     }
 
-    private void addSelectSubjectHelper(String studentName, List<Subject> subjectList) {
-        System.out.println("수강생이 수강 중인 선택과목을 입력해주세요");
-        System.out.println("선택과목 목록");
-        int subjectNumber = 1;
-        for (Subject selectSubject : dataBase.getSelectSubjectList()) {
-            System.out.printf("%-3d. %-20s\n", subjectNumber, selectSubject.getSubjectName());
-            ++subjectNumber;
-        }
-        System.out.println();
-
-        List<Subject> selectSubjects = new ArrayList<>();
+    private void addSelectSubjectHelper(String studentName, List<String> subjectList) {
+        List<String> selectSubjects = new ArrayList<>();
         boolean on = true;
         do {
+            System.out.println("수강생이 수강 중인 선택과목을 입력해주세요");
+            System.out.println("선택과목 목록");
+            printList(dataBase.getSelectSubjectNameList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             SelectSubject selectSubject = dataBase.getSelectSubjectMap()
-                    .get(vaild.returnVaildOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
+                    .get(valid.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
 
-            if (selectSubject == SELECT_SUBJECT_ERROR) {
-                printMenuOption.getStringData(MenuOption.INPUT_ERROR_MENU);
+            String subjectName = dataBase.getSelectSubjectStringMap().get(selectSubject);
+            String key = studentName + subjectName;
+            // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
+            if (dataBase.getSubjectSet().contains(key)) {
+                System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
             }
-            // 올바른 입력
             else {
-                String subjectName = dataBase.getSelectSubjectStringMap().get(selectSubject);
-                String key = studentName + subjectName;
-                // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
-                if (dataBase.getSubjectSet().contains(key)) {
-                    System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
-                }
-                else {
-                    dataBase.getSubjectSet().add(key);
-                    selectSubjects.add(new Subject(subjectName, true));
-                }
+                dataBase.getSubjectSet().add(key);
+                selectSubjects.add(subjectName);
             }
+
             System.out.println("과목을 계속 선택하시겠습니까?");
-            YesOrNoOption yesOrNoOption = vaild.yesNoInputHelper();
+            YesOrNoOption yesOrNoOption =  dataBase.getYesOrNoOptionMap()
+                    .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 continue;
             }
@@ -342,15 +337,14 @@ public class Controller {
             else {
                 System.out.println("선택과목은 2개이상 선택해야합니다.");
                 System.out.println("현재 신청한 선택과목 목록");
-                for (Subject subject : selectSubjects) {
-                    System.out.printf("%-20s\n", subject.getSubjectName());
-                }
-                System.out.println();
+                printList(selectSubjects);
             }
         }while(on);
     }
 
-    private void studentInquireByIdHelper() {}
+    private void studentInquireByIdHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
+    }
     private void studentInquireByStatusHelper() {}
     // ================================== 수강생 관리 헬퍼 메소드 ========================================================
 
@@ -371,7 +365,7 @@ public class Controller {
 
     // ================================== 데이터 베이스 반영 메소드 ========================================================
     // 학생 등록
-    private void saveStudentToDatabase(String name, String status, List<Subject> subjectList) {
+    private void saveStudentToDatabase(String name, String status, List<String> subjectList) {
         Student student = new Student(name, status, subjectList);
         dataBase.getStudentList().add(student);
         dataBase.getStudentByStatusMap().get(status).add(student);
@@ -396,4 +390,16 @@ public class Controller {
 
     // ================================== 데이터 베이스 반영 메소드 ========================================================
 
+
+    // ====================================== 중복코드 제거 메소드 =======================================================
+    private void printList(List<String> list) {
+        for (int i = 1; i < list.size(); ++i) {
+            System.out.printf("%d : %s | ", i, list.get(i));
+            if (i % 5 == 0) {
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
+    // ====================================== 중복코드 제거 메소드 =======================================================
 }

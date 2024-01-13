@@ -1,7 +1,7 @@
 package service;
 import controller.Controller;
 import database.DataBase;
-import util.Vaild;
+import util.Valid;
 import util.options.*;
 import java.util.Scanner;
 import static util.options.MenuOption.*;
@@ -16,8 +16,8 @@ public class Management{
     private final DataBase dataBase = new DataBase();
     private final Scanner sc = new Scanner(System.in);
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
-    private final Vaild vaild = new Vaild(dataBase, sc, printMenuOption);
-    private final Controller controller = new Controller(dataBase, sc, printMenuOption, vaild);
+    private final Valid valid = new Valid(sc, printMenuOption);
+    private final Controller controller = new Controller(dataBase, sc, printMenuOption, valid);
 
 
     public void run() {
@@ -29,7 +29,7 @@ public class Management{
         while (true) {
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
             MainMenuOption select = dataBase.getMainMenuOptionMap()
-                    .get(vaild.returnVaildOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
+                    .get(valid.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
 
             switch (select) {
                 case MAIN_MENU_OPTION_STU-> {
@@ -43,7 +43,7 @@ public class Management{
                 }
                 // ERROR
                 default ->  {
-                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
                 }
             }
         }
