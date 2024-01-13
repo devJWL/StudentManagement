@@ -129,9 +129,8 @@ public class DataBase {
 
     }
 
-
     private void testInput() {
-        
+
     }
 
     private void databaseInit() {
