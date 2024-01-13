@@ -16,17 +16,13 @@ public class DataBase {
     }
 
     // ============================= 데이터 베이스 저장관련 자료 =======================================
-    private final Set<Student> studentSet = new HashSet<>();  // 등록된 모든 학생을 가지고 있는 Set
     // key : studentId            value : Student
     private final Map<String, Student> studentByIdMap = new HashMap<>();
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
     // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
-
-    public Set<Student> getStudentSet() {
-        return studentSet;
-    }
+    
     public Map<String, Student> getStudentByIdMap() {
         return studentByIdMap;
     }
