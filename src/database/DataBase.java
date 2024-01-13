@@ -36,6 +36,10 @@ public class DataBase {
     // ============================= 데이터 베이스 저장관련 자료 =======================================
     // key : studentId + subjectName    value : 과목이름
     private final Set<String> subjectSet = new HashSet<>();   // 특정학생의 과목 수강여부를 확인하기위한 Set
+    // valid
+
+
+
     private final List<Student> studentList = new ArrayList<>();  // 등록된 모든 학생을 가지고 있는 List
     // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();

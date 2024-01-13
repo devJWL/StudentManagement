@@ -24,7 +24,6 @@ public class PrintMenuOption {
                         ==================================
                         관리자 메뉴에 오신 것을 환영합니다.
                         아래 메뉴 중 하나를 선택해주세요.
-                        
                         1. 수강생 관리하기
                         2. 수강생 점수 관리하기
                         3. 프로그램 종료"""
@@ -35,7 +34,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         수강생 관리 페이지입니다.
-                        
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 수강생 등록하기
                         2. 수강생 조회하기
                         3. 수강생 수정하기
@@ -47,6 +46,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         수강생 등록 페이지입니다.
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 등록하기
                         2. 뒤로가기""");
         menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_MENU,
@@ -55,7 +55,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         수강생 조회 페이지입니다.
-                        
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 고유번호로 조회하기
                         2. 상태별로 조회하기
                         3. 뒤로가기""");
@@ -65,6 +65,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         수강생 수정 페이지입니다.
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 수정하기
                         2. 뒤로가기""");
         menuOptionStringMap.put(MenuOption.STUDENT_DELETE_MENU,
@@ -73,6 +74,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         수강생 삭제 페이지입니다.
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 삭제하기
                         2. 뒤로가기""");
 
@@ -82,7 +84,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         점수 관리 페이지입니다
-                        
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 입력
                         2. 점수 조회
                         3. 점수 수정
@@ -93,6 +95,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         점수 입력 페이지입니다
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 입력하기
                         2. 뒤로가기""");
         menuOptionStringMap.put(MenuOption.SCORE_INQUIRE_MENU,
@@ -101,6 +104,7 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         점수 조회 페이지입니다
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 조회하기
                         2. 뒤로가기""");
         menuOptionStringMap.put(MenuOption.SCORE_CHANGE_MENU,
@@ -109,12 +113,12 @@ public class PrintMenuOption {
                         수강생 관리 프로그램
                         ==================================
                         점수 수정 페이지입니다
+                        아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 수정하기
                         2. 뒤로가기""");
         menuOptionStringMap.put(MenuOption.INPUT_ERROR_MENU,
                 """
                         올바르지 않은 입력이거나 범위를 벗어난 숫자입니다.
-                        다시 입력해주세요.
-                        """);
+                        다시 입력해주세요.""");
     }
 }

@@ -219,11 +219,12 @@ public class Controller {
 
     // ================================== 수강생 관리 헬퍼 메소드 ========================================================
     public void registerStudentHelper() {
+        String studentId = "STU" + Student.NO;
+        System.out.println("수강생의 고유번호 : " + studentId);
         System.out.println("수강생의 이름을 입력해주세요");
         String studentName = sc.nextLine();
-        sc.nextLine();
         System.out.println("수강생의 상태를 선택해주세요");
-        printList(dataBase.getStudentStatusList());
+        printEnumList(dataBase.getStudentStatusList());
 
         StudentStatus studentStatus = StudentStatus.STUDENT_STATUS_ERROR;
         do{
@@ -237,31 +238,31 @@ public class Controller {
         String status =  dataBase.getStudentStatusStringMap().get(studentStatus);
         List<String> subjectNameList = new ArrayList<>();
 
-        addMandatorySubjectHelper(studentName, subjectNameList);
-        addSelectSubjectHelper(studentName, subjectNameList);
+        addMandatorySubjectHelper(studentId, subjectNameList);
+        addSelectSubjectHelper(studentId, subjectNameList);
 
         System.out.println("아래의 정보로 수강생을 등록하시겠습니까?");
-        System.out.printf("고유번호 : %s\n", "STU" + Student.NO);
+        System.out.printf("고유번호 : %s\n", studentId);
         System.out.printf("이름 : %s\n", studentName);
         System.out.printf("상태 : %s\n", status);
         System.out.println("과목 목록");
         printList(subjectNameList);
-
+        System.out.println("1. 네    2. 아니오");
         YesOrNoOption yesOrNoOption = dataBase.getYesOrNoOptionMap()
                 .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
         if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-            saveStudentToDatabase(studentName, status, subjectNameList);
+            saveStudentToDatabase(studentId, status, subjectNameList);
             System.out.println("수강생이 등록되었습니다.");
         }
     }
 
-    private void addMandatorySubjectHelper(String studentName, List<String> subjectList) {
+    private void addMandatorySubjectHelper(String studentId, List<String> subjectList) {
         List<String> mandatorySubjects = new ArrayList<>();
         boolean on = true;
         do {
             System.out.println("수강생이 수강 중인 필수과목을 입력해주세요");
             System.out.println("필수과목 목록");
-            printList(dataBase.getMandatorySubjecNametList());
+            printEnumSubjectList(studentId, dataBase.getMandatorySubjecNametList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = dataBase.getMandatorySubjectMap()
                     .get(valid.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
@@ -272,7 +273,7 @@ public class Controller {
             // 올바른 입력
             else {
                 String subjectName = dataBase.getMandatorySubjectStringMap().get(mandatorySubject);
-                String key = studentName + subjectName;
+                String key = studentId + subjectName;
                 // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
                 if (dataBase.getSubjectSet().contains(key)) {
                     System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
@@ -282,7 +283,9 @@ public class Controller {
                     mandatorySubjects.add(subjectName);
                 }
             }
+
             System.out.println("과목을 계속 선택하시겠습니까?");
+            System.out.println("1. 네    2. 아니오");
             YesOrNoOption yesOrNoOption =  dataBase.getYesOrNoOptionMap()
                     .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
@@ -301,19 +304,19 @@ public class Controller {
         }while(on);
     }
 
-    private void addSelectSubjectHelper(String studentName, List<String> subjectList) {
+    private void addSelectSubjectHelper(String studentId, List<String> subjectList) {
         List<String> selectSubjects = new ArrayList<>();
         boolean on = true;
         do {
             System.out.println("수강생이 수강 중인 선택과목을 입력해주세요");
             System.out.println("선택과목 목록");
-            printList(dataBase.getSelectSubjectNameList());
+            printEnumSubjectList(studentId, dataBase.getSelectSubjectNameList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             SelectSubject selectSubject = dataBase.getSelectSubjectMap()
                     .get(valid.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
 
             String subjectName = dataBase.getSelectSubjectStringMap().get(selectSubject);
-            String key = studentName + subjectName;
+            String key = studentId + subjectName;
             // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
             if (dataBase.getSubjectSet().contains(key)) {
                 System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
@@ -322,8 +325,8 @@ public class Controller {
                 dataBase.getSubjectSet().add(key);
                 selectSubjects.add(subjectName);
             }
-
             System.out.println("과목을 계속 선택하시겠습니까?");
+            System.out.println("1. 네    2. 아니오");
             YesOrNoOption yesOrNoOption =  dataBase.getYesOrNoOptionMap()
                     .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
@@ -365,21 +368,22 @@ public class Controller {
 
     // ================================== 데이터 베이스 반영 메소드 ========================================================
     // 학생 등록
-    private void saveStudentToDatabase(String name, String status, List<String> subjectList) {
-        Student student = new Student(name, status, subjectList);
+    private void saveStudentToDatabase(String studentId, String status, List<String> subjectList) {
+        Student student = new Student(studentId, status, subjectList);
         dataBase.getStudentList().add(student);
         dataBase.getStudentByStatusMap().get(status).add(student);
     }
 
-//    // 학생 삭제
-//    private void deleteStudent (Student student) {
-//        studentList.remove(student);
-//        for (Subject subject : student.getSubjectList()) {
-//            String key = student.getStudentId() + subject.getSubjectName();
-//            subjectSet.remove(key);
-//            subjectScoreMap.remove(key);
-//        }
-//    }
+    // 학생 삭제
+    private void deleteStudent (Student student) {
+        dataBase.getStudentList().remove(student);
+        String studentId = student.getStudentId();
+        dataBase.getStudentByStatusMap().get(student.getStatus()).remove(student);
+        for (String subjectName : student.getSubjectList()) {
+            String key = studentId + subjectName;
+            dataBase.getSubjectScoreMap().remove(key);
+        }
+    }
 //
 //    // 점수 등록
 //    private void inputSubjectScore(String key, List<SubjectScore> subjectScoreList) {
@@ -392,10 +396,37 @@ public class Controller {
 
 
     // ====================================== 중복코드 제거 메소드 =======================================================
+
+
     private void printList(List<String> list) {
+        for (int i = 0; i < list.size(); ++i) {
+            System.out.printf("%d : %s | ", i + 1, list.get(i));
+            if ((i + 1) % 5 == 0 && (i + 1) != list.size()) {
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
+    private void printEnumList(List<String> list) {
         for (int i = 1; i < list.size(); ++i) {
             System.out.printf("%d : %s | ", i, list.get(i));
-            if (i % 5 == 0) {
+            if (i % 5 == 0 && i != list.size() - 1) {
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
+
+    private void printEnumSubjectList(String studentId, List<String> list) {
+        for (int i = 1; i < list.size(); ++i) {
+            String subjectName = list.get(i);
+            String key = studentId + subjectName;
+            if (dataBase.getSubjectSet().contains(key)) {
+                System.out.print("*");
+            }
+
+            System.out.printf("%d : %s | ", i, subjectName);
+            if (i % 5 == 0 && i != list.size() - 1) {
                 System.out.println();
             }
         }

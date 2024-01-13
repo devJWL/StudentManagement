@@ -18,7 +18,7 @@ public class Valid {
         int returnNumber = 0;
         String input;
         do {
-            input = sc.next();
+            input = sc.nextLine();
             // 숫자만으로 구성되어있는지 확인
             if (isDigit(input)) {
                 int number = Integer.parseInt(input);
@@ -31,6 +31,7 @@ public class Valid {
                 System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
         } while (returnNumber == 0);
+        return returnNumber;
     }
 
     private boolean isDigit(String number) {
