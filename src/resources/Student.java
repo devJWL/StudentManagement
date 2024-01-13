@@ -1,4 +1,6 @@
 package resources;
+import util.options.StudentStatus;
+
 import java.util.*;
 
 
@@ -6,12 +8,12 @@ public class Student {
     public static int NO = 1;
     private String studentId;
     private String studentName;
-    private String status;
+    private StudentStatus status;
     // 이 학생이 수강하고 있는 과목 목록
     private final List<String> subjectList;
 
 
-    public Student(String studentName, String status, List<String> subjectList) {
+    public Student(String studentName, StudentStatus status, List<String> subjectList) {
         studentId = "STU" + NO;
         this.studentName = studentName;
         this.status = status;
@@ -35,9 +37,9 @@ public class Student {
         this.studentName = studentName;
     }
 
-    public String getStatus() { return status; }
+    public StudentStatus getStatus() { return status; }
 
-    public void setStatus(String status) {
+    public void setStatus(StudentStatus status) {
         this.status = status;
     }
 
