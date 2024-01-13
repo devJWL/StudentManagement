@@ -68,7 +68,8 @@ public class Valid {
     private final Map<Integer, ScoreInquireMenuOption> scoreInquireMenuOptionMap = new HashMap<>();
     private final Map<Integer, ScoreChangeMenuOption> scoreChangeMenuOptionMap = new HashMap<>();
     private final Map<Integer, YesOrNoOption> yesOrNoOptionMap = new HashMap<>();
-
+    private final Map<Integer, StudentChangeMenuOption> studentChangeMenuOptionMap = new HashMap<>();
+    private final Map<Integer, StudentDeleteMenuOption> studentDeleteMenuOptionMap = new HashMap<>();
 
     public Map<Integer, MainMenuOption> getMainMenuOptionMap() {
         return mainMenuOptionMap;
@@ -101,6 +102,15 @@ public class Valid {
     public Map<Integer, YesOrNoOption> getYesOrNoOptionMap() {
         return yesOrNoOptionMap;
     }
+
+    public Map<Integer, StudentChangeMenuOption> getStudentChangeMenuOptionMap() {
+        return studentChangeMenuOptionMap;
+    }
+
+    public Map<Integer, StudentDeleteMenuOption> getStudentDeleteMenuOptionMap() {
+        return studentDeleteMenuOptionMap;
+    }
+
     // ================================== 메뉴 관련 EnumClass HashMap =============================
 
 
@@ -198,6 +208,16 @@ public class Valid {
         YesOrNoOption[] yesOrNoOptions = YesOrNoOption.values();
         for (int i = 0; i < yesOrNoOptions.length; ++i) {
             yesOrNoOptionMap.put(i, yesOrNoOptions[i]);
+        }
+
+        StudentChangeMenuOption[] studentChangeMenuOptions = StudentChangeMenuOption.values();
+        for (int i = 0; i < studentChangeMenuOptions.length; ++i) {
+            studentChangeMenuOptionMap.put(i, studentChangeMenuOptions[i]);
+        }
+
+        StudentDeleteMenuOption[] studentDeleteMenuOptions = StudentDeleteMenuOption.values();
+        for (int i = 0; i < studentDeleteMenuOptions.length; ++i) {
+            studentDeleteMenuOptionMap.put(i, studentDeleteMenuOptions[i]);
         }
     }
     // ======================================= valid =======================================================
