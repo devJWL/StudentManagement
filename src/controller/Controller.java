@@ -4,9 +4,7 @@ import database.DataBase;
 import resources.Student;
 import resources.Subject;
 import util.Vaild;
-import util.options.MenuOption;
-import util.options.PrintMenuOption;
-import util.options.YesOrNoOption;
+import util.options.*;
 import util.subject.MandatorySubject;
 import util.subject.SelectSubject;
 
@@ -14,6 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static util.options.MenuOption.*;
+import static util.options.MenuOption.STUDENT_DELETE_MENU;
+import static util.options.ScoreChangeMenuOption.SCORE_CHANGE_MENU_OPTION_BACK;
+import static util.options.ScoreChangeMenuOption.SCORE_CHANGE_MENU_OPTION_CHANGE;
+import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_BACK;
+import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_REGISTER;
+import static util.options.ScoreRegisterMenuOption.SCORE_REGISTER_MENU_OPTION_BACK;
+import static util.options.ScoreRegisterMenuOption.SCORE_REGISTER_MENU_OPTION_REGISTER;
+import static util.options.StudentInquireMenuOption.STUDENT_INQUIRE_MENU_OPTION_BACK;
+import static util.options.StudentInquireMenuOption.STUDENT_INQUIRE_MENU_OPTION_ID;
+import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_BACK;
+import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_REGISTER;
+import static util.options.StudentRegisterMenuOption.STUDENT_REGISTER_MENU_OPTION_BACK;
+import static util.options.StudentRegisterMenuOption.STUDENT_REGISTER_MENU_OPTION_ERROR;
 import static util.options.YesOrNoOption.*;
 import static util.subject.MandatorySubject.*;
 import static util.subject.SelectSubject.*;
@@ -23,7 +35,6 @@ public class Controller {
     private final Scanner sc;
     private final PrintMenuOption printMenuOption;
     private final Vaild vaild;
-
     public Controller(DataBase dataBase, Scanner sc, PrintMenuOption printMenuOption, Vaild vaild) {
         this.dataBase = dataBase;
         this.sc = sc;
@@ -32,6 +43,184 @@ public class Controller {
         //dataBase.databaseInit();
     }
 
+    // 수강생 관리 메뉴
+    public void studentMenu() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
+            StudentMenuOption select = dataBase.getStudentMenuOptionMap()
+                    .get(vaild.returnVaildOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case STUDENT_MENU_OPTION_REGISTER-> {
+                    registerStudent();
+                }
+                case STUDENT_MENU_OPTION_INQUIRE-> {
+                    inquireStudent();
+                }
+                case STUDENT_MENU_OPTION_CHANGE-> {
+                    changeStudent();
+                }
+                case STUDENT_MENU_OPTION_DELETE-> {
+                    deleteStudent();
+                }
+                case STUDENT_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // ERROR
+                default ->  {
+                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
+                }
+            }
+        }
+    }
+
+    private void registerStudent() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
+            StudentRegisterMenuOption select = dataBase.getStudentRegisterMenuOptionMap()
+                    .get(vaild.returnVaildOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case STUDENT_REGISTER_MENU_OPTION_REGISTER-> {
+                    controller.registerStudentHelper();
+                }
+                case STUDENT_REGISTER_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // ERROR
+                default ->  {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
+            }
+        }
+    }
+
+
+    private void inquireStudent() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
+            StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
+                    .get(vaild.returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case STUDENT_INQUIRE_MENU_OPTION_ID-> {
+                    // 1--> id로 조회
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
+                    // 2--> 한 상태에 대해 조회
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_BACK -> {
+                    return;
+                }
+                // ERROR
+                default ->  {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
+            }
+        }
+    }
+
+    private void changeStudent() {
+        System.out.println(printMenuOption.getStringData(STUDENT_CHANGE_MENU));
+    }
+
+    private void deleteStudent() {
+        System.out.println(printMenuOption.getStringData(STUDENT_DELETE_MENU));
+    }
+    // 수강생 관련 메뉴 끝
+
+    // 점수 관리 메뉴
+    public void scoreMenu() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
+            ScoreMenuOption select = dataBase.getScoreMenuOptionMap()
+                    .get(vaild.returnVaildOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case SCORE_MENU_OPTION_REGISTER -> {
+                    registerScore();
+                }
+                case SCORE_MENU_OPTION_INQUIRE -> {
+                    inquireScore();
+                }
+                case SCORE_MENU_OPTION_CHANGE -> {
+                    changeScore();
+                }
+                case SCORE_MENU_OPTION_BACK -> {
+                    return;
+                }
+                // ERROR
+                default -> {
+                    printMenuOption.getStringData(INPUT_ERROR_MENU);
+                }
+            }
+        }
+    }
+
+    private void registerScore() {
+        System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
+        while (true) {
+            System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
+            ScoreRegisterMenuOption select = dataBase.getScoreRegisterMenuOptionMap()
+                    .get(vaild.returnVaildOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case SCORE_REGISTER_MENU_OPTION_REGISTER-> {
+                    // 점수 등록하기
+                }
+                case SCORE_REGISTER_MENU_OPTION_BACK-> {
+                    // 뒤로가기
+                }
+                // ERROR
+                default -> {
+                    return;
+                }
+            }
+        }
+    }
+
+    private void inquireScore() {
+        while (true) {
+            System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
+            StudentInquireMenuOption select = dataBase.getStudentInquireMenuOptionMap()
+                    .get(vaild.returnVaildOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case STUDENT_INQUIRE_MENU_OPTION_ID-> {
+                    // 1. id로 검색
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
+                    // 2. 상태로 검색
+                }
+                case STUDENT_INQUIRE_MENU_OPTION_BACK-> {
+                    // 3. 뒤로가기
+                }
+                // ERROR
+                default ->  {
+                    return;
+                }
+            }
+        }
+    }
+    private void changeScore() {
+        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
+        ScoreChangeMenuOption select = dataBase.getScoreChangeMenuOptionMap()
+                .get(vaild.returnVaildOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
+
+        switch (select) {
+            case SCORE_CHANGE_MENU_OPTION_CHANGE-> {
+                // 1. 변경하기
+            }
+            case SCORE_CHANGE_MENU_OPTION_BACK-> {
+                // 2. 뒤로가기
+            }
+            // ERROR
+            default ->  {
+                return;
+            }
+        }
+    }
+
+    // 점수 관리 메뉴 끝
 
     public void registerStudentHelper() {
         System.out.println("수강생의 이름을 입력해주세요");

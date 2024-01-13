@@ -20,8 +20,7 @@ public class Management{
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
     private final Vaild vaild = new Vaild(dataBase, sc, printMenuOption);
     private final Controller controller = new Controller(dataBase, sc, printMenuOption, vaild);
-    private final StudentMenu studentMenu = new StudentMenu(dataBase, sc, printMenuOption, vaild);
-    private final ScoreMenu scoreMenu = new ScoreMenu(dataBase, sc, printMenuOption, vaild);
+
 
     public void run() {
         mainMenu();
