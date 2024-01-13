@@ -1,6 +1,7 @@
 package controller;
 import database.DataBase;
 import resources.Student;
+import resources.SubjectScore;
 import util.Valid;
 import util.options.*;
 import util.subject.*;
@@ -321,7 +322,7 @@ public class Controller {
                     String prevName = student.getStudentName();
                     String prevStatus = student.getStatus();
                     String status = valid.getStudentStatusStringMap().get(studentStatus);
-                    changeStudentInfo(studentId, studentName, status);
+                    changeStudentInDatabase(studentId, studentName, status);
                     System.out.println("변경 전");
                     System.out.printf("이름 : %s | 상태 : %s\n", prevName, prevStatus);
                     System.out.printf("이름 : %s | 상태 : %s\n", studentName, status);
@@ -357,32 +358,26 @@ public class Controller {
         do {
             System.out.println("삭제할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
+            if (dataBase.getStudentByIdMap().size() == 0) {
+                System.out.println("현재 수강생이 아무도 등록되어있지 않습니다.");
+                return;
+            }
+
             if (dataBase.getStudentByIdMap().containsKey(studentId)) {
                 Student student = dataBase.getStudentByIdMap().get(studentId);
-                System.out.println("학생의 현재 정보");
+                System.out.println("삭제할 학생의 현재 정보");
                 printStudent(student);
-                System.out.println("변경할 이름을 입력해주세요");
-                String studentName = sc.nextLine();
-                System.out.println("변경할 상태를 입력해주세요");
-                StudentStatus studentStatus = inputStudentStatus();
-                System.out.println("1. 변경하기     2. 변경 취소하기");
+
+                System.out.println("1. 삭제하기     2. 삭제 취소하기");
                 yesOrNoOption = valid.getYesOrNoOptionMap()
                         .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
-
                 if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-                    String prevName = student.getStudentName();
-                    String prevStatus = student.getStatus();
-                    String status = valid.getStudentStatusStringMap().get(studentStatus);
-                    changeStudentInfo(studentId, studentName, status);
-                    System.out.println("변경 전");
-                    System.out.printf("이름 : %s | 상태 : %s\n", prevName, prevStatus);
-                    System.out.printf("이름 : %s | 상태 : %s\n", studentName, status);
-                    System.out.println("변경 되었습니다.");
+                    deleteStudentInDatabase(student);
                 }
             } else {
                 System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
             }
-            System.out.println("1. 계속 변경하기     2. 뒤로가기");
+            System.out.println("1. 계속 삭제하기     2. 뒤로가기");
             yesOrNoOption = valid.getYesOrNoOptionMap()
                     .get(valid.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
@@ -482,14 +477,14 @@ public class Controller {
     // ================================== 데이터 베이스 반영 메소드 ========================================================
 
     // 학생 등록
-    private void saveStudentToDatabase(String studentId, String studentName, String status, List<String> subjectList) {
+    private void saveStudentToDatabase (String studentId, String studentName, String status, List<String> subjectList) {
         Student student = new Student(studentName, status, subjectList);
         dataBase.getStudentByIdMap().put(studentId, student);
         dataBase.getStudentByStatusMap().get(status).add(student);
     }
 
     // 학생 정보 변경
-    private void changeStudentInfo(String studentId, String studentName, String status) {
+    private void changeStudentInDatabase (String studentId, String studentName, String status) {
         Student student = dataBase.getStudentByIdMap().get(studentId);
         if (!student.getStatus().equals(status)) {
             dataBase.getStudentByStatusMap().get(student.getStatus()).remove(student);
@@ -502,14 +497,15 @@ public class Controller {
     }
 
     // 학생 삭제
-    private void deleteStudent (Student student) {
+    private void deleteStudentInDatabase (Student student) {
         String studentId = student.getStudentId();
-
         dataBase.getStudentByStatusMap().get(student.getStatus()).remove(student);
         for (String subjectName : student.getSubjectList()) {
             String key = studentId + subjectName;
+            valid.getSubjectSet().remove(key);
             dataBase.getSubjectScoreMap().remove(key);
         }
+        dataBase.getStudentByIdMap().remove(studentId);
     }
 //
 //    // 점수 등록
