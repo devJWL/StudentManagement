@@ -13,10 +13,10 @@ import static util.options.MainMenuOption.*;
 // App
 // "ID : %-5s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s"
 public class Management{
-    private final DataBase dataBase = new DataBase();
-    private final Scanner sc = new Scanner(System.in);
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
+    private final Scanner sc = new Scanner(System.in);
     private final Valid valid = new Valid(sc, printMenuOption);
+    private final DataBase dataBase = new DataBase(valid);
     private final Controller controller = new Controller(dataBase, sc, printMenuOption, valid);
 
 
@@ -28,7 +28,7 @@ public class Management{
     private void mainMenu() {
         while (true) {
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
-            MainMenuOption select = dataBase.getMainMenuOptionMap()
+            MainMenuOption select = valid.getMainMenuOptionMap()
                     .get(valid.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
 
             switch (select) {
