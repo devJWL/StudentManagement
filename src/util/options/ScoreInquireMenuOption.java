@@ -1,4 +1,4 @@
-package Util.Options;
+package util.options;
 
 public enum ScoreInquireMenuOption {
 }

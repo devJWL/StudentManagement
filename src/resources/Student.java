@@ -1,17 +1,17 @@
-package Resources;
+package resources;
 import java.util.*;
 
 
 public class Student {
-    private static int NO = 1;
+    public static int NO = 1;
     private String studentId;
     private String studentName;
     private String status;
     // 이 학생이 수강하고 있는 과목 목록
-    private final List<String> subjectList;
+    private final List<Subject> subjectList;
 
 
-    public Student(String studentName, String status, List<String> subjectList) {
+    public Student(String studentName, String status, List<Subject> subjectList) {
         studentId = "STU" + NO;
         this.studentName = studentName;
         this.status = status;
@@ -41,7 +41,7 @@ public class Student {
         this.status = status;
     }
 
-    public List<String> getSubjectList() {
+    public List<Subject> getSubjectList() {
         return subjectList;
     }
 }

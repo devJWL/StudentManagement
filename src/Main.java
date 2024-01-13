@@ -1,4 +1,4 @@
-import Service.Management;
+import service.Management;
 
 
 public class Main {

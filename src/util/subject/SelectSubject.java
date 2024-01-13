@@ -1,4 +1,4 @@
-package Util.Subject;
+package util.subject;
 
 public enum SelectSubject {
     SELECT_SUBJECT_ERROR,

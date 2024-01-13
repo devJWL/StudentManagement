@@ -1,4 +1,4 @@
-package Util.Subject;
+package util.subject;
 
 public enum MandatorySubject {
     MANDATORY_SUBJECT_ERROR,

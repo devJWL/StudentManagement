@@ -1,21 +1,25 @@
-package Service;
-import Data.DataBase;
-import Resources.Subject;
-import Util.Options.*;
-import Util.Subject.MandatorySubject;
+package service;
+import database.DataBase;
+import resources.Student;
+import resources.Subject;
+import util.options.*;
+import util.subject.MandatorySubject;
+import util.subject.SelectSubject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import static Util.Options.MenuOption.*;
-import static Util.Options.MainMenuOption.*;
-import static Util.Options.ScoreChangeMenuOption.*;
-import static Util.Options.ScoreMenuOption.*;
-import static Util.Options.ScoreRegisterMenuOption.*;
-import static Util.Options.StudentInquireMenuOption.*;
-import static Util.Options.StudentMenuOption.*;
-import static Util.Options.StudentRegisterMenuOption.*;
-import static Util.Options.YesOrNoOption.*;
-import static Util.Subject.MandatorySubject.*;
+import static util.options.MenuOption.*;
+import static util.options.MainMenuOption.*;
+import static util.options.ScoreChangeMenuOption.*;
+import static util.options.ScoreMenuOption.*;
+import static util.options.ScoreRegisterMenuOption.*;
+import static util.options.StudentInquireMenuOption.*;
+import static util.options.StudentMenuOption.*;
+import static util.options.StudentRegisterMenuOption.*;
+import static util.options.YesOrNoOption.*;
+import static util.subject.MandatorySubject.*;
+import static util.subject.SelectSubject.*;
+
 
 
 // App
@@ -109,23 +113,40 @@ public class Management{
     private void registerStudentHelper() {
         System.out.println("수강생의 이름을 입력해주세요");
         String studentName = sc.nextLine();
-        System.out.println("수강생의  상태를 입력해주세요");
+        System.out.println("수강생의 상태를 입력해주세요");
         String status = sc.nextLine();
         List<Subject> subjectList = new ArrayList<>();
         addMandatorySubjectHelper(studentName, subjectList);
+        addSelectSubjectHelper(studentName, subjectList);
+        System.out.println("아래의 정보로 수강생을 등록하시겠습니까?");
+        System.out.printf("고유번호 : %-10s\n", "STU" + Student.NO);
+        System.out.printf("이름 : %-10s\n", studentName);
+        System.out.printf("상태 : %-10s\n", status);
+        System.out.println("과목 목록");
+        for (Subject subject : subjectList) {
+            System.out.printf("%s | ", subject.getSubjectName());
+        }
+        System.out.println();
+        System.out.println("1. 네        2. 아니오");
+        YesOrNoOption yesOrNoOption = yesNoInputHelper();
+        if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
+            dataBase.createStudent(studentName, status, subjectList);
+            System.out.println("수강생이 등록되었습니다.");
+        }
     }
 
     private void addMandatorySubjectHelper(String studentName, List<Subject> subjectList) {
-        System.out.println("수강생이 수강 중인 필수과목 목록을 입력해주세요");
+        System.out.println("수강생이 수강 중인 필수과목을 입력해주세요");
         System.out.println("필수과목 목록");
-        int no = 1;
-        for (MandatorySubject mandatorySubject : MandatorySubject.values()) {
-            System.out.printf("%3d. %10s\n", no, mandatorySubject.name());
-            ++no;
+        int subjectNumber = 1;
+        for (Subject mandatorySubject : dataBase.getMandatorySubjectList()) {
+            System.out.printf("%-3d. %-20s\n", subjectNumber, mandatorySubject.getSubjectName());
+            ++subjectNumber;
         }
         System.out.println();
 
-        boolean isEnd = false;
+        List<Subject> mandatorySubjects = new ArrayList<>();
+        boolean on = true;
         do {
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = dataBase.getMandatorySubjectMap()
@@ -136,28 +157,95 @@ public class Management{
             }
             // 올바른 입력
             else {
-                String key = studentName + mandatorySubject.name();
-                if (!dataBase.getSubjectSet().contains(key)) {
-                    dataBase.getSubjectSet().add(key);
-                    subjectList.add(new Subject(mandatorySubject.name(), true));
+                String subjectName = dataBase.getMandatorySubjectStringMap().get(mandatorySubject);
+                String key = studentName + subjectName;
+                // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
+                if (dataBase.getSubjectSet().contains(key)) {
+                    System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
                 }
                 else {
-                    System.out.printf("%s 과목은 이미 추가 되었습니다. 다른 과목을 선택해주세요.\n", mandatorySubject.name());
+                    dataBase.getSubjectSet().add(key);
+                    mandatorySubjects.add(new Subject(subjectName, true));
                 }
             }
             System.out.println("과목을 계속 선택하시겠습니까?");
-            YesOrNoOption yesOrNoOption = YesNoInputHelper();
+            YesOrNoOption yesOrNoOption = yesNoInputHelper();
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 continue;
             }
-            if (subjectList.size() >= 3){
-                isEnd = true;
-            };
-        }while(isEnd);
+
+            if (mandatorySubjects.size() >= 3){
+                on = false;
+                subjectList.addAll(mandatorySubjects);
+            }
+            else {
+                System.out.println("필수과목은 3개 이상 선택해야합니다.");
+                System.out.println("현재 신청한 필수과목 목록");
+                for (Subject subject : mandatorySubjects) {
+                    System.out.printf("%-20s\n", subject.getSubjectName());
+                }
+                System.out.println();
+            }
+        }while(on);
     }
 
-    private YesOrNoOption YesNoInputHelper() {
-        YesOrNoOption yesOrNoOption;
+    private void addSelectSubjectHelper(String studentName, List<Subject> subjectList) {
+        System.out.println("수강생이 수강 중인 선택과목을 입력해주세요");
+        System.out.println("선택과목 목록");
+        int subjectNumber = 1;
+        for (Subject selectSubject : dataBase.getSelectSubjectList()) {
+            System.out.printf("%-3d. %-20s\n", subjectNumber, selectSubject.getSubjectName());
+            ++subjectNumber;
+        }
+        System.out.println();
+
+        List<Subject> selectSubjects = new ArrayList<>();
+        boolean on = true;
+        do {
+            System.out.println("과목에 해당하는 숫자를 입력해주세요");
+            SelectSubject selectSubject = dataBase.getSelectSubjectMap()
+                    .get(returnVaildOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
+
+            if (selectSubject == SELECT_SUBJECT_ERROR) {
+                System.out.println("잘못된 입력 혹은 범위 밖의 숫자를 입력하셨습니다.");
+            }
+            // 올바른 입력
+            else {
+                String subjectName = dataBase.getSelectSubjectStringMap().get(selectSubject);
+                String key = studentName + subjectName;
+                // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
+                if (dataBase.getSubjectSet().contains(key)) {
+                    System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
+                }
+                else {
+                    dataBase.getSubjectSet().add(key);
+                    selectSubjects.add(new Subject(subjectName, true));
+                }
+            }
+            System.out.println("과목을 계속 선택하시겠습니까?");
+            YesOrNoOption yesOrNoOption = yesNoInputHelper();
+            if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
+                continue;
+            }
+
+            if (selectSubjects.size() >= 2){
+                on = false;
+                subjectList.addAll(selectSubjects);
+            }
+            else {
+                System.out.println("선택과목은 2개이상 선택해야합니다.");
+                System.out.println("현재 신청한 선택과목 목록");
+                for (Subject subject : selectSubjects) {
+                    System.out.printf("%-20s\n", subject.getSubjectName());
+                }
+                System.out.println();
+            }
+        }while(on);
+    }
+
+
+    private YesOrNoOption yesNoInputHelper() {
+        YesOrNoOption yesOrNoOption = YES_OR_NO_OPTION_ERROR;
         do {
             System.out.println("1. 네    2. 아니요");
             yesOrNoOption = dataBase.getYesOrNoOptionMap()
@@ -165,7 +253,7 @@ public class Management{
             if (yesOrNoOption == YES_OR_NO_OPTION_ERROR) {
                 System.out.println("잘못된 입력이거나 범위 밖에 값을 입력하셨습니다.");
             }
-        }while(yesOrNoOption != YES_OR_NO_OPTION_ERROR);
+        }while(yesOrNoOption == YES_OR_NO_OPTION_ERROR);
         return yesOrNoOption;
     }
 

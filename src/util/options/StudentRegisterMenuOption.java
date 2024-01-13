@@ -1,4 +1,4 @@
-package Util.Options;
+package util.options;
 
 public enum StudentRegisterMenuOption {
     STUDENT_REGISTER_MENU_OPTION_ERROR,
