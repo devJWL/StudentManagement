@@ -2,10 +2,8 @@ package util;
 import util.options.*;
 import util.subject.MandatorySubject;
 import util.subject.SelectSubject;
-
 import java.util.*;
-
-import static util.options.MenuOption.INPUT_ERROR_MENU;
+import static util.options.MenuOption.*;
 
 
 public class Valid {
@@ -28,7 +26,6 @@ public class Valid {
     // ================================== 수강생 상태 EnumClass HashMap ============================
     private final Map<Integer, StudentStatus> studentStatusMap = new HashMap<>();
     private final Map<StudentStatus, String> studentStatusStringMap = new HashMap<>();
-
     public Map<Integer, StudentStatus> getStudentStatusMap() {
         return studentStatusMap;
     }
@@ -135,6 +132,7 @@ public class Valid {
         selectSubjectNameList.addAll(List.of ("Error", "Design Pattern", "Spring Security", "Redis", "MongoDB"));
 
         //============================= 과목 관련 초기화==================================
+        studentStatusList.addAll(List.of("Error", "Green", "Yellow", "Red")); // 학생 상태 초기화
         enumClassInit();
     }
 
@@ -191,7 +189,11 @@ public class Valid {
             selectSubjectStringMap.put(selectSubjects[i], selectSubjectNameList.get(i));
         }
         // ================================== 과목 EnumClass HashMap 초기화============================
-
+        StudentStatus[] studentStatuses = StudentStatus.values();
+        for (int i = 0; i < studentStatuses.length; ++i) {
+            studentStatusMap.put(i, studentStatuses[i]);
+            studentStatusStringMap.put(studentStatuses[i], studentStatusList.get(i));
+        }
 
         YesOrNoOption[] yesOrNoOptions = YesOrNoOption.values();
         for (int i = 0; i < yesOrNoOptions.length; ++i) {
@@ -205,8 +207,8 @@ public class Valid {
         String input;
         do {
             input = sc.nextLine();
-            // 숫자만으로 구성되어있는지 확인
-            if (isDigit(input)) {
+            // 문자열의 길이가 0이 아니고, 숫자만으로 구성되어있는지 확인
+            if (input.length() != 0 && isDigit(input)) {
                 int number = Integer.parseInt(input);
                 // 현재 메뉴옵션의 범위에 존재하는 숫자인지 확인
                 if (number >= start && number <= end) {

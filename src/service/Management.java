@@ -30,7 +30,6 @@ public class Management{
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
             MainMenuOption select = valid.getMainMenuOptionMap()
                     .get(valid.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
-
             switch (select) {
                 case MAIN_MENU_OPTION_STU-> {
                     controller.studentMenu();
