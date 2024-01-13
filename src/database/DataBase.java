@@ -124,31 +124,15 @@ public class DataBase {
     }
     // ================================== 과목 EnumClass HashMap ============================
 
+    // 데이터 베이스에 새로운 정보 추가
+    private void addData() {
 
-
-    // 학생 등록
-    public void createStudent(String name, String status, List<Subject> subjectList) {
-        Student student = new Student(name, status, subjectList);
-        studentByStatusMap.get(status).add(student);
     }
 
-    // 학생 삭제
-    public void deleteStudent (Student student) {
-        studentList.remove(student);
-        for (Subject subject : student.getSubjectList()) {
-            String key = student.getStudentId() + subject.getSubjectName();
-            subjectSet.remove(key);
-            subjectScoreMap.remove(key);
-        }
-    }
 
-    // 점수 등록
-    public void inputSubjectScore(String key, List<SubjectScore> subjectScoreList) {
-        for (SubjectScore subjectScore : subjectScoreList) {
-            subjectScoreMap.get(key).add(subjectScore);
-        }
+    private void testInput() {
+        
     }
-
 
     private void databaseInit() {
         //============================= 과목 추가 ==================================
@@ -176,10 +160,6 @@ public class DataBase {
         enumClassInit();
         testInput();
     }
-
-    private void testInput() {
-    }
-
 
 
     private void enumClassInit()  {
@@ -247,10 +227,5 @@ public class DataBase {
         for (int i = 0; i < yesOrNoOptions.length; ++i) {
             yesOrNoOptionMap.put(i, yesOrNoOptions[i]);
         }
-    }
-
-    // 데이터 베이스에 새로운 정보 추가
-    private void addData() {
-
     }
 }

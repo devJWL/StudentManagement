@@ -1,4 +1,5 @@
 package service;
+import controller.Controller;
 import database.DataBase;
 import resources.Student;
 import resources.Subject;
@@ -26,13 +27,14 @@ import static util.subject.SelectSubject.*;
 // "ID : %-5s 학생 | %-10d | 필수 과목 : %-20s | 선택 과목 : %-20s | 상태 : %-5s"
 public class Management{
     private final Scanner sc = new Scanner(System.in);
-    private final DataBase dataBase = new DataBase();
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
+    private final DataBase dataBase = new DataBase();
+    private final Controller controller = new Controller(dataBase, sc);
+
 
     public void run() {
         mainMenu();
     }
-
 
     // 메인 메뉴
     private void mainMenu() {
