@@ -160,9 +160,7 @@ public class DataBase {
         testInput();
     }
 
-
     private void enumClassInit()  {
-
         // ================================== 메뉴 관련 EnumClass HashMap =============================
         MainMenuOption[] mainMenuOptions = MainMenuOption.values();
         for (int i = 0; i < mainMenuOptions.length; ++i) {

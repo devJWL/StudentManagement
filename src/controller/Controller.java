@@ -3,7 +3,6 @@ package controller;
 import database.DataBase;
 import resources.Student;
 import resources.Subject;
-import resources.SubjectScore;
 import util.Vaild;
 import util.options.MenuOption;
 import util.options.PrintMenuOption;
@@ -30,6 +29,7 @@ public class Controller {
         this.sc = sc;
         this.printMenuOption = printMenuOption;
         this.vaild = vaild;
+        //dataBase.databaseInit();
     }
 
 
@@ -167,12 +167,10 @@ public class Controller {
         }while(on);
     }
 
-
-
     // 학생 등록
     private void createStudent(String name, String status, List<Subject> subjectList) {
         Student student = new Student(name, status, subjectList);
-        studentByStatusMap.get(status).add(student);
+        dataBase.getStudentByStatusMap().get(status).add(student);
     }
 
 //    // 학생 삭제
