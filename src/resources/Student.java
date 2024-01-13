@@ -21,6 +21,13 @@ public class Student {
         ++NO;
     }
 
+    public Student(Student other) {
+        this.studentId = other.studentId;
+        this.studentName = other.studentName;
+        this.status = other.status;
+        this.subjectList = new ArrayList<>(other.subjectList);
+    }
+
     public String getStudentId() {
         return studentId;
     }
