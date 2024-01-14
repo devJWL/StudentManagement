@@ -17,7 +17,7 @@ public class Valid {
 
     // =================================== 선택 입력 예외 처리 =================================================
     public int returnValidOutput(int start, int end) {
-        int returnNumber = 0;
+        int returnNumber = -1;
         String input;
         do {
             System.out.print("> ");
@@ -30,10 +30,10 @@ public class Valid {
                     returnNumber = number;
                 }
             }
-            if (returnNumber == 0) {
+            if (returnNumber == -1) {
                 System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
-        } while (returnNumber == 0);
+        } while (returnNumber == -1);
         return returnNumber;
     }
 
