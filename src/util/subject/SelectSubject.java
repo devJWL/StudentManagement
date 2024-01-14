@@ -1,10 +1,12 @@
 package util.subject;
 
+import util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public enum SelectSubject {
-    SELECT_SUBJECT_ERROR("ERROR"),
+    SELECT_SUBJECT_ERROR("Error"),
     DESIGN_PATTERN("Design Pattern"),
     SPRING_SECURITY("Spring Security"),
     REDIS("Redis"),

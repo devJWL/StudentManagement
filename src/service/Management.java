@@ -1,7 +1,7 @@
 package service;
 import controller.Controller;
 import database.Database;
-import util.Valid;
+import util.Util;
 import util.options.*;
 import util.printMenu.PrintMenuOption;
 
@@ -17,9 +17,9 @@ import static util.options.MainMenuOption.*;
 public class Management{
     private final PrintMenuOption printMenuOption = new PrintMenuOption();
     private final Scanner sc = new Scanner(System.in);
-    private final Valid valid = new Valid(sc, printMenuOption);
+    private final Util util = new Util(sc, printMenuOption);
     private final Database dataBase = new Database();
-    private final Controller controller = new Controller(dataBase, sc, printMenuOption, valid);
+    private final Controller controller = new Controller(dataBase, sc, printMenuOption, util);
 
 
     public void run() {
@@ -31,7 +31,7 @@ public class Management{
         while (true) {
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
             MainMenuOption select = MainMenuOption
-                    .get(valid.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
+                    .get(util.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
             switch (select) {
                 case MAIN_MENU_OPTION_STU-> controller.studentMenu();
                 case MAIN_MENU_OPTION_SCORE-> controller.scoreMenu();
