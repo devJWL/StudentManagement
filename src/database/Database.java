@@ -2,6 +2,7 @@ package database;
 
 import resources.Student;
 import resources.SubjectScore;
+import util.Util;
 import util.options.StudentStatus;
 import java.util.*;
 
@@ -119,15 +120,29 @@ public class Database {
     private void TestInput() {
         String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
         String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};
-        List<List<String>> SubjectLists = new ArrayList<>();
-        SubjectLists.add(List.of("dummy", "Java", "OOP", "Spring", "Design Pattern", "Spring Security"));
-        SubjectLists.add(List.of("dummy","JPA", "OOP", "MySQL", "Redis", "Spring Security"));
-        SubjectLists.add(List.of("dummy","JPA", "OOP", "JAVA", "Redis", "MongoDB"));
-        SubjectLists.add(List.of("dummy","JPA", "Spring", "JAVA", "Design Pattern", "MongoDB"));
-        SubjectLists.add(List.of("dummy","JPA", "MySQL", "JAVA", "Redis", "MongoDB"));
+        String[] subjects = {"Java", "OOP", "Spring", "JPA","MySQL", "Design Pattern", "Spring Security", "Redis", "MongoDB"};
+
+        int[] scores = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+        boolean[] booleans = {true, true, true, true, true, false, false, false, false};
+        List<String> subjectLists = List.of("dummy", "Java", "OOP", "Spring", "JPA",
+                                            "MySQL", "Design Pattern", "Spring Security", "Redis", "MongoDB");
+
         for (int i = 0; i < names.length; ++i) {
-            createStudent(names[i], statuses[i], SubjectLists.get(i));
+            createStudent(names[i], statuses[i], subjectLists);
+            for (int j = 1; j < subjectLists.size(); ++j) {
+                String key = "STU" + (i + 1) + subjectLists.get(j);
+                subjectScoreMap.put(key, new ArrayList<>());
+            }
         }
+
+        for (int i = 0; i < 3000; ++i) {
+            int scoreRand = (int)(Math.random() * scores.length);
+            int subjectRand = (int)(Math.random() * subjects.length);
+            String key ="STU" + (i  % 5 + 1) + subjects[subjectRand];
+            subjectScoreMap.get(key).add(new SubjectScore(scores[scoreRand], booleans[subjectRand]));
+        }
+
+        System.out.println();
     }
 
 

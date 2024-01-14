@@ -403,11 +403,11 @@ public class Controller {
                     int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
                     SubjectScore subjectScore = new SubjectScore(score, util.getOptionOrMandatoryMap().get(subjectName));
                     newSubjectScores.add(subjectScore);
-                    System.out.printf("%s과목 | %d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", subjectName, round, subjectScore.getScore(), subjectScore.getGrade());
-                    System.out.println("점수를 계속 등록 하시겠습니까?");
+                    System.out.println("점수를 등록 하시겠습니까?");
                     System.out.println("1. 네    2. 아니요");
                     yesOrNoOption = yesOrNoInput();
                     if (yesOrNoOption == YES_OR_NO_OPTION_NO) {
+                        System.out.printf("%s과목 | %d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", subjectName, round, subjectScore.getScore(), subjectScore.getGrade());
                         dataBase.createScore(key, newSubjectScores);
                     }
                 }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
@@ -506,11 +506,11 @@ public class Controller {
             System.out.printf("%s | %s 학생의 %s 과목점수 조회\n", studentId, studentName, subjectName);
             for (int i = 0; i < subjectScoreList.size(); ++i) {
                 SubjectScore subjectScore = subjectScoreList.get(i);
-                System.out.printf("%d회차 | %d점 | %c등급\n", i + 1, subjectScore.getScore(), subjectScore.getGrade());
+                System.out.printf("%-3d회차 | %-3d점 | %c등급\n", i + 1, subjectScore.getScore(), subjectScore.getGrade());
                 avg += subjectScore.getScore();
             }
             avg /= subjectScoreList.size();
-            System.out.printf("평균점수 : %d점 | 평균등급 : %c등급\n", avg, util.calcGrade(avg, util.getOptionOrMandatoryMap().get(subjectName)));
+            System.out.printf("평균점수 : %-3d점 | 평균등급 : %c등급\n", avg, util.calcGrade(avg, util.getOptionOrMandatoryMap().get(subjectName)));
         }
     }
 
