@@ -49,6 +49,12 @@ public class PrintMenuOption {
                         아래 메뉴 중 하나를 선택해주세요.
                         1. 등록하기
                         2. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.STUDENT_REGISTER_HELPER_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 등록 입력 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_MENU,
                 """
                         ==================================
@@ -59,6 +65,19 @@ public class PrintMenuOption {
                         1. 고유번호로 조회하기
                         2. 상태별로 조회하기
                         3. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_HELPER_ID_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생을 고유번호로 조회하는 페이지입니다.""");
+
+        menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_HELPER_STATUS_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생을 상태로 조회하는 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.STUDENT_CHANGE_MENU,
                 """
                         ==================================
@@ -68,6 +87,12 @@ public class PrintMenuOption {
                         아래 메뉴 중 하나를 선택해주세요.
                         1. 수정하기
                         2. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.STUDENT_CHANGE_HELPER_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 정보 변경 입력 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.STUDENT_DELETE_MENU,
                 """
                         ==================================
@@ -77,7 +102,12 @@ public class PrintMenuOption {
                         아래 메뉴 중 하나를 선택해주세요.
                         1. 삭제하기
                         2. 뒤로가기""");
-
+        menuOptionStringMap.put(MenuOption.STUDENT_DELETE_HELPER_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 삭제 입력 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.SCORE_MAIN_MENU,
                 """
                         ==================================
@@ -98,6 +128,12 @@ public class PrintMenuOption {
                         아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 입력하기
                         2. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.SCORE_REGISTER_HELPER_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 점수 등록 입력 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.SCORE_INQUIRE_MENU,
                 """
                         ==================================
@@ -105,8 +141,21 @@ public class PrintMenuOption {
                         ==================================
                         점수 조회 페이지입니다
                         아래 메뉴 중 하나를 선택해주세요.
-                        1. 점수 조회하기
-                        2. 뒤로가기""");
+                        1. 고유번호로 점수 조회하기
+                        2. 상태로 점수 조회하기
+                        3. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.SCORE_INQUIRE_HELPER_ID_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 점수 ID로 조회 페이지입니다.""");
+        menuOptionStringMap.put(MenuOption.SCORE_INQUIRE_HELPER_STATUS_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 점수 상태로 조회 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.SCORE_CHANGE_MENU,
                 """
                         ==================================
@@ -116,6 +165,12 @@ public class PrintMenuOption {
                         아래 메뉴 중 하나를 선택해주세요.
                         1. 점수 수정하기
                         2. 뒤로가기""");
+        menuOptionStringMap.put(MenuOption.SCORE_CHANGE_HELPER_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        수강생 점수 변경 입력 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.INPUT_ERROR_MENU,
                 """
                         올바르지 않은 입력이거나 범위를 벗어난 숫자입니다.
