@@ -1,21 +1,20 @@
 package controller;
 import database.DataBase;
 import resources.Student;
-import resources.SubjectScore;
 import util.Valid;
 import util.options.*;
+import util.printMenu.MenuOption;
+import util.printMenu.PrintMenuOption;
 import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import static util.options.MenuOption.*;
+import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
 import static util.options.ScoreMenuOption.*;
 import static util.options.ScoreRegisterMenuOption.*;
-import static util.options.StudentChangeMenuOption.STUDENT_CHANGE_MENU_OPTION_BACK;
-import static util.options.StudentChangeMenuOption.STUDENT_CHANGE_MENU_OPTION_CHANGE;
-import static util.options.StudentDeleteMenuOption.STUDENT_DELETE_MENU_OPTION_BACK;
-import static util.options.StudentDeleteMenuOption.STUDENT_DELETE_MENU_OPTION_DELETE;
+import static util.options.StudentChangeMenuOption.*;
+import static util.options.StudentDeleteMenuOption.*;
 import static util.options.StudentInquireMenuOption.*;
 import static util.options.StudentMenuOption.*;
 import static util.options.StudentRegisterMenuOption.*;
@@ -45,7 +44,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
             StudentMenuOption select = StudentMenuOption
-                    .values()[valid.returnValidOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal())];
+                    .get(valid.returnValidOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
             switch (select) {
                 case STUDENT_MENU_OPTION_REGISTER -> registerStudent();
                 case STUDENT_MENU_OPTION_INQUIRE -> inquireStudent();
@@ -64,7 +63,8 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
             ScoreMenuOption select = ScoreMenuOption
-                    .values()[valid.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal())];
+                    .get(valid.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
+
             switch (select) {
                 case SCORE_MENU_OPTION_REGISTER -> registerScore();
                 case SCORE_MENU_OPTION_INQUIRE -> inquireScore();
@@ -82,7 +82,7 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
             StudentRegisterMenuOption select = StudentRegisterMenuOption
-                    .values()[valid.returnValidOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal())];
+                    .get(valid.returnValidOutput(STUDENT_REGISTER_MENU_OPTION_ERROR.ordinal(), STUDENT_REGISTER_MENU_OPTION_BACK.ordinal()));
             switch (select) {
                 case STUDENT_REGISTER_MENU_OPTION_REGISTER -> registerStudentHelper();
                 case STUDENT_REGISTER_MENU_OPTION_BACK-> {
@@ -99,8 +99,8 @@ public class Controller {
         printEnumList(valid.getStudentStatusList());
         StudentStatus studentStatus;
         do{
-            studentStatus = StudentStatus.
-                    values()[valid.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), StudentStatus.STUDENT_STATUS_RED.ordinal())];
+            studentStatus = StudentStatus
+                .get(valid.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), StudentStatus.STUDENT_STATUS_RED.ordinal()));
             if (studentStatus == StudentStatus.STUDENT_STATUS_ERROR) {
                 printMenuOption.getStringData(INPUT_ERROR_MENU);
             }

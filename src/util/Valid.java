@@ -1,9 +1,10 @@
 package util;
 import util.options.*;
+import util.printMenu.PrintMenuOption;
 import util.subject.MandatorySubject;
 import util.subject.SelectSubject;
 import java.util.*;
-import static util.options.MenuOption.*;
+import static util.printMenu.MenuOption.*;
 
 
 public class Valid {
@@ -58,61 +59,6 @@ public class Valid {
         return subjectSet;
     }
 
-    // ================================== 메뉴 관련 EnumClass HashMap =============================
-    private final Map<Integer, MainMenuOption> mainMenuOptionMap = new HashMap<>();
-    private final Map<Integer, StudentMenuOption> studentMenuOptionMap = new HashMap<>();
-    private final Map<Integer, StudentRegisterMenuOption> studentRegisterMenuOptionMap = new HashMap<>();
-    private final Map<Integer, StudentInquireMenuOption> studentInquireMenuOptionMap = new HashMap<>();
-    private final Map<Integer, ScoreMenuOption> scoreMenuOptionMap = new HashMap<>();
-    private final Map<Integer, ScoreRegisterMenuOption> scoreRegisterMenuOptionMap = new HashMap<>();
-    private final Map<Integer, ScoreInquireMenuOption> scoreInquireMenuOptionMap = new HashMap<>();
-    private final Map<Integer, ScoreChangeMenuOption> scoreChangeMenuOptionMap = new HashMap<>();
-    private final Map<Integer, YesOrNoOption> yesOrNoOptionMap = new HashMap<>();
-    private final Map<Integer, StudentChangeMenuOption> studentChangeMenuOptionMap = new HashMap<>();
-    private final Map<Integer, StudentDeleteMenuOption> studentDeleteMenuOptionMap = new HashMap<>();
-
-    public Map<Integer, MainMenuOption> getMainMenuOptionMap() {
-        return mainMenuOptionMap;
-    }
-    public Map<Integer, StudentMenuOption> getStudentMenuOptionMap() {
-        return studentMenuOptionMap;
-    }
-    public Map<Integer, StudentRegisterMenuOption> getStudentRegisterMenuOptionMap() {
-        return studentRegisterMenuOptionMap;
-    }
-    public Map<Integer, StudentInquireMenuOption> getStudentInquireMenuOptionMap() {
-        return studentInquireMenuOptionMap;
-    }
-    public Map<Integer, ScoreMenuOption> getScoreMenuOptionMap() {
-        return scoreMenuOptionMap;
-    }
-
-    public Map<Integer, ScoreRegisterMenuOption> getScoreRegisterMenuOptionMap() {
-        return scoreRegisterMenuOptionMap;
-    }
-
-    public Map<Integer, ScoreInquireMenuOption> getScoreInquireMenuOptionMap() {
-        return scoreInquireMenuOptionMap;
-    }
-
-    public Map<Integer, ScoreChangeMenuOption> getScoreChangeMenuOptionMap() {
-        return scoreChangeMenuOptionMap;
-    }
-
-    public Map<Integer, YesOrNoOption> getYesOrNoOptionMap() {
-        return yesOrNoOptionMap;
-    }
-
-    public Map<Integer, StudentChangeMenuOption> getStudentChangeMenuOptionMap() {
-        return studentChangeMenuOptionMap;
-    }
-
-    public Map<Integer, StudentDeleteMenuOption> getStudentDeleteMenuOptionMap() {
-        return studentDeleteMenuOptionMap;
-    }
-
-    // ================================== 메뉴 관련 EnumClass HashMap =============================
-
 
     // ================================== 과목 EnumClass HashMap ============================
     private final Map<Integer, MandatorySubject> mandatorySubjectMap = new HashMap<>();
@@ -143,82 +89,6 @@ public class Valid {
 
         //============================= 과목 관련 초기화==================================
         studentStatusList.addAll(List.of("Error", "Green", "Yellow", "Red")); // 학생 상태 초기화
-        enumClassInit();
-    }
-
-    private void enumClassInit()  {
-        // ================================== 메뉴 관련 EnumClass HashMap 초기화=============================
-        MainMenuOption[] mainMenuOptions = MainMenuOption.values();
-        for (int i = 0; i < mainMenuOptions.length; ++i) {
-            mainMenuOptionMap.put(i, mainMenuOptions[i]);
-        }
-
-        StudentMenuOption[] studentMenuOptions = StudentMenuOption.values();
-        for (int i = 0; i < studentMenuOptions.length; ++i) {
-            studentMenuOptionMap.put(i, studentMenuOptions[i]);
-        }
-
-        StudentRegisterMenuOption[] studentRegisterMenuOptions = StudentRegisterMenuOption.values();
-        for (int i = 0; i < studentRegisterMenuOptions.length; ++i) {
-            studentRegisterMenuOptionMap.put(i, studentRegisterMenuOptions[i]);
-        }
-        StudentInquireMenuOption[] studentInquireMenuOptions = StudentInquireMenuOption.values();
-        for (int i = 0; i < studentInquireMenuOptions.length; ++i) {
-            studentInquireMenuOptionMap.put(i, studentInquireMenuOptions[i]);
-        }
-        ScoreMenuOption[] scoreMenuOptions = ScoreMenuOption.values();
-        for (int i = 0; i < scoreMenuOptions.length; ++i) {
-            scoreMenuOptionMap.put(i, scoreMenuOptions[i]);
-        }
-
-        ScoreRegisterMenuOption[] scoreRegisterMenuOptions = ScoreRegisterMenuOption.values();
-        for (int i = 0; i < scoreRegisterMenuOptions.length; ++i) {
-            scoreRegisterMenuOptionMap.put(i, scoreRegisterMenuOptions[i]);
-        }
-
-        ScoreInquireMenuOption[] scoreInquireMenuOptions = ScoreInquireMenuOption.values();
-        for (int i = 0; i < scoreInquireMenuOptions.length; ++i) {
-            scoreInquireMenuOptionMap.put(i, scoreInquireMenuOptions[i]);
-        }
-        ScoreChangeMenuOption[] scoreChangeMenuOptions = ScoreChangeMenuOption.values();
-        for (int i = 0; i < scoreChangeMenuOptions.length; ++i) {
-            scoreChangeMenuOptionMap.put(i, scoreChangeMenuOptions[i]);
-        }
-        // ================================== 메뉴 관련 EnumClass HashMap 초기화=============================
-
-
-        // ================================== 과목 EnumClass HashMap 초기화============================
-        MandatorySubject[] mandatorySubjects = MandatorySubject.values();
-        for (int i = 0; i < mandatorySubjects.length; ++i) {
-            mandatorySubjectMap.put(i, mandatorySubjects[i]);
-            mandatorySubjectStringMap.put(mandatorySubjects[i], mandatorySubjectNameList.get(i));
-        }
-        SelectSubject[] selectSubjects = SelectSubject.values();
-        for (int i = 0; i < selectSubjects.length; ++i) {
-            selectSubjectMap.put(i, selectSubjects[i]);
-            selectSubjectStringMap.put(selectSubjects[i], selectSubjectNameList.get(i));
-        }
-        // ================================== 과목 EnumClass HashMap 초기화============================
-        StudentStatus[] studentStatuses = StudentStatus.values();
-        for (int i = 0; i < studentStatuses.length; ++i) {
-            studentStatusMap.put(i, studentStatuses[i]);
-            studentStatusStringMap.put(studentStatuses[i], studentStatusList.get(i));
-        }
-
-        YesOrNoOption[] yesOrNoOptions = YesOrNoOption.values();
-        for (int i = 0; i < yesOrNoOptions.length; ++i) {
-            yesOrNoOptionMap.put(i, yesOrNoOptions[i]);
-        }
-
-        StudentChangeMenuOption[] studentChangeMenuOptions = StudentChangeMenuOption.values();
-        for (int i = 0; i < studentChangeMenuOptions.length; ++i) {
-            studentChangeMenuOptionMap.put(i, studentChangeMenuOptions[i]);
-        }
-
-        StudentDeleteMenuOption[] studentDeleteMenuOptions = StudentDeleteMenuOption.values();
-        for (int i = 0; i < studentDeleteMenuOptions.length; ++i) {
-            studentDeleteMenuOptionMap.put(i, studentDeleteMenuOptions[i]);
-        }
     }
     // ======================================= valid =======================================================
     // 선택사항에 대한 입력 처리 함수

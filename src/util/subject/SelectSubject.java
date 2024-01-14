@@ -16,7 +16,7 @@ public enum SelectSubject {
     public String getSubjectName() {
         return subjectName;
     }
-    public static SelectSubject get(int index) {
+    public SelectSubject get(int index) {
         return selectSubjects[index];
     }
 }

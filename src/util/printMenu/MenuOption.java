@@ -1,4 +1,4 @@
-package util.options;
+package util.printMenu;
 
 public enum MenuOption {
     MAIN_MENU,
