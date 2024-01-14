@@ -49,9 +49,9 @@ public class Database {
 
 
     // 학생 등록
-    public void save (String studentId, String studentName, String status, List<String> subjectList) {
+    public void save (String studentName, String status, List<String> subjectList) {
         Student student = new Student(studentName, status, subjectList);
-        studentByIdMap.put(studentId, student);
+        studentByIdMap.put(student.getStudentId(), student);
         studentByStatusMap.get(status).add(student);
     }
 
@@ -86,5 +86,18 @@ public class Database {
 //            subjectScoreMap.get(key).add(subjectScore);
 //        }
 //    }
-    private void TestInput() {}
+
+    private void TestInput() {
+        String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
+        String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};
+        List<List<String>> SubjectLists = new ArrayList<>();
+        SubjectLists.add(List.of("Java", "OOP", "Spring", "Design Pattern", "Spring Security"));
+        SubjectLists.add(List.of("JPA", "OOP", "MySQL", "Redis", "Spring Security"));
+        SubjectLists.add(List.of("JPA", "OOP", "JAVA", "Redis", "MongoDB"));
+        SubjectLists.add(List.of("JPA", "Spring", "JAVA", "Design Pattern", "MongoDB"));
+        SubjectLists.add(List.of("JPA", "MySQL", "JAVA", "Redis", "MongoDB"));
+        for (int i = 0; i < names.length; ++i) {
+            save(names[i], statuses[i], SubjectLists.get(i));
+        }
+    }
 }

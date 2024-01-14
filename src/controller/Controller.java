@@ -13,10 +13,8 @@ import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
 import static util.options.ScoreMenuOption.*;
 import static util.options.ScoreRegisterMenuOption.*;
-import static util.options.StudentChangeMenuOption.STUDENT_CHANGE_MENU_OPTION_BACK;
-import static util.options.StudentChangeMenuOption.STUDENT_CHANGE_MENU_OPTION_CHANGE;
-import static util.options.StudentDeleteMenuOption.STUDENT_DELETE_MENU_OPTION_BACK;
-import static util.options.StudentDeleteMenuOption.STUDENT_DELETE_MENU_OPTION_DELETE;
+import static util.options.StudentChangeMenuOption.*;
+import static util.options.StudentDeleteMenuOption.*;
 import static util.options.StudentInquireMenuOption.*;
 import static util.options.StudentMenuOption.*;
 import static util.options.StudentRegisterMenuOption.*;
@@ -61,24 +59,6 @@ public class Controller {
         }
     }
 
-    public void scoreMenu() {
-        while(true) {
-            System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
-            ScoreMenuOption select = ScoreMenuOption
-                    .get(valid.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
-            switch (select) {
-                case SCORE_MENU_OPTION_REGISTER -> registerScore();
-                case SCORE_MENU_OPTION_INQUIRE -> inquireScore();
-                case SCORE_MENU_OPTION_CHANGE -> changeScore();
-                case SCORE_MENU_OPTION_BACK -> {
-                    return;
-                }
-                // ERROR
-                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
-            }
-        }
-    }
-
     private void registerStudent() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
@@ -100,6 +80,7 @@ public class Controller {
         String studentId = "STU" + Student.NO;
         System.out.println("수강생의 고유번호 : " + studentId);
         System.out.println("수강생의 이름을 입력해주세요");
+        System.out.print("> ");
         String studentName = sc.nextLine();
         System.out.println("수강생의 상태를 선택해주세요");
         printList(StudentStatus.getStatusStringList());
@@ -122,7 +103,7 @@ public class Controller {
         YesOrNoOption yesOrNoOption = yesOrNoInput();
 
         if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-            dataBase.save(studentId, studentName, status, subjectNameList);
+            dataBase.save(studentName, status, subjectNameList);
             System.out.println("수강생이 등록되었습니다.");
         }
     }
@@ -131,7 +112,7 @@ public class Controller {
         List<String> mandatorySubjects = new ArrayList<>();
         boolean on = true;
         do {
-            System.out.println("수강생이 수강 중인 필수과목을 입력해주세요");
+            System.out.println("수강생이 수강 중인 필수과목을 입력해주세요 (필수과목은 3가지 이상 선택 해야합니다.)");
             System.out.println("필수과목 목록");
             printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
@@ -167,9 +148,9 @@ public class Controller {
                 subjectList.addAll(mandatorySubjects);
             }
             else {
-                System.out.println("필수과목은 3개 이상 선택해야합니다.");
+                System.out.println("필수과목은 3가지 이상 선택해야합니다.");
                 System.out.println("현재 신청한 필수과목 목록");
-                printList(mandatorySubjects);
+                System.out.println(mandatorySubjects);
             }
         }while(on);
     }
@@ -178,7 +159,7 @@ public class Controller {
         List<String> selectSubjects = new ArrayList<>();
         boolean on = true;
         do {
-            System.out.println("수강생이 수강 중인 선택과목을 입력해주세요");
+            System.out.println("수강생이 수강 중인 선택과목을 입력해주세요 (선택과목은 2가지 이상 선택 해야합니다.)");
             System.out.println("선택과목 목록");
             printAddingSubjectList(studentId, SelectSubject.getSelectSubjectStringList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
@@ -209,7 +190,7 @@ public class Controller {
             else {
                 System.out.println("선택과목은 2개이상 선택해야합니다.");
                 System.out.println("현재 신청한 선택과목 목록");
-                printList(selectSubjects);
+                System.out.println(selectSubjects);
             }
         }while(on);
     }
@@ -369,25 +350,60 @@ public class Controller {
 
     // ================================== 점수 관리 메뉴 ========================================================
 
-
-    private void registerScore() {
-        System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
-        while (true) {
-            System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
-            ScoreRegisterMenuOption select = ScoreRegisterMenuOption
-                    .get(valid.returnValidOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+    public void scoreMenu() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
+            ScoreMenuOption select = ScoreMenuOption
+                    .get(valid.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
             switch (select) {
-                case SCORE_REGISTER_MENU_OPTION_REGISTER-> {
-                    // 점수 등록하기
-                }
-                case SCORE_REGISTER_MENU_OPTION_BACK-> {
-                    // 뒤로가기
+                case SCORE_MENU_OPTION_REGISTER -> registerScore();
+                case SCORE_MENU_OPTION_INQUIRE -> inquireScore();
+                case SCORE_MENU_OPTION_CHANGE -> changeScore();
+                case SCORE_MENU_OPTION_BACK -> {
                     return;
                 }
                 // ERROR
                 default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
         }
+    }
+
+
+    private void registerScore() {
+        while (true) {
+            System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
+            ScoreRegisterMenuOption select = ScoreRegisterMenuOption
+                    .get(valid.returnValidOutput(SCORE_REGISTER_MENU_OPTION_REGISTER.ordinal(), SCORE_REGISTER_MENU_OPTION_BACK.ordinal()));
+            switch (select) {
+                case SCORE_REGISTER_MENU_OPTION_REGISTER-> registerScoreHelper();
+                case SCORE_REGISTER_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // ERROR
+                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
+            }
+        }
+    }
+
+    private void registerScoreHelper() {
+        String studentId;
+        YesOrNoOption yesOrNoOption;
+        do {
+            System.out.println("점수를 등록할 수강생의 고유번호를 입력해주세요");
+            studentId = sc.nextLine();
+            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
+                Student student = dataBase.getStudentByIdMap().get(studentId);
+                List<String> subjectList =student.getSubjectList();
+                System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 등록할 과목을 입력해주세요");
+                int validIndex = valid.returnValidOutput(1, subjectList.size() - 1);
+                printList(student.getSubjectList());
+
+            } else {
+                System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
+            }
+            System.out.println("1. 계속 점수 등록하기     2. 뒤로가기");
+            yesOrNoOption = yesOrNoInput();
+        } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
 
     private void inquireScore() {
@@ -433,36 +449,7 @@ public class Controller {
     // ================================== 점수 관리 메뉴 ========================================================
 
 
-    // ================================== 수강생 관리 헬퍼 메소드 ========================================================
-
-
-
-
-    // ================================== 수강생 관리 헬퍼 메소드 ========================================================
-
-
-    // ================================== 점수 관리 헬퍼 메소드 ========================================================
-
-
-
-
-
-
-
-
-
-    // ================================== 점수 관리 헬퍼 메소드 ========================================================
-
-
-
-    // ================================== 데이터 베이스 반영 메소드 ========================================================
-
-
-    // ================================== 데이터 베이스 반영 메소드 ========================================================
-
-
     // ====================================== 중복코드 제거 메소드 =======================================================
-
 
     private void printList(List<String> list) {
         if (list.size() <= 1) {
