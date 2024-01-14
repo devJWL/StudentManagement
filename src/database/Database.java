@@ -49,14 +49,14 @@ public class Database {
 
 
     // 학생 등록
-    public void save (String studentName, String status, List<String> subjectList) {
+    public void createStudent (String studentName, String status, List<String> subjectList) {
         Student student = new Student(studentName, status, subjectList);
         studentByIdMap.put(student.getStudentId(), student);
         studentByStatusMap.get(status).add(student);
     }
 
     // 학생 정보 변경
-    public void change (String studentId, String studentName, String status) {
+    public void updateStudent (String studentId, String studentName, String status) {
         Student student = studentByIdMap.get(studentId);
         if (!student.getStatus().equals(status)) {
             studentByStatusMap.get(student.getStatus()).remove(student);
@@ -80,12 +80,12 @@ public class Database {
         studentByIdMap.remove(studentId);
     }
     //
-//    // 점수 등록
-//    private void inputSubjectScore(String key, List<SubjectScore> subjectScoreList) {
-//        for (SubjectScore subjectScore : subjectScoreList) {
-//            subjectScoreMap.get(key).add(subjectScore);
-//        }
-//    }
+    // 점수 등록
+    public void updateScore(String key, List<SubjectScore> subjectScoreList) {
+        for (SubjectScore subjectScore : subjectScoreList) {
+            subjectScoreMap.get(key).add(subjectScore);
+        }
+    }
 
     private void TestInput() {
         String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
@@ -97,7 +97,7 @@ public class Database {
         SubjectLists.add(List.of("dummy","JPA", "Spring", "JAVA", "Design Pattern", "MongoDB"));
         SubjectLists.add(List.of("dummy","JPA", "MySQL", "JAVA", "Redis", "MongoDB"));
         for (int i = 0; i < names.length; ++i) {
-            save(names[i], statuses[i], SubjectLists.get(i));
+            createStudent(names[i], statuses[i], SubjectLists.get(i));
         }
     }
 }

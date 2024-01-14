@@ -14,12 +14,10 @@ import static util.ScoreLimit.*;
 import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
-import static util.options.ScoreMenuOption.*;
 import static util.options.ScoreRegisterMenuOption.*;
 import static util.options.StudentChangeMenuOption.*;
 import static util.options.StudentDeleteMenuOption.*;
 import static util.options.StudentInquireMenuOption.*;
-import static util.options.StudentMenuOption.*;
 import static util.options.StudentRegisterMenuOption.*;
 import static util.options.StudentStatus.*;
 import static util.options.YesOrNoOption.*;
@@ -43,26 +41,9 @@ public class Controller {
     }
 
     // ================================== 수강생 관리 메뉴 =======================================================
-    public void studentMenu() {
-        while(true) {
-            System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
-            StudentMenuOption select = StudentMenuOption
-                    .get(util.returnValidOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
-            switch (select) {
-                case STUDENT_MENU_OPTION_REGISTER -> registerStudent();
-                case STUDENT_MENU_OPTION_INQUIRE -> inquireStudent();
-                case STUDENT_MENU_OPTION_CHANGE -> changeStudent();
-                case STUDENT_MENU_OPTION_DELETE -> deleteStudent();
-                case STUDENT_MENU_OPTION_BACK -> {
-                    return;
-                }
-                // ERROR
-                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
-            }
-        }
-    }
 
-    private void registerStudent() {
+
+    public void registerStudent() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_MENU));
             StudentRegisterMenuOption select = StudentRegisterMenuOption
@@ -79,7 +60,7 @@ public class Controller {
         }
     }
 
-    public void registerStudentHelper() {
+    private void registerStudentHelper() {
         YesOrNoOption yesOrNoOption;
         do {
             System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_HELPER_MENU));
@@ -108,7 +89,7 @@ public class Controller {
             System.out.println("1. 네\t2. 아니오");
             yesOrNoOption = yesOrNoInput();
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-                dataBase.save(studentName, status, subjectNameList);
+                dataBase.createStudent(studentName, status, subjectNameList);
                 System.out.println("수강생이 등록되었습니다.");
             }
             System.out.println("1. 계속 등록하기\t2. 뒤로가기");
@@ -203,7 +184,7 @@ public class Controller {
         }while(on);
     }
 
-    private void inquireStudent() {
+    public void inquireStudent() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
             StudentInquireMenuOption select = StudentInquireMenuOption
@@ -263,7 +244,7 @@ public class Controller {
     }
 
 
-    private void changeStudent() {
+    public void changeStudent() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_CHANGE_MENU));
             StudentChangeMenuOption select = StudentChangeMenuOption
@@ -304,7 +285,7 @@ public class Controller {
                     String prevStatus = student.getStatus();
                     String status = studentStatus.getStatus();
 
-                    dataBase.change(studentId, studentName, status);
+                    dataBase.updateStudent(studentId, studentName, status);
                     System.out.println("변경 전");
                     System.out.printf("이름 : %s | 상태 : %s\n", prevName, prevStatus);
                     System.out.printf("이름 : %s | 상태 : %s\n", studentName, status);
@@ -319,7 +300,7 @@ public class Controller {
     }
 
 
-    private void deleteStudent() {
+    public void deleteStudent() {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_DELETE_MENU));
             StudentDeleteMenuOption select = StudentDeleteMenuOption
@@ -367,26 +348,7 @@ public class Controller {
 
     // ================================== 점수 관리 메뉴 ========================================================
 
-    public void scoreMenu() {
-        while(true) {
-            System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
-            ScoreMenuOption select = ScoreMenuOption
-                    .get(util.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
-            switch (select) {
-                case SCORE_MENU_OPTION_REGISTER -> registerScore();
-                case SCORE_MENU_OPTION_INQUIRE -> inquireScore();
-                case SCORE_MENU_OPTION_CHANGE -> changeScore();
-                case SCORE_MENU_OPTION_BACK -> {
-                    return;
-                }
-                // ERROR
-                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
-            }
-        }
-    }
-
-
-    private void registerScore() {
+    public void registerScore() {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_REGISTER_MENU));
             ScoreRegisterMenuOption select = ScoreRegisterMenuOption
@@ -443,7 +405,7 @@ public class Controller {
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
 
-    private void inquireScore() {
+    public void inquireScore() {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
             ScoreInquireMenuOption select = ScoreInquireMenuOption
@@ -538,7 +500,7 @@ public class Controller {
         }
     }
 
-    private void changeScore() {
+    public void changeScore() {
         while(true) {
             System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
             ScoreChangeMenuOption select = ScoreChangeMenuOption
