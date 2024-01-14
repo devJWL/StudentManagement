@@ -393,10 +393,10 @@ public class Controller {
             studentId = sc.nextLine();
             if (dataBase.getStudentByIdMap().containsKey(studentId)) {
                 Student student = dataBase.getStudentByIdMap().get(studentId);
-                List<String> subjectList =student.getSubjectList();
+                List<String> subjectList = student.getSubjectList();
                 System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 등록할 과목을 입력해주세요");
-                int validIndex = valid.returnValidOutput(1, subjectList.size() - 1);
                 printList(student.getSubjectList());
+                int validIndex = valid.returnValidOutput(1, subjectList.size() - 1);
 
             } else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);

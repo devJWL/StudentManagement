@@ -91,11 +91,11 @@ public class Database {
         String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
         String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};
         List<List<String>> SubjectLists = new ArrayList<>();
-        SubjectLists.add(List.of("Java", "OOP", "Spring", "Design Pattern", "Spring Security"));
-        SubjectLists.add(List.of("JPA", "OOP", "MySQL", "Redis", "Spring Security"));
-        SubjectLists.add(List.of("JPA", "OOP", "JAVA", "Redis", "MongoDB"));
-        SubjectLists.add(List.of("JPA", "Spring", "JAVA", "Design Pattern", "MongoDB"));
-        SubjectLists.add(List.of("JPA", "MySQL", "JAVA", "Redis", "MongoDB"));
+        SubjectLists.add(List.of("dummy", "Java", "OOP", "Spring", "Design Pattern", "Spring Security"));
+        SubjectLists.add(List.of("dummy","JPA", "OOP", "MySQL", "Redis", "Spring Security"));
+        SubjectLists.add(List.of("dummy","JPA", "OOP", "JAVA", "Redis", "MongoDB"));
+        SubjectLists.add(List.of("dummy","JPA", "Spring", "JAVA", "Design Pattern", "MongoDB"));
+        SubjectLists.add(List.of("dummy","JPA", "MySQL", "JAVA", "Redis", "MongoDB"));
         for (int i = 0; i < names.length; ++i) {
             save(names[i], statuses[i], SubjectLists.get(i));
         }
