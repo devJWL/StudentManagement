@@ -11,39 +11,8 @@ public class Valid {
     public Valid(Scanner sc, PrintMenuOption printMenuOption) {
         this.sc = sc;
         this.printMenuOption = printMenuOption;
-        validInit();
-    }
-    // ============================= 데이터 베이스 초기화 및 출력을 위한 자료 =======================================
-    private final List<String> studentStatusList = new ArrayList<>();     // 모든 감정상태를 가지고 있는 List
-    private final List<String> mandatorySubjectNameList = new ArrayList<>();   // 모든 필수과목 List
-    private final List<String> selectSubjectNameList = new ArrayList<>();      // 모든 선택과목 List
-
-    public List<String> getStudentStatusList() {
-        return studentStatusList;
-    }
-    public List<String> getMandatorySubjecNametList() {
-        return mandatorySubjectNameList;
-    }
-    public List<String> getSelectSubjectNameList() {
-        return selectSubjectNameList;
-    }
-    // ============================= 데이터 베이스 초기화 및 출력을 위한 자료 =======================================
-
-    // ======================================= valid =======================================================
-    // key : studentId + subjectName    value : 과목이름
-    private final Set<String> subjectSet = new HashSet<>();   // 특정학생의 과목 수강여부를 확인하기위한 Set
-    public Set<String> getSubjectSet() {
-        return subjectSet;
     }
 
-    private void validInit() {
-        //============================= 과목 관련 초기화==================================
-        mandatorySubjectNameList.addAll(List.of("Error", "Java", "OOP", "Spring", "JPA", "MySQL"));
-        selectSubjectNameList.addAll(List.of ("Error", "Design Pattern", "Spring Security", "Redis", "MongoDB"));
-        //============================= 과목 관련 초기화==================================
-        studentStatusList.addAll(List.of("Error", "Green", "Yellow", "Red")); // 학생 상태 초기화
-    }
-    // ======================================= valid =======================================================
 
 
     // =================================== 선택 입력 예외 처리 =================================================
