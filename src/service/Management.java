@@ -33,19 +33,13 @@ public class Management{
             MainMenuOption select = MainMenuOption
                     .get(valid.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
             switch (select) {
-                case MAIN_MENU_OPTION_STU-> {
-                    controller.studentMenu();
-                }
-                case MAIN_MENU_OPTION_SCORE-> {
-                    controller.scoreMenu();
-                }
+                case MAIN_MENU_OPTION_STU-> controller.studentMenu();
+                case MAIN_MENU_OPTION_SCORE-> controller.scoreMenu();
                 case MAIN_MENU_OPTION_EXIT -> {
                     return;
                 }
                 // ERROR
-                default ->  {
-                    System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
-                }
+                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
         }
     }
