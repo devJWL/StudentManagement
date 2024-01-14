@@ -407,13 +407,14 @@ public class Controller {
                 int round;
                 do {
                     round = subjectScoreList.size() + 1;
-                    System.out.printf("%s | %s | %s 에 대한 %d회차 점수 등록 중 입니다.\n", studentId, studentName, subjectName, round);
+                    System.out.printf("%s | %s | %s %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(ScoreLimit.SCORE_LIMIT_MIN.getScore(), ScoreLimit.SCORE_LIMIT_MAX.getScore());
                     SubjectScore subjectScore = new SubjectScore(score, util.selectOrMandatoryMap.get(subjectName));
                     subjectScoreList.add(subjectScore);
                     System.out.printf("%d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", round, subjectScore.getScore(), subjectScore.getGrade());
                     System.out.println("점수를 계속 등록 하시겠습니까?");
+                    System.out.println("1. 네    2. 아니요");
                     yesOrNoOption = yesOrNoInput();
                 }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
             } else {
