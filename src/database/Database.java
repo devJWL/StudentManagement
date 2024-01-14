@@ -141,9 +141,5 @@ public class Database {
             String key ="STU" + (i  % 5 + 1) + subjects[subjectRand];
             subjectScoreMap.get(key).add(new SubjectScore(scores[scoreRand], booleans[subjectRand]));
         }
-
-        System.out.println();
     }
-
-
 }
