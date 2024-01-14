@@ -62,9 +62,17 @@ public class PrintMenuOption {
                         ==================================
                         수강생 조회 페이지입니다.
                         아래 메뉴 중 하나를 선택해주세요.
-                        1. 고유번호로 조회하기
-                        2. 상태별로 조회하기
-                        3. 뒤로가기""");
+                        1. 모든 수강생 조회하기
+                        2. 고유번호로 조회하기
+                        3. 상태별로 조회하기
+                        4. 뒤로가기""");
+
+        menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_HELPER_ALL_MENU,
+                """
+                        ==================================
+                        수강생 관리 프로그램
+                        ==================================
+                        모든 수강생을 조회하는 페이지입니다.""");
         menuOptionStringMap.put(MenuOption.STUDENT_INQUIRE_HELPER_ID_MENU,
                 """
                         ==================================

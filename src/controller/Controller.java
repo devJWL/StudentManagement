@@ -188,8 +188,9 @@ public class Controller {
         while(true) {
             System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
             StudentInquireMenuOption select = StudentInquireMenuOption
-                    .get(util.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+                    .get(util.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ALL.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
             switch (select) {
+                case STUDENT_INQUIRE_MENU_OPTION_ALL -> studentInquireALLHelper();
                 case STUDENT_INQUIRE_MENU_OPTION_ID -> studentInquireByIdHelper();
                 case STUDENT_INQUIRE_MENU_OPTION_STATUS -> studentInquireByStatusHelper();
                 case STUDENT_INQUIRE_MENU_OPTION_BACK -> {
@@ -201,6 +202,15 @@ public class Controller {
         }
     }
 
+    private void studentInquireALLHelper() {
+        List<Student> allStudents = dataBase.readAllStudents();
+        for (Student student : allStudents) {
+            printStudent(student);
+        }
+        System.out.println("이전 메뉴로 가시려면 엔터키를 누르세요");
+        sc.nextLine();
+    }
+
     private void studentInquireByIdHelper() {
         String studentId;
         YesOrNoOption yesOrNoOption;
@@ -208,10 +218,11 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_HELPER_ID_MENU));
             System.out.println("조회할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
+            Student student = dataBase.readStudentById(studentId);
+            if (student != null) {
                 printStudent(student);
-            } else {
+            }
+            else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
             System.out.println("1. 계속 조회하기\t2. 뒤로가기");
@@ -228,7 +239,7 @@ public class Controller {
             String status = StudentStatus
                     .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_RED.ordinal()))
                     .getStatus();
-            List<Student> studentList = dataBase.getStudentByStatusMap().get(status);
+            List<Student> studentList = dataBase.readStudentsByStatus(status);
             if (studentList.size() == 0) {
                 System.out.printf("%s 상태의 학생이 없습니다.\n", status);
             }
@@ -266,8 +277,8 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(STUDENT_CHANGE_HELPER_MENU));
             System.out.println("정보를 변경할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
+            Student student = dataBase.readStudentById(studentId);
+            if (student != null) {
                 System.out.println("학생의 현재 정보");
                 printStudent(student);
                 System.out.println("변경할 이름을 입력해주세요");
@@ -291,7 +302,8 @@ public class Controller {
                     System.out.printf("이름 : %s | 상태 : %s\n", studentName, status);
                     System.out.println("변경 되었습니다.");
                 }
-            } else {
+            }
+            else {
                 System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
             }
             System.out.println("1. 계속 변경하기\t2. 뒤로가기");
@@ -321,21 +333,22 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(STUDENT_DELETE_HELPER_MENU));
             System.out.println("삭제할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().size() == 0) {
+            if (dataBase.getCount() == 0) {
                 System.out.println("현재 수강생이 아무도 등록되어있지 않습니다.");
             }
             else {
-                if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                    Student student = dataBase.getStudentByIdMap().get(studentId);
+                Student student = dataBase.readStudentById(studentId);
+                if (student != null) {
                     System.out.println("삭제할 학생의 현재 정보");
                     printStudent(student);
 
                     System.out.println("1. 삭제하기\t2. 삭제 취소하기");
                     yesOrNoOption = yesOrNoInput();
                     if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-                        dataBase.delete(student);
+                        dataBase.deleteStudent(student);
                     }
-                } else {
+                }
+                else {
                     System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
                 }
             }
@@ -371,8 +384,8 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(SCORE_REGISTER_HELPER_MENU));
             System.out.println("점수를 등록할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
+            Student student = dataBase.readStudentById(studentId);
+            if (student != null) {
                 List<String> subjectList = student.getSubjectList();
                 System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 등록할 과목을 입력해주세요");
                 printList(student.getSubjectList());
@@ -380,22 +393,23 @@ public class Controller {
                 String studentName = student.getStudentName();
                 String subjectName = subjectList.get(validIndex);
                 String key = studentId + subjectName;
-
-                dataBase.getSubjectScoreMap().computeIfAbsent(key, k -> new ArrayList<>());
-                List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
-                int round = subjectScoreList.size() + 1;
-
+                List<SubjectScore> subjectScoreList =  dataBase.readScoreList(key);
+                int round = subjectScoreList.size();
+                List<SubjectScore> newSubjectScores = new ArrayList<>();
                 do {
+                    ++round;
                     System.out.printf("%s | %s | %s 과목 %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
                     SubjectScore subjectScore = new SubjectScore(score, util.getOptionOrMandatoryMap().get(subjectName));
-                    subjectScoreList.add(subjectScore);
+                    newSubjectScores.add(subjectScore);
                     System.out.printf("%s과목 | %d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", subjectName, round, subjectScore.getScore(), subjectScore.getGrade());
                     System.out.println("점수를 계속 등록 하시겠습니까?");
                     System.out.println("1. 네    2. 아니요");
-                    ++round;
                     yesOrNoOption = yesOrNoInput();
+                    if (yesOrNoOption == YES_OR_NO_OPTION_NO) {
+                        dataBase.createScore(key, newSubjectScores);
+                    }
                 }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
             } else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
@@ -432,8 +446,8 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_HELPER_ID_MENU));
             System.out.println("조회할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
+            Student student = dataBase.readStudentById(studentId);
+            if (student != null){
                 inquireScoreByStudentHelper(student);
             }
             else {
@@ -453,7 +467,7 @@ public class Controller {
             String status = StudentStatus
                     .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_RED.ordinal()))
                     .getStatus();
-            List<Student> studentList = dataBase.getStudentByStatusMap().get(status);
+            List<Student> studentList = dataBase.readStudentsByStatus(status);
             if (studentList.size() == 0) {
                 System.out.printf("%s 상태의 학생이 없습니다.\n", status);
             }
@@ -483,11 +497,11 @@ public class Controller {
         String studentName = student.getStudentName();
         String subjectName = subjectList.get(validIndex);
         String key = studentId + subjectName;
-        if (dataBase.getSubjectScoreMap().get(key) == null) {
+        List<SubjectScore> subjectScoreList = dataBase.readScoreList(key);
+        if (subjectScoreList == null || subjectScoreList.size() == 0) {
             System.out.printf("현재 %s | %s 학생의 %s 과목은 점수가 등록 되어있지 않습니다.\n", studentId, studentName, subjectName);
         }
         else {
-            List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
             int avg = 0;
             System.out.printf("%s | %s 학생의 %s 과목점수 조회\n", studentId, studentName, subjectName);
             for (int i = 0; i < subjectScoreList.size(); ++i) {
@@ -523,8 +537,8 @@ public class Controller {
             System.out.println(printMenuOption.getStringData(SCORE_CHANGE_HELPER_MENU));
             System.out.println("점수를 수정할 학생의 고유번호를 입력해주세요");
             String studentId = sc.nextLine();
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
+            Student student = dataBase.readStudentById(studentId);
+            if (student != null){
                 List<String> subjectList = student.getSubjectList();
                 System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 변경할 과목을 입력해주세요");
                 printList(student.getSubjectList());
@@ -532,21 +546,23 @@ public class Controller {
                 String studentName = student.getStudentName();
                 String subjectName = subjectList.get(validIndex);
                 String key = studentId + subjectName;
-                List<SubjectScore> subjectScoreList = dataBase.getSubjectScoreMap().get(key);
+                List<SubjectScore> subjectScoreList = dataBase.readScoreList(key);
                 if (subjectScoreList == null || subjectScoreList.size() == 0) {
                     System.out.printf("현재 %s과목은 점수가 등록되지 않았습니다.\n", subjectName);
                 }
                 else {
                     System.out.printf("현재 %s과목은 %d회차까지 점수가 등록되어 있습니다.\n", studentName, subjectScoreList.size());
-                    System.out.println("점수를 변경할 회차를 입력해주세요");
-                    validIndex = util.returnValidOutput(1, subjectList.size());
-                    SubjectScore subjectScore = subjectScoreList.get(validIndex - 1);
+                    System.out.println("점수를 변경할 회차를 입력해주세요 (점수는 점수가 등록된 회차만 가능합니다)");
+                    int round = util.returnValidOutput(1, subjectList.size()) - 1;
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
-                    if (subjectScore.getScore() != score) {
-                        subjectScore.setScore(score, util.getOptionOrMandatoryMap().get(subjectName));
+                    System.out.println("점수를 변경하시겠습니까?");
+                    System.out.println("1. 네\t2. 아니요");
+                    yesOrNoOption = yesOrNoInput();
+                    if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
+                        dataBase.updateScore(key, round, score, util.getOptionOrMandatoryMap().get(subjectName));
+                        System.out.println("점수를 변경하였습니다.");
                     }
-                    System.out.println("점수를 변경하였습니다.");
                 }
             }
             else {

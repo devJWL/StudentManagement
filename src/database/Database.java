@@ -7,40 +7,33 @@ import java.util.*;
 
 
 public class Database {
-    public Database() {
-        databaseInit();
-    }
-
+    private int count = 0;
     // ============================= 데이터 베이스 저장관련 자료 =======================================
     // key : studentId + subjectName    value : 과목이름
     private final Set<String> subjectSet = new HashSet<>();   // 특정학생의 과목 수강여부를 확인하기위한 Set
     // key : studentId            value : Student
     private final Map<String, Student> studentByIdMap = new TreeMap<>();
     // key : 상태                      value : 학생리스트            상태별 학생리스트
-    private final Map<String, List<Student>> studentByStatusMap = new HashMap<>();
+    private final Map<String, List<Student>> studentsByStatusMap = new HashMap<>();
     // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
-
     public Set<String> getSubjectSet() {
         return subjectSet;
     }
-    public Map<String, Student> getStudentByIdMap() {
-        return studentByIdMap;
-    }
-    public Map<String, List<Student>> getStudentByStatusMap() {
-        return studentByStatusMap;
-    }
-    public Map<String, List<SubjectScore>> getSubjectScoreMap() {
-        return subjectScoreMap;
-    }
     // ============================= 데이터 베이스 저장관련 자료 =======================================
+    public Database() {
+        databaseInit();
+    }
 
+    public int getCount() {
+        return count;
+    }
 
     private void databaseInit() {
         //============================= 감정상태 관련 초기화 ==================================
             List<String> statusStringList = StudentStatus.getStatusStringList();
             for (String status : statusStringList) {
-                studentByStatusMap.put(status, new ArrayList<>());
+                studentsByStatusMap.put(status, new ArrayList<>());
             }
         //============================= 감정상태 관련 초기화 ==================================
         TestInput();
@@ -52,16 +45,31 @@ public class Database {
     public void createStudent (String studentName, String status, List<String> subjectList) {
         Student student = new Student(studentName, status, subjectList);
         studentByIdMap.put(student.getStudentId(), student);
-        studentByStatusMap.get(status).add(student);
+        studentsByStatusMap.get(status).add(student);
+        ++count;
+    }
+
+
+    // 모든 학생 읽기
+    public List<Student> readAllStudents() {
+        return studentByIdMap.values().stream().toList();
+    }
+    // 학생 아이디로 읽기
+    public Student readStudentById(String studentId) {
+        return studentByIdMap.get(studentId);
+    }
+    // 학생 상태로 읽기
+    public List<Student> readStudentsByStatus(String status) {
+        return studentsByStatusMap.get(status);
     }
 
     // 학생 정보 변경
     public void updateStudent (String studentId, String studentName, String status) {
         Student student = studentByIdMap.get(studentId);
         if (!student.getStatus().equals(status)) {
-            studentByStatusMap.get(student.getStatus()).remove(student);
+            studentsByStatusMap.get(student.getStatus()).remove(student);
             student.setStatus(status);
-            studentByStatusMap.get(status).add(student);
+            studentsByStatusMap.get(status).add(student);
         }
         if (!student.getStudentName().equals(studentName)) {
             student.setStudentName(studentName);
@@ -69,24 +77,45 @@ public class Database {
     }
 
     // 학생 삭제
-    public void delete (Student student) {
+    public void deleteStudent (Student student) {
         String studentId = student.getStudentId();
-        studentByStatusMap.get(student.getStatus()).remove(student);
+        studentsByStatusMap.get(student.getStatus()).remove(student);
         for (String subjectName : student.getSubjectList()) {
             String key = studentId + subjectName;
             subjectSet.remove(key);
             subjectScoreMap.remove(key);
         }
         studentByIdMap.remove(studentId);
+        --count;
     }
-    //
+
     // 점수 등록
-    public void updateScore(String key, List<SubjectScore> subjectScoreList) {
-        for (SubjectScore subjectScore : subjectScoreList) {
-            subjectScoreMap.get(key).add(subjectScore);
+    public void createScore(String key, List<SubjectScore> subjectScoreList) {
+        subjectScoreMap.get(key).addAll(subjectScoreList);
+    }
+
+    // 점수 읽기
+    public List<SubjectScore> readScoreList(String key) {
+//        if (subjectScoreMap.get(key) == null) {
+//            subjectScoreMap.put(key, new ArrayList<>());
+//        }
+        // 같은 표현
+        subjectScoreMap.computeIfAbsent(key, k -> new ArrayList<>());
+        return subjectScoreMap.get(key);
+    }
+
+    // 점수 변경
+    public void updateScore(String key, int round, int score, boolean isMandatory) {
+        if (subjectScoreMap.get(key).get(round).getScore() != score) {
+            SubjectScore subjectScore = new SubjectScore(score, isMandatory);
+            subjectScoreMap.get(key).remove(round);
+            subjectScoreMap.get(key).add(round, subjectScore);
         }
     }
 
+    public void deleteScore() {
+
+    }
     private void TestInput() {
         String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
         String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};
@@ -100,4 +129,6 @@ public class Database {
             createStudent(names[i], statuses[i], SubjectLists.get(i));
         }
     }
+
+
 }
