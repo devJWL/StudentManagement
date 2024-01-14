@@ -6,8 +6,8 @@ public enum StudentChangeMenuOption {
     STUDENT_CHANGE_MENU_OPTION_BACK;
 
 
-    StudentChangeMenuOption[] studentMenuOptions = StudentChangeMenuOption.values();
-    public StudentChangeMenuOption get(int index) {
-        return studentMenuOptions[index];
+    private static final StudentChangeMenuOption[] studentChangeMenuOptions = StudentChangeMenuOption.values();
+    public static StudentChangeMenuOption get(int index) {
+        return studentChangeMenuOptions[index];
     }
 }
