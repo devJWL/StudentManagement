@@ -11,6 +11,8 @@ import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
 import static util.options.ScoreMenuOption.*;
@@ -79,6 +81,7 @@ public class Controller {
     }
 
     public void registerStudentHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_REGISTER_HELPER_MENU));
         String studentId = "STU" + Student.NO;
         System.out.println("수강생의 고유번호 : " + studentId);
         System.out.println("수강생의 이름을 입력해주세요");
@@ -215,6 +218,7 @@ public class Controller {
     }
 
     private void studentInquireByIdHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_HELPER_ID_MENU));
         String studentId;
         YesOrNoOption yesOrNoOption;
         do {
@@ -232,6 +236,7 @@ public class Controller {
     }
 
     private void studentInquireByStatusHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_HELPER_STATUS_MENU));
         YesOrNoOption yesOrNoOption;
         do {
             System.out.println("조회할 수강생의 상태를 입력해주세요");
@@ -266,6 +271,7 @@ public class Controller {
 
 
     private void studentChangeHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_CHANGE_HELPER_MENU));
         String studentId;
         YesOrNoOption yesOrNoOption;
         do {
@@ -320,6 +326,7 @@ public class Controller {
     }
 
     private void studentDeleteHelper() {
+        System.out.println(printMenuOption.getStringData(STUDENT_DELETE_HELPER_MENU));
         String studentId;
         YesOrNoOption yesOrNoOption;
         do {
@@ -388,6 +395,7 @@ public class Controller {
     }
 
     private void registerScoreHelper() {
+        System.out.println(printMenuOption.getStringData(SCORE_REGISTER_HELPER_MENU));
         String studentId;
         YesOrNoOption yesOrNoOption;
         do {
@@ -402,7 +410,7 @@ public class Controller {
                 String studentName = student.getStudentName();
                 String subjectName = subjectList.get(validIndex);
                 String key = studentId + subjectName;
-                dataBase.getSubjectScoreMap().computeIfAbsent(key, k -> new ArrayList<SubjectScore>());
+                dataBase.getSubjectScoreMap().computeIfAbsent(key, k -> new ArrayList<>());
                 List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
                 int round;
                 do {
@@ -410,7 +418,7 @@ public class Controller {
                     System.out.printf("%s | %s | %s %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(ScoreLimit.SCORE_LIMIT_MIN.getScore(), ScoreLimit.SCORE_LIMIT_MAX.getScore());
-                    SubjectScore subjectScore = new SubjectScore(score, util.selectOrMandatoryMap.get(subjectName));
+                    SubjectScore subjectScore = new SubjectScore(score, util.getSelectOrMandatoryMap().get(subjectName));
                     subjectScoreList.add(subjectScore);
                     System.out.printf("%d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", round, subjectScore.getScore(), subjectScore.getGrade());
                     System.out.println("점수를 계속 등록 하시겠습니까?");
@@ -428,17 +436,14 @@ public class Controller {
     private void inquireScore() {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
-            StudentInquireMenuOption select = StudentInquireMenuOption
-                    .get(util.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ID.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+            ScoreInquireMenuOption select = ScoreInquireMenuOption
+                    .get(util.returnValidOutput(SCORE_INQUIRE_MENU_OPTION_ID.ordinal(), SCORE_INQUIRE_MENU_OPTION_STATUS.ordinal()));
 
+            // 고유번호로 조회하기 상태로 조회하기 만들기
             switch (select) {
-                case STUDENT_INQUIRE_MENU_OPTION_ID-> {
-                    // 1. id로 검색
-                }
-                case STUDENT_INQUIRE_MENU_OPTION_STATUS-> {
-                    // 2. 상태로 검색
-                }
-                case STUDENT_INQUIRE_MENU_OPTION_BACK-> {
+                case SCORE_INQUIRE_MENU_OPTION_ID -> inquireScoreByIdHelper();
+                case SCORE_INQUIRE_MENU_OPTION_STATUS-> inquireScoreByStatusHelper();
+                case SCORE_INQUIRE_MENU_OPTION_BACK-> {
                     // 3. 뒤로가기
                     return;
                 }
@@ -447,22 +452,77 @@ public class Controller {
             }
         }
     }
-    private void changeScore() {
-        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
-        ScoreChangeMenuOption select = ScoreChangeMenuOption
-                .get(util.returnValidOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
 
-        switch (select) {
-            case SCORE_CHANGE_MENU_OPTION_CHANGE-> {
-                // 1. 변경하기
+    private void inquireScoreByIdHelper() {
+        System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_HELPER_ID_MENU));
+        String studentId;
+        YesOrNoOption yesOrNoOption;
+        do {
+            System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요");
+            studentId = sc.nextLine();
+            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
+                Student student = dataBase.getStudentByIdMap().get(studentId);
+                List<String> subjectList = student.getSubjectList();
+                System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 조회 과목을 입력해주세요");
+                printList(student.getSubjectList());
+                int validIndex = util.returnValidOutput(1, subjectList.size() - 1);
+                String studentName = student.getStudentName();
+                String subjectName = subjectList.get(validIndex);
+                String key = studentId + subjectName;
+                if (dataBase.getSubjectScoreMap().get(key) == null) {
+                    System.out.printf("현재 %s | %s 학생의 %s 과목은 점수가 등록 되어있지 않습니다.\n", studentId, studentName, subjectName);
+                    System.out.println("1. 점수 계속 조회하기 2. 뒤로가기");
+                    yesOrNoOption = yesOrNoInput();
+                    if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
+                        continue;
+                    }
+                    else {
+                        return;
+                    }
+                }
+                List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
+                int avg = 0;
+                System.out.printf("%s | %s 학생의 %s 과목점수 조회", studentId, studentName, subjectName);
+                for (int i = 0; i < subjectScoreList.size(); ++i) {
+                    SubjectScore subjectScore = subjectScoreList.get(i);
+                    System.out.printf("%d회차 | %d점 | %c등급\n", i + 1, subjectScore.getScore(), subjectScore.getGrade());
+                    avg += subjectScore.getScore();
+                }
+                avg /= subjectScoreList.size();
+                System.out.printf("평균점수 : %d점 | 평균등급 : %c등급\n", avg, util.calcGrade(avg, util.getSelectOrMandatoryMap().get(subjectName)));
+            } else {
+                System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
-            case SCORE_CHANGE_MENU_OPTION_BACK-> {
-                // 2. 뒤로가기
-                return;
+            System.out.println("1. 계속 점수 등록하기     2. 뒤로가기");
+            yesOrNoOption = yesOrNoInput();
+        } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
+    }
+
+    private void inquireScoreByStatusHelper() {
+        System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_HELPER_STATUS_MENU));
+
+    }
+
+
+    private void changeScore() {
+        while(true) {
+            System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
+            ScoreChangeMenuOption select = ScoreChangeMenuOption
+                    .get(util.returnValidOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
+
+            switch (select) {
+                case SCORE_CHANGE_MENU_OPTION_CHANGE-> changeScoreHelper();
+                case SCORE_CHANGE_MENU_OPTION_BACK-> {
+                    return;
+                }
+                // ERROR
+                default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
-            // ERROR
-            default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
         }
+    }
+
+    private void changeScoreHelper() {
+        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_HELPER_MENU));
     }
 
     // ================================== 점수 관리 메뉴 ========================================================
