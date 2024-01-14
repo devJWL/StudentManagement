@@ -14,8 +14,9 @@ public class SubjectScore {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(int score, boolean isMandatory) {
         this.score = score;
+        this.grade = calcGrade(score, isMandatory);
     }
 
     public char getGrade() {

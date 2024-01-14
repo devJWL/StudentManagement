@@ -2,7 +2,6 @@ package controller;
 import database.Database;
 import resources.Student;
 import resources.SubjectScore;
-import util.ScoreLimit;
 import util.Util;
 import util.options.*;
 import util.printMenu.MenuOption;
@@ -11,6 +10,8 @@ import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static util.ScoreLimit.*;
 import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
@@ -342,21 +343,21 @@ public class Controller {
             studentId = sc.nextLine();
             if (dataBase.getStudentByIdMap().size() == 0) {
                 System.out.println("현재 수강생이 아무도 등록되어있지 않습니다.");
-                return;
             }
+            else {
+                if (dataBase.getStudentByIdMap().containsKey(studentId)) {
+                    Student student = dataBase.getStudentByIdMap().get(studentId);
+                    System.out.println("삭제할 학생의 현재 정보");
+                    printStudent(student);
 
-            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
-                Student student = dataBase.getStudentByIdMap().get(studentId);
-                System.out.println("삭제할 학생의 현재 정보");
-                printStudent(student);
-
-                System.out.println("1. 삭제하기     2. 삭제 취소하기");
-                yesOrNoOption = yesOrNoInput();
-                if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
-                    dataBase.delete(student);
+                    System.out.println("1. 삭제하기     2. 삭제 취소하기");
+                    yesOrNoOption = yesOrNoInput();
+                    if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
+                        dataBase.delete(student);
+                    }
+                } else {
+                    System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
                 }
-            } else {
-                System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
             }
             System.out.println("1. 계속 삭제하기     2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
@@ -418,14 +419,16 @@ public class Controller {
                 String studentName = student.getStudentName();
                 String subjectName = subjectList.get(validIndex);
                 String key = studentId + subjectName;
+
                 dataBase.getSubjectScoreMap().computeIfAbsent(key, k -> new ArrayList<>());
                 List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
                 int round;
+
                 do {
                     round = subjectScoreList.size() + 1;
                     System.out.printf("%s | %s | %s %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
-                    int score = util.returnValidOutput(ScoreLimit.SCORE_LIMIT_MIN.getScore(), ScoreLimit.SCORE_LIMIT_MAX.getScore());
+                    int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
                     SubjectScore subjectScore = new SubjectScore(score, util.getOptionOrMandatoryMap().get(subjectName));
                     subjectScoreList.add(subjectScore);
                     System.out.printf("%d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", round, subjectScore.getScore(), subjectScore.getGrade());
@@ -445,7 +448,7 @@ public class Controller {
         while (true) {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_MENU));
             ScoreInquireMenuOption select = ScoreInquireMenuOption
-                    .get(util.returnValidOutput(SCORE_INQUIRE_MENU_OPTION_ID.ordinal(), SCORE_INQUIRE_MENU_OPTION_STATUS.ordinal()));
+                    .get(util.returnValidOutput(SCORE_INQUIRE_MENU_OPTION_ID.ordinal(), SCORE_INQUIRE_MENU_OPTION_BACK.ordinal()));
 
             // 고유번호로 조회하기 상태로 조회하기 만들기
             switch (select) {
@@ -496,7 +499,8 @@ public class Controller {
             else {
                 System.out.printf("%s 상태 학생목록\n", status);
                 for (int i = 0; i < studentList.size(); ++i) {
-                    System.out.printf("%d. %s\n", (i + 1), studentList.get(i).getStudentId());
+                    Student student = studentList.get(i);
+                    System.out.printf("%d. %s %s\n", (i + 1), student.getStudentId(), student.getStudentName());
                 }
                 System.out.println();
                 System.out.println("조회를 원하시는 학생을 입력해주세요");
@@ -524,7 +528,7 @@ public class Controller {
         else {
             List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
             int avg = 0;
-            System.out.printf("%s | %s 학생의 %s 과목점수 조회", studentId, studentName, subjectName);
+            System.out.printf("%s | %s 학생의 %s 과목점수 조회\n", studentId, studentName, subjectName);
             for (int i = 0; i < subjectScoreList.size(); ++i) {
                 SubjectScore subjectScore = subjectScoreList.get(i);
                 System.out.printf("%d회차 | %d점 | %c등급\n", i + 1, subjectScore.getScore(), subjectScore.getGrade());
@@ -560,12 +564,34 @@ public class Controller {
             String studentId = sc.nextLine();
             if (dataBase.getStudentByIdMap().containsKey(studentId)) {
                 Student student = dataBase.getStudentByIdMap().get(studentId);
-
+                List<String> subjectList = student.getSubjectList();
+                System.out.println("현재 학생이 수강하고 있는 과목 목록입니다.\n점수를 변경할 과목을 입력해주세요");
+                printList(student.getSubjectList());
+                int validIndex = util.returnValidOutput(1, subjectList.size() - 1);
+                String studentName = student.getStudentName();
+                String subjectName = subjectList.get(validIndex);
+                String key = studentId + subjectName;
+                List<SubjectScore> subjectScoreList = dataBase.getSubjectScoreMap().get(key);
+                if (subjectScoreList == null || subjectScoreList.size() == 0) {
+                    System.out.printf("현재 %s과목은 점수가 등록되지 않았습니다.\n", subjectName);
+                }
+                else {
+                    System.out.printf("현재 %s과목은 %d회차까지 점수가 등록되어 있습니다.\n", studentName, subjectScoreList.size());
+                    System.out.println("점수를 변경할 회차를 입력해주세요");
+                    validIndex = util.returnValidOutput(1, subjectList.size());
+                    SubjectScore subjectScore = subjectScoreList.get(validIndex - 1);
+                    System.out.println("점수를 입력해주세요");
+                    int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
+                    if (subjectScore.getScore() != score) {
+                        subjectScore.setScore(score, util.getOptionOrMandatoryMap().get(subjectName));
+                    }
+                    System.out.println("점수를 변경하였습니다.");
+                }
             }
             else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
-
             }
+            yesOrNoOption = yesOrNoInput();
         }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
     }
 
