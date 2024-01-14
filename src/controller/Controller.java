@@ -10,7 +10,6 @@ import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import static util.ScoreLimit.*;
 import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
@@ -106,13 +105,13 @@ public class Controller {
             System.out.printf("상태 : %s\n", status);
             System.out.println("과목 목록");
             printList(subjectNameList);
-            System.out.println("1. 네    2. 아니오");
+            System.out.println("1. 네\t2. 아니오");
             yesOrNoOption = yesOrNoInput();
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 dataBase.save(studentName, status, subjectNameList);
                 System.out.println("수강생이 등록되었습니다.");
             }
-            System.out.println("1. 수강생 계속 등록하기    2. 뒤로가기");
+            System.out.println("1. 계속 등록하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while(yesOrNoOption == YES_OR_NO_OPTION_YES);
     }
@@ -146,7 +145,7 @@ public class Controller {
             }
 
             System.out.println("과목을 계속 선택하시겠습니까?");
-            System.out.println("1. 네    2. 아니오");
+            System.out.println("1. 네\t2. 아니오");
             YesOrNoOption yesOrNoOption = yesOrNoInput();
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 continue;
@@ -186,7 +185,7 @@ public class Controller {
                 selectSubjects.add(subjectName);
             }
             System.out.println("과목을 계속 선택하시겠습니까?");
-            System.out.println("1. 네    2. 아니오");
+            System.out.println("1. 네\t2. 아니오");
             YesOrNoOption yesOrNoOption = yesOrNoInput();
             if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                 continue;
@@ -234,7 +233,7 @@ public class Controller {
             } else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
-            System.out.println("1. 계속 조회하기     2. 뒤로가기");
+            System.out.println("1. 계속 조회하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -258,7 +257,7 @@ public class Controller {
                     printStudent(student);
                 }
             }
-            System.out.println("1. 계속 조회하기     2. 뒤로가기");
+            System.out.println("1. 계속 조회하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -297,7 +296,7 @@ public class Controller {
                 StudentStatus studentStatus = StudentStatus
                         .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_YELLOW.ordinal()));
 
-                System.out.println("1. 변경하기     2. 변경 취소하기");
+                System.out.println("1. 변경하기\t2. 변경 취소하기");
                 yesOrNoOption = yesOrNoInput();
 
                 if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
@@ -314,7 +313,7 @@ public class Controller {
             } else {
                 System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
             }
-            System.out.println("1. 계속 변경하기     2. 뒤로가기");
+            System.out.println("1. 계속 변경하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -350,7 +349,7 @@ public class Controller {
                     System.out.println("삭제할 학생의 현재 정보");
                     printStudent(student);
 
-                    System.out.println("1. 삭제하기     2. 삭제 취소하기");
+                    System.out.println("1. 삭제하기\t2. 삭제 취소하기");
                     yesOrNoOption = yesOrNoInput();
                     if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                         dataBase.delete(student);
@@ -359,7 +358,7 @@ public class Controller {
                     System.out.printf("%s는 존재하지 않는 고유번호입니다.\n", studentId);
                 }
             }
-            System.out.println("1. 계속 삭제하기     2. 뒤로가기");
+            System.out.println("1. 계속 삭제하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -422,24 +421,24 @@ public class Controller {
 
                 dataBase.getSubjectScoreMap().computeIfAbsent(key, k -> new ArrayList<>());
                 List<SubjectScore> subjectScoreList =  dataBase.getSubjectScoreMap().get(key);
-                int round;
+                int round = subjectScoreList.size() + 1;
 
                 do {
-                    round = subjectScoreList.size() + 1;
-                    System.out.printf("%s | %s | %s %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
+                    System.out.printf("%s | %s | %s 과목 %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
                     SubjectScore subjectScore = new SubjectScore(score, util.getOptionOrMandatoryMap().get(subjectName));
                     subjectScoreList.add(subjectScore);
-                    System.out.printf("%d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", round, subjectScore.getScore(), subjectScore.getGrade());
+                    System.out.printf("%s과목 | %d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", subjectName, round, subjectScore.getScore(), subjectScore.getGrade());
                     System.out.println("점수를 계속 등록 하시겠습니까?");
                     System.out.println("1. 네    2. 아니요");
+                    ++round;
                     yesOrNoOption = yesOrNoInput();
                 }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
             } else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
-            System.out.println("1. 계속 점수 등록하기     2. 뒤로가기");
+            System.out.println("1. 계속 등록하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -469,7 +468,7 @@ public class Controller {
         YesOrNoOption yesOrNoOption;
         do {
             System.out.println(printMenuOption.getStringData(SCORE_INQUIRE_HELPER_ID_MENU));
-            System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요");
+            System.out.println("조회할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
             if (dataBase.getStudentByIdMap().containsKey(studentId)) {
                 Student student = dataBase.getStudentByIdMap().get(studentId);
@@ -478,7 +477,7 @@ public class Controller {
             else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
-            System.out.println("1. 계속 점수 등록하기     2. 뒤로가기");
+            System.out.println("1. 계속 조회하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -508,7 +507,7 @@ public class Controller {
                 Student student = studentList.get(validIndex - 1);
                 inquireScoreByStudentHelper(student);
             }
-            System.out.println("1. 계속 조회하기     2. 뒤로가기");
+            System.out.println("1. 계속 조회하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         } while (yesOrNoOption != YES_OR_NO_OPTION_NO);
     }
@@ -591,6 +590,7 @@ public class Controller {
             else {
                 System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
             }
+            System.out.println("1. 계속 변경하기\t2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
         }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
     }
