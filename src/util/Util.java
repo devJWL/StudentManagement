@@ -2,7 +2,6 @@ package util;
 import util.printMenu.PrintMenuOption;
 import util.subject.MandatorySubject;
 import util.subject.SelectSubject;
-
 import java.util.*;
 import static util.printMenu.MenuOption.*;
 
@@ -10,12 +9,16 @@ import static util.printMenu.MenuOption.*;
 public class Util {
     private final Scanner sc;
     private final PrintMenuOption printMenuOption;
-    public final Map<String, Boolean> selectOrMandatoryMap = new HashMap<>();
+    private final Map<String, Boolean> selectOrMandatoryMap = new HashMap<>();
 
     public Util(Scanner sc, PrintMenuOption printMenuOption) {
         this.sc = sc;
         this.printMenuOption = printMenuOption;
         initSelectOrMandatoryMap();
+    }
+
+    public Map<String, Boolean> getSelectOrMandatoryMap() {
+        return selectOrMandatoryMap;
     }
 
     // =================================== 선택 입력 예외 처리 =================================================
