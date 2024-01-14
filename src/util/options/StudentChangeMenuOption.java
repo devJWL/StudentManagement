@@ -3,5 +3,11 @@ package util.options;
 public enum StudentChangeMenuOption {
     STUDENT_CHANGE_MENU_OPTION_ERROR,
     STUDENT_CHANGE_MENU_OPTION_CHANGE,
-    STUDENT_CHANGE_MENU_OPTION_BACK
+    STUDENT_CHANGE_MENU_OPTION_BACK;
+
+
+    StudentChangeMenuOption[] studentMenuOptions = StudentChangeMenuOption.values();
+    public StudentChangeMenuOption get(int index) {
+        return studentMenuOptions[index];
+    }
 }
