@@ -11,7 +11,6 @@ import util.subject.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
 import static util.options.ScoreChangeMenuOption.*;
@@ -25,7 +24,7 @@ import static util.options.StudentRegisterMenuOption.*;
 import static util.options.StudentStatus.*;
 import static util.options.YesOrNoOption.*;
 import static util.subject.MandatorySubject.*;
-import static util.subject.SelectSubject.*;
+import static util.subject.OptionSubject.*;
 
 
 
@@ -170,9 +169,9 @@ public class Controller {
         do {
             System.out.println("수강생이 수강 중인 선택과목을 입력해주세요 (선택과목은 2가지 이상 선택 해야합니다.)");
             System.out.println("선택과목 목록");
-            printAddingSubjectList(studentId, SelectSubject.getSelectSubjectStringList());
+            printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList());
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
-            SelectSubject selectSubject = SelectSubject
+            OptionSubject selectSubject = OptionSubject
                     .get(util.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
 
             String subjectName = selectSubject.getSubjectName();
@@ -249,9 +248,14 @@ public class Controller {
                     .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_RED.ordinal()))
                     .getStatus();
             List<Student> studentList = dataBase.getStudentByStatusMap().get(status);
-            System.out.printf("%s 상태 학생목록\n", status);
-            for (Student student : studentList) {
-                printStudent(student);
+            if (studentList.size() == 0) {
+                System.out.printf("%s 상태의 학생이 없습니다.\n", status);
+            }
+            else {
+                System.out.printf("%s 상태 학생목록\n", status);
+                for (Student student : studentList) {
+                    printStudent(student);
+                }
             }
             System.out.println("1. 계속 조회하기     2. 뒤로가기");
             yesOrNoOption = yesOrNoInput();
@@ -422,7 +426,7 @@ public class Controller {
                     System.out.printf("%s | %s | %s %d회차 점수등록 중 입니다.\n", studentId, studentName, subjectName, round);
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(ScoreLimit.SCORE_LIMIT_MIN.getScore(), ScoreLimit.SCORE_LIMIT_MAX.getScore());
-                    SubjectScore subjectScore = new SubjectScore(score, util.getSelectOrMandatoryMap().get(subjectName));
+                    SubjectScore subjectScore = new SubjectScore(score, util.getOptionOrMandatoryMap().get(subjectName));
                     subjectScoreList.add(subjectScore);
                     System.out.printf("%d회차에 %d점 | %c등급으로 점수가 등록되었습니다.\n", round, subjectScore.getScore(), subjectScore.getGrade());
                     System.out.println("점수를 계속 등록 하시겠습니까?");
@@ -527,7 +531,7 @@ public class Controller {
                 avg += subjectScore.getScore();
             }
             avg /= subjectScoreList.size();
-            System.out.printf("평균점수 : %d점 | 평균등급 : %c등급\n", avg, util.calcGrade(avg, util.getSelectOrMandatoryMap().get(subjectName)));
+            System.out.printf("평균점수 : %d점 | 평균등급 : %c등급\n", avg, util.calcGrade(avg, util.getOptionOrMandatoryMap().get(subjectName)));
         }
     }
 
@@ -549,7 +553,20 @@ public class Controller {
     }
 
     private void changeScoreHelper() {
-        System.out.println(printMenuOption.getStringData(SCORE_CHANGE_HELPER_MENU));
+        YesOrNoOption yesOrNoOption;
+        do{
+            System.out.println(printMenuOption.getStringData(SCORE_CHANGE_HELPER_MENU));
+            System.out.println("점수를 수정할 학생의 고유번호를 입력해주세요");
+            String studentId = sc.nextLine();
+            if (dataBase.getStudentByIdMap().containsKey(studentId)) {
+                Student student = dataBase.getStudentByIdMap().get(studentId);
+
+            }
+            else {
+                System.out.printf("%s의 고유번호는 존재하지 않습니다.\n", studentId);
+
+            }
+        }while(yesOrNoOption == YES_OR_NO_OPTION_YES);
     }
 
     // ================================== 점수 관리 메뉴 ========================================================

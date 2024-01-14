@@ -1,7 +1,7 @@
 package util;
 import util.printMenu.PrintMenuOption;
 import util.subject.MandatorySubject;
-import util.subject.SelectSubject;
+import util.subject.OptionSubject;
 import java.util.*;
 import static util.printMenu.MenuOption.*;
 
@@ -9,7 +9,7 @@ import static util.printMenu.MenuOption.*;
 public class Util {
     private final Scanner sc;
     private final PrintMenuOption printMenuOption;
-    private final Map<String, Boolean> selectOrMandatoryMap = new HashMap<>();
+    private final Map<String, Boolean> OptionOrMandatoryMap = new HashMap<>();
 
     public Util(Scanner sc, PrintMenuOption printMenuOption) {
         this.sc = sc;
@@ -17,8 +17,8 @@ public class Util {
         initSelectOrMandatoryMap();
     }
 
-    public Map<String, Boolean> getSelectOrMandatoryMap() {
-        return selectOrMandatoryMap;
+    public Map<String, Boolean> getOptionOrMandatoryMap() {
+        return OptionOrMandatoryMap;
     }
 
     // =================================== 선택 입력 예외 처리 =================================================
@@ -52,7 +52,7 @@ public class Util {
     }
 
     public char calcGrade(int score, boolean isMandatory) {
-        char grade = 'a';
+        char grade;
         if (isMandatory) {
             if (score >= 95) {
                 grade = 'A';
@@ -97,14 +97,14 @@ public class Util {
     }
 
     private void initSelectOrMandatoryMap() {
-        SelectSubject[] selectSubjects = SelectSubject.values();
+        OptionSubject[] optionSubjects = OptionSubject.values();
         MandatorySubject[] mandatorySubjects = MandatorySubject.values();
 
-        for (SelectSubject selectSubject : selectSubjects) {
-            selectOrMandatoryMap.put(selectSubject.getSubjectName(), false);
+        for (OptionSubject optionSubject : optionSubjects) {
+            OptionOrMandatoryMap.put(optionSubject.getSubjectName(), false);
         }
         for (MandatorySubject mandatorySubject : mandatorySubjects) {
-            selectOrMandatoryMap.put(mandatorySubject.getSubjectName(), true);
+            OptionOrMandatoryMap.put(mandatorySubject.getSubjectName(), true);
         }
     }
 
