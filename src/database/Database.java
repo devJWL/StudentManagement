@@ -10,17 +10,12 @@ import java.util.*;
 public class Database {
     private int count = 0;
     // ============================= 데이터 베이스 저장관련 자료 =======================================
-    // key : studentId + subjectName    value : 과목이름
-    private final Set<String> subjectSet = new HashSet<>();   // 특정학생의 과목 수강여부를 확인하기위한 Set
     // key : studentId            value : Student
     private final Map<String, Student> studentByIdMap = new TreeMap<>();
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentsByStatusMap = new HashMap<>();
     // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
-    public Set<String> getSubjectSet() {
-        return subjectSet;
-    }
     // ============================= 데이터 베이스 저장관련 자료 =======================================
     public Database() {
         databaseInit();
@@ -83,7 +78,6 @@ public class Database {
         studentsByStatusMap.get(student.getStatus()).remove(student);
         for (String subjectName : student.getSubjectList()) {
             String key = studentId + subjectName;
-            subjectSet.remove(key);
             subjectScoreMap.remove(key);
         }
         studentByIdMap.remove(studentId);
@@ -117,6 +111,7 @@ public class Database {
     public void deleteScore() {
 
     }
+
     private void TestInput() {
         String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
         String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};

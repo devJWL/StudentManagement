@@ -7,9 +7,7 @@ import util.options.*;
 import util.printMenu.MenuOption;
 import util.printMenu.PrintMenuOption;
 import util.subject.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import static util.ScoreLimit.*;
 import static util.options.ScoreInquireMenuOption.*;
 import static util.printMenu.MenuOption.*;
@@ -80,11 +78,12 @@ public class Controller {
             addMandatorySubjectHelper(studentId, subjectNameList);
             addSelectSubjectHelper(studentId, subjectNameList);
 
-            System.out.println("아래의 정보로 수강생을 등록하시겠습니까?");
+
             System.out.printf("고유번호 : %s\n", studentId);
             System.out.printf("이름 : %s\n", studentName);
             System.out.printf("상태 : %s\n", status);
             System.out.println("과목 목록");
+            System.out.println("위의 정보로 수강생을 등록하시겠습니까?");
             printList(subjectNameList);
             System.out.println("1. 네\t2. 아니오");
             yesOrNoOption = yesOrNoInput();
@@ -99,11 +98,12 @@ public class Controller {
 
     private void addMandatorySubjectHelper(String studentId, List<String> subjectList) {
         List<String> mandatorySubjects = new ArrayList<>();
+        Set<String> subjectSet = new HashSet<>();
         boolean on = true;
         do {
             System.out.println("수강생이 수강 중인 필수과목을 입력해주세요 (필수과목은 3가지 이상 선택 해야합니다.)");
             System.out.println("필수과목 목록");
-            printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList());
+            printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = MandatorySubject
                     .get(util.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
@@ -116,11 +116,11 @@ public class Controller {
                 String subjectName = mandatorySubject.getSubjectName();
                 String key = studentId + subjectName;
                 // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
-                if (dataBase.getSubjectSet().contains(key)) {
+                if (subjectSet.contains(key)) {
                     System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
                 }
                 else {
-                    dataBase.getSubjectSet().add(key);
+                    subjectSet.add(key);
                     mandatorySubjects.add(subjectName);
                 }
             }
@@ -146,11 +146,12 @@ public class Controller {
 
     private void addSelectSubjectHelper(String studentId, List<String> subjectList) {
         List<String> selectSubjects = new ArrayList<>();
+        Set<String> subjectSet = new HashSet<>();
         boolean on = true;
         do {
             System.out.println("수강생이 수강 중인 선택과목을 입력해주세요 (선택과목은 2가지 이상 선택 해야합니다.)");
             System.out.println("선택과목 목록");
-            printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList());
+            printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             OptionSubject selectSubject = OptionSubject
                     .get(util.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
@@ -158,11 +159,11 @@ public class Controller {
             String subjectName = selectSubject.getSubjectName();
             String key = studentId + subjectName;
             // 현재 선택한 과목이 이미 수강하는(선택됐던) 과목일 경우
-            if (dataBase.getSubjectSet().contains(key)) {
+            if (subjectSet.contains(key)) {
                 System.out.printf("%s 과목은 이미 추가된 과목입니다. 다른 과목을 선택해주세요.\n", subjectName);
             }
             else {
-                dataBase.getSubjectSet().add(key);
+                subjectSet.add(key);
                 selectSubjects.add(subjectName);
             }
             System.out.println("과목을 계속 선택하시겠습니까?");
@@ -334,7 +335,7 @@ public class Controller {
             System.out.println("삭제할 수강생의 고유번호를 입력해주세요");
             studentId = sc.nextLine();
             if (dataBase.getCount() == 0) {
-                System.out.println("현재 수강생이 아무도 등록되어있지 않습니다.");
+                System.out.println("현재 등록된 수강생이 0명 입니다.");
             }
             else {
                 Student student = dataBase.readStudentById(studentId);
@@ -552,16 +553,16 @@ public class Controller {
                 }
                 else {
                     System.out.printf("현재 %s과목은 %d회차까지 점수가 등록되어 있습니다.\n", studentName, subjectScoreList.size());
-                    System.out.println("점수를 변경할 회차를 입력해주세요 (점수는 점수가 등록된 회차만 가능합니다)");
+                    System.out.println("점수를 수정할 회차를 입력해주세요 (점수수정은 점수가 등록된 회차만 가능합니다)");
                     int round = util.returnValidOutput(1, subjectList.size()) - 1;
                     System.out.println("점수를 입력해주세요");
                     int score = util.returnValidOutput(SCORE_LIMIT_MIN.getScore(), SCORE_LIMIT_MAX.getScore());
-                    System.out.println("점수를 변경하시겠습니까?");
+                    System.out.println("점수를 수정 하시겠습니까?");
                     System.out.println("1. 네\t2. 아니요");
                     yesOrNoOption = yesOrNoInput();
                     if (yesOrNoOption == YES_OR_NO_OPTION_YES) {
                         dataBase.updateScore(key, round, score, util.getOptionOrMandatoryMap().get(subjectName));
-                        System.out.println("점수를 변경하였습니다.");
+                        System.out.println("점수를 수정 하였습니다.");
                     }
                 }
             }
@@ -591,14 +592,14 @@ public class Controller {
         System.out.println();
     }
 
-    private void printAddingSubjectList(String studentId, List<String> list) {
+    private void printAddingSubjectList(String studentId, List<String> list, Set<String> subjectSet) {
         if (list.size() <= 1) {
             return;
         }
         for (int i = 1; i < list.size(); ++i) {
             String subjectName = list.get(i);
             String key = studentId + subjectName;
-            if (dataBase.getSubjectSet().contains(key)) {
+            if (subjectSet.contains(key)) {
                 System.out.print("*");
             }
 
