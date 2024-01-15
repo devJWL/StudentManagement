@@ -287,7 +287,7 @@ public class Controller {
                 System.out.println("변경할 상태를 입력해주세요");
                 printList(StudentStatus.getStatusStringList());
                 StudentStatus studentStatus = StudentStatus
-                        .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_YELLOW.ordinal()));
+                        .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_RED.ordinal()));
 
                 System.out.println("1. 변경하기\t2. 변경 취소하기");
                 yesOrNoOption = yesOrNoInput();
