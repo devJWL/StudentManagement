@@ -4,15 +4,14 @@ import database.Database;
 import util.Util;
 import util.options.*;
 import util.printMenu.PrintMenuOption;
-
 import java.util.Scanner;
-
 import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_BACK;
 import static util.options.ScoreMenuOption.SCORE_MENU_OPTION_REGISTER;
 import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_BACK;
 import static util.options.StudentMenuOption.STUDENT_MENU_OPTION_REGISTER;
 import static util.printMenu.MenuOption.*;
 import static util.options.MainMenuOption.*;
+
 
 
 public class Management{
@@ -29,7 +28,8 @@ public class Management{
 
     // 메인 메뉴
     private void mainMenu() {
-        while (true) {
+        boolean on = true;
+        while (on) {
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
             MainMenuOption select = MainMenuOption
                     .get(util.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
@@ -37,7 +37,7 @@ public class Management{
                 case MAIN_MENU_OPTION_STU-> studentMenu();
                 case MAIN_MENU_OPTION_SCORE-> scoreMenu();
                 case MAIN_MENU_OPTION_EXIT -> {
-                    return;
+                    on = false;
                 }
                 // ERROR
                 default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
@@ -47,7 +47,8 @@ public class Management{
 
     // 학생관리 메뉴
     private void studentMenu() {
-        while(true) {
+        boolean on = true;
+        while(on) {
             System.out.println(printMenuOption.getStringData(STUDENT_MAIN_MENU));
             StudentMenuOption select = StudentMenuOption
                     .get(util.returnValidOutput(STUDENT_MENU_OPTION_REGISTER.ordinal(), STUDENT_MENU_OPTION_BACK.ordinal()));
@@ -57,7 +58,7 @@ public class Management{
                 case STUDENT_MENU_OPTION_CHANGE -> controller.changeStudent();
                 case STUDENT_MENU_OPTION_DELETE -> controller.deleteStudent();
                 case STUDENT_MENU_OPTION_BACK -> {
-                    return;
+                    on = false;
                 }
                 // ERROR
                 default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
@@ -67,7 +68,8 @@ public class Management{
 
     // 점수관리 메뉴
     private void scoreMenu() {
-        while(true) {
+        boolean on = true;
+        while(on) {
             System.out.println(printMenuOption.getStringData(SCORE_MAIN_MENU));
             ScoreMenuOption select = ScoreMenuOption
                     .get(util.returnValidOutput(SCORE_MENU_OPTION_REGISTER.ordinal(), SCORE_MENU_OPTION_BACK.ordinal()));
@@ -77,7 +79,7 @@ public class Management{
                 case SCORE_MENU_OPTION_CHANGE -> controller.changeScore();
                 // 점수 삭제 구현 하기
                 case SCORE_MENU_OPTION_BACK -> {
-                    return;
+                    on = false;
                 }
                 // ERROR
                 default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
