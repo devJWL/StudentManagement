@@ -1,14 +1,14 @@
-package util.options;
+package util.stduentInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public enum StudentStatus {
-    STUDENT_STATUS_START("Start"),
+    STUDENT_STATUS_ERROR("Error"),
     STUDENT_STATUS_GREEN("Green"),
     STUDENT_STATUS_YELLOW("Yellow"),
     STUDENT_STATUS_RED("Red"),
-    STUDENT_STATUS_END("End");
+    STUDENT_STATUS_END("Back");
 
 
     private final String status;

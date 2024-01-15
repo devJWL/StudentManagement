@@ -1,13 +1,10 @@
-package util.subject;
-
-import util.Util;
-import util.options.StudentStatus;
+package util.stduentInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public enum MandatorySubject {
-    MANDATORY_SUBJECT_START("Start"),
+    MANDATORY_SUBJECT_ERROR("Error"),
     MANDATORY_SUBJECT_JAVA("Java"),
     MANDATORY_SUBJECT_OOP("OOP"),
     MANDATORY_SUBJECT_SPRING("Spring"),

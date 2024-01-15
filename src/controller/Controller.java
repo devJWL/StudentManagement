@@ -6,7 +6,7 @@ import util.Util;
 import util.options.*;
 import util.printMenu.MenuOption;
 import util.printMenu.PrintMenuOption;
-import util.subject.*;
+import util.stduentInfo.*;
 import java.util.*;
 import static util.ScoreLimit.*;
 import static util.options.ScoreInquireMenuOption.*;
@@ -17,10 +17,10 @@ import static util.options.StudentChangeMenuOption.*;
 import static util.options.StudentDeleteMenuOption.*;
 import static util.options.StudentInquireMenuOption.*;
 import static util.options.StudentRegisterMenuOption.*;
-import static util.options.StudentStatus.*;
+import static util.stduentInfo.StudentStatus.*;
 import static util.options.YesOrNoOption.*;
-import static util.subject.MandatorySubject.*;
-import static util.subject.OptionSubject.*;
+import static util.stduentInfo.MandatorySubject.*;
+import static util.stduentInfo.OptionSubject.*;
 
 
 
@@ -68,13 +68,13 @@ public class Controller {
             System.out.println("수강생의 상태를 선택해주세요");
             printMenuList(StudentStatus.getStatusStringList());
             String status = StudentStatus
-                    .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), StudentStatus.STUDENT_STATUS_RED.ordinal()))
+                    .get(util.returnValidOutput(STUDENT_STATUS_ERROR.ordinal(), StudentStatus.STUDENT_STATUS_END.ordinal()))
                     .getStatus();
 
             List<String> subjectNameList = new ArrayList<>(List.of("dummy"));
 
             addMandatorySubjectHelper(studentId, subjectNameList);
-            addSelectSubjectHelper(studentId, subjectNameList);
+            addOptionSubjectHelper(studentId, subjectNameList);
 
 
             System.out.printf("고유번호 : %s\n", studentId);
@@ -105,7 +105,7 @@ public class Controller {
             printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = MandatorySubject
-                    .get(util.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
+                    .get(util.returnValidOutput(MANDATORY_SUBJECT_ERROR.ordinal(), MANDATORY_SUBJECT_END.ordinal()));
 
             if (mandatorySubject == MANDATORY_SUBJECT_ERROR) {
                 printMenuOption.getStringData(MenuOption.INPUT_ERROR_MENU);
@@ -154,8 +154,8 @@ public class Controller {
         }while(on);
     }
 
-    private void addSelectSubjectHelper(String studentId, List<String> subjectList) {
-        List<String> selectSubjects = new ArrayList<>();
+    private void addOptionSubjectHelper(String studentId, List<String> subjectList) {
+        List<String> optionSubjects = new ArrayList<>();
         Set<String> subjectSet = new HashSet<>();
         YesOrNoOption yesOrNoOption;
         boolean on = true;
@@ -165,7 +165,7 @@ public class Controller {
             printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             OptionSubject selectSubject = OptionSubject
-                    .get(util.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
+                    .get(util.returnValidOutput(OPTION_SUBJECT_ERROR.ordinal(), OPTION_SUBJECT_END.ordinal()));
 
             String subjectName = selectSubject.getSubjectName();
             String key = studentId + subjectName;
@@ -182,7 +182,7 @@ public class Controller {
                 else {
                     System.out.printf("%s 과목이 선택과목에 추가 되었습니다.\n", subjectName);
                     subjectSet.add(key);
-                    selectSubjects.add(subjectName);
+                    optionSubjects.add(subjectName);
                 }
             }
 
@@ -193,14 +193,14 @@ public class Controller {
                 continue;
             }
 
-            if (selectSubjects.size() >= 2){
+            if (optionSubjects.size() >= 2){
                 on = false;
-                subjectList.addAll(selectSubjects);
+                subjectList.addAll(optionSubjects);
             }
             else {
                 System.out.println("선택과목은 2개이상 선택해야합니다.");
                 System.out.println("현재 신청한 선택과목 목록");
-                System.out.println(selectSubjects);
+                System.out.println(optionSubjects);
             }
         }while(on);
     }
@@ -210,7 +210,7 @@ public class Controller {
         while(on) {
             System.out.println(printMenuOption.getStringData(STUDENT_INQUIRE_MENU));
             StudentInquireMenuOption select = StudentInquireMenuOption
-                    .get(util.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ALL.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
+                    .get(util.returnValidOutput(STUDENT_INQUIRE_MENU_OPTION_ERROR.ordinal(), STUDENT_INQUIRE_MENU_OPTION_BACK.ordinal()));
             switch (select) {
                 case STUDENT_INQUIRE_MENU_OPTION_ALL -> studentInquireALLHelper();
                 case STUDENT_INQUIRE_MENU_OPTION_ID -> studentInquireByIdHelper();
@@ -653,7 +653,7 @@ public class Controller {
     }
 
     private YesOrNoOption yesOrNoInput() {
-        return YesOrNoOption.get(util.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
+        return YesOrNoOption.get(util.returnValidOutput(YES_OR_NO_OPTION_ERROR.ordinal(), YES_OR_NO_OPTION_BACK.ordinal()));
     }
     // ====================================== 중복코드 제거 메소드 =======================================================
 }

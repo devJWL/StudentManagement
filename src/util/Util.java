@@ -1,7 +1,7 @@
 package util;
 import util.printMenu.PrintMenuOption;
-import util.subject.MandatorySubject;
-import util.subject.OptionSubject;
+import util.stduentInfo.MandatorySubject;
+import util.stduentInfo.OptionSubject;
 import java.util.*;
 import static util.printMenu.MenuOption.*;
 
@@ -10,7 +10,6 @@ public class Util {
     private final Scanner sc;
     private final PrintMenuOption printMenuOption;
     private final Map<String, Boolean> OptionOrMandatoryMap = new HashMap<>();
-    private final int RETURN_NUMBER_INIT = -1;
 
     public Util(Scanner sc, PrintMenuOption printMenuOption) {
         this.sc = sc;
@@ -24,6 +23,7 @@ public class Util {
 
     // =================================== 선택 입력 예외 처리 =================================================
     public int returnValidOutput(int start, int end) {
+        int RETURN_NUMBER_INIT = -1;
         int returnNumber = RETURN_NUMBER_INIT;
         String input;
         do {
@@ -36,14 +36,14 @@ public class Util {
             if (input.length() > 0 && !input.startsWith("00") && isDigit(input)) {
                 int number = Integer.parseInt(input);
                 // 현재 메뉴옵션의 범위에 존재하는 숫자인지 확인
-                if (number > start && number < end) {
+                if (number >= start && number < end) {
                     returnNumber = number;
                 }
             }
-            if (returnNumber == -2) {
+            if (returnNumber == RETURN_NUMBER_INIT) {
                 System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }
-        } while (returnNumber == -2);
+        } while (returnNumber == RETURN_NUMBER_INIT);
         return returnNumber;
     }
 

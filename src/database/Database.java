@@ -2,8 +2,7 @@ package database;
 
 import resources.Student;
 import resources.SubjectScore;
-import util.Util;
-import util.options.StudentStatus;
+import util.stduentInfo.StudentStatus;
 import java.util.*;
 
 
