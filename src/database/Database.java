@@ -62,13 +62,15 @@ public class Database {
     // 학생 정보 변경
     public void updateStudent (String studentId, String studentName, String status) {
         Student student = studentByIdMap.get(studentId);
-        if (!student.getStatus().equals(status)) {
-            studentsByStatusMap.get(student.getStatus()).remove(student);
-            student.setStatus(status);
-            studentsByStatusMap.get(status).add(student);
-        }
-        if (!student.getStudentName().equals(studentName)) {
-            student.setStudentName(studentName);
+        if (student != null) {
+            if (!student.getStatus().equals(status)) {
+                studentsByStatusMap.get(student.getStatus()).remove(student);
+                student.setStatus(status);
+                studentsByStatusMap.get(status).add(student);
+            }
+            if (!student.getStudentName().equals(studentName)) {
+                student.setStudentName(studentName);
+            }
         }
     }
 
