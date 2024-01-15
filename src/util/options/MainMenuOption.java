@@ -6,7 +6,8 @@ public enum MainMenuOption {
     MAIN_MENU_OPTION_SCORE,
     MAIN_MENU_OPTION_EXIT;
 
-    public static final MainMenuOption[] mainMenuOptions = MainMenuOption.values();
+    private static final MainMenuOption[] mainMenuOptions = MainMenuOption.values();
+
     public static MainMenuOption get(int index) {
         return mainMenuOptions[index];
     }

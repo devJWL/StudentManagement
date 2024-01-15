@@ -1,7 +1,5 @@
 package util.options;
 
-import util.subject.SelectSubject;
-
 public enum YesOrNoOption{
     YES_OR_NO_OPTION_ERROR,
     YES_OR_NO_OPTION_YES,

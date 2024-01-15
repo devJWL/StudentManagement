@@ -17,7 +17,7 @@ public class Student {
         studentId = "STU" + NO;
         this.studentName = studentName;
         this.status = status;
-        this.subjectList = subjectList;
+        this.subjectList = new ArrayList<>(subjectList);
         ++NO;
     }
 
