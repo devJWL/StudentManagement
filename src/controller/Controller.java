@@ -68,7 +68,7 @@ public class Controller {
             System.out.println("수강생의 상태를 선택해주세요");
             printMenuList(StudentStatus.getStatusStringList());
             String status = StudentStatus
-                    .get(util.returnValidOutput(STUDENT_STATUS_ERROR.ordinal(), StudentStatus.STUDENT_STATUS_END.ordinal()))
+                    .get(util.returnValidOutput(STUDENT_STATUS_GREEN.ordinal(), STUDENT_STATUS_RED.ordinal()))
                     .getStatus();
 
             List<String> subjectNameList = new ArrayList<>(List.of("dummy"));
@@ -105,7 +105,7 @@ public class Controller {
             printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = MandatorySubject
-                    .get(util.returnValidOutput(MANDATORY_SUBJECT_ERROR.ordinal(), MANDATORY_SUBJECT_END.ordinal()));
+                    .get(util.returnValidOutput(MANDATORY_SUBJECT_ERROR.ordinal(), MANDATORY_SUBJECT_MYSQL.ordinal()));
 
             if (mandatorySubject == MANDATORY_SUBJECT_ERROR) {
                 printMenuOption.getStringData(MenuOption.INPUT_ERROR_MENU);
@@ -165,7 +165,7 @@ public class Controller {
             printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             OptionSubject selectSubject = OptionSubject
-                    .get(util.returnValidOutput(OPTION_SUBJECT_ERROR.ordinal(), OPTION_SUBJECT_END.ordinal()));
+                    .get(util.returnValidOutput(OPTION_SUBJECT_ERROR.ordinal(), OPTION_SUBJECT_MONGODB.ordinal()));
 
             String subjectName = selectSubject.getSubjectName();
             String key = studentId + subjectName;
@@ -539,7 +539,7 @@ public class Controller {
         while(on) {
             System.out.println(printMenuOption.getStringData(SCORE_CHANGE_MENU));
             ScoreChangeMenuOption select = ScoreChangeMenuOption
-                    .get(util.returnValidOutput(SCORE_CHANGE_MENU_OPTION_CHANGE.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
+                    .get(util.returnValidOutput(SCORE_CHANGE_MENU_OPTION_ERROR.ordinal(), SCORE_CHANGE_MENU_OPTION_BACK.ordinal()));
 
             switch (select) {
                 case SCORE_CHANGE_MENU_OPTION_CHANGE-> changeScoreHelper();
@@ -653,7 +653,7 @@ public class Controller {
     }
 
     private YesOrNoOption yesOrNoInput() {
-        return YesOrNoOption.get(util.returnValidOutput(YES_OR_NO_OPTION_ERROR.ordinal(), YES_OR_NO_OPTION_BACK.ordinal()));
+        return YesOrNoOption.get(util.returnValidOutput(YES_OR_NO_OPTION_YES.ordinal(), YES_OR_NO_OPTION_NO.ordinal()));
     }
     // ====================================== 중복코드 제거 메소드 =======================================================
 }

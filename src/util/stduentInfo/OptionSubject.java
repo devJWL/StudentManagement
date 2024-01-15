@@ -8,8 +8,7 @@ public enum OptionSubject {
     OPTION_SUBJECT_DESIGN_PATTERN("Design Pattern"),
     OPTION_SUBJECT_SPRING_SECURITY("Spring Security"),
     OPTION_SUBJECT_REDIS("Redis"),
-    OPTION_SUBJECT_MONGODB("MongoDB"),
-    OPTION_SUBJECT_END("End");
+    OPTION_SUBJECT_MONGODB("MongoDB");
 
     private final String subjectName;
     private static final OptionSubject[] optionSubjects = OptionSubject.values();

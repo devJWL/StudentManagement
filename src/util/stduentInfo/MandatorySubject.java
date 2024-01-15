@@ -9,8 +9,7 @@ public enum MandatorySubject {
     MANDATORY_SUBJECT_OOP("OOP"),
     MANDATORY_SUBJECT_SPRING("Spring"),
     MANDATORY_SUBJECT_JPA("JPA"),
-    MANDATORY_SUBJECT_MYSQL("MySQL"),
-    MANDATORY_SUBJECT_END("End");
+    MANDATORY_SUBJECT_MYSQL("MySQL");
 
     private final String subjectName;
     private static final MandatorySubject[] mandatorySubjects = MandatorySubject.values();
