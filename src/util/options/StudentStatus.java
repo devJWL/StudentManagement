@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum StudentStatus {
-    STUDENT_STATUS_ERROR("Error"),
+    STUDENT_STATUS_START("Start"),
     STUDENT_STATUS_GREEN("Green"),
     STUDENT_STATUS_YELLOW("Yellow"),
-    STUDENT_STATUS_RED("Red");
+    STUDENT_STATUS_RED("Red"),
+    STUDENT_STATUS_END("End");
 
 
     private final String status;

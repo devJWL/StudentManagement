@@ -24,9 +24,10 @@ public class PrintMenuOption {
                         ==================================
                         관리자 메뉴에 오신 것을 환영합니다.
                         아래 메뉴 중 하나를 선택해주세요.
+                        (프로그램 종료 -1 입력)
                         1. 수강생 관리하기
                         2. 수강생 점수 관리하기
-                        3. 프로그램 종료"""
+                        """
                 );
         menuOptionStringMap.put(MenuOption.STUDENT_MAIN_MENU,
                 """

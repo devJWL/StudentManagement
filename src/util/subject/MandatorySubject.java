@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum MandatorySubject {
-    MANDATORY_SUBJECT_ERROR("Error"),
-    JAVA("Java"),
-    OOP("OOP"),
-    SPRING("Spring"),
-    JPA("JPA"),
-    MYSQL("MySQL");
+    MANDATORY_SUBJECT_START("Start"),
+    MANDATORY_SUBJECT_JAVA("Java"),
+    MANDATORY_SUBJECT_OOP("OOP"),
+    MANDATORY_SUBJECT_SPRING("Spring"),
+    MANDATORY_SUBJECT_JPA("JPA"),
+    MANDATORY_SUBJECT_MYSQL("MySQL"),
+    MANDATORY_SUBJECT_END("End");
 
     private final String subjectName;
     private static final MandatorySubject[] mandatorySubjects = MandatorySubject.values();

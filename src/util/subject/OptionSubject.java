@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum OptionSubject {
-    SELECT_SUBJECT_ERROR("Error"),
-    DESIGN_PATTERN("Design Pattern"),
-    SPRING_SECURITY("Spring Security"),
-    REDIS("Redis"),
-    MONGODB("MongoDB");
+    OPTION_SUBJECT_START("Start"),
+    OPTION_SUBJECT_DESIGN_PATTERN("Design Pattern"),
+    OPTION_SUBJECT_SPRING_SECURITY("Spring Security"),
+    OPTION_SUBJECT_REDIS("Redis"),
+    OPTION_SUBJECT_MONGODB("MongoDB"),
+    OPTION_SUBJECT_END("End");
 
     private final String subjectName;
     private static final OptionSubject[] optionSubjects = OptionSubject.values();

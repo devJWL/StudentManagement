@@ -1,6 +1,7 @@
 package util.printMenu;
 
 public enum MenuOption {
+    MAIN_MENU_START,
     MAIN_MENU,
     STUDENT_MAIN_MENU,
     STUDENT_REGISTER_MENU,
@@ -21,5 +22,6 @@ public enum MenuOption {
     SCORE_INQUIRE_HELPER_STATUS_MENU,
     SCORE_CHANGE_MENU,
     SCORE_CHANGE_HELPER_MENU,
-    INPUT_ERROR_MENU
+    INPUT_ERROR_MENU,
+    MAIN_MENU_END
 }
