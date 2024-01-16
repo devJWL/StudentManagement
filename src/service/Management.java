@@ -55,7 +55,7 @@ public class Management{
             switch (select) {
                 case STUDENT_MENU_OPTION_REGISTER -> controller.registerStudent();
                 case STUDENT_MENU_OPTION_INQUIRE -> controller.inquireStudent();
-                case STUDENT_MENU_OPTION_CHANGE -> controller.changeStudent();
+                case STUDENT_MENU_OPTION_CHANGE -> controller.updateStudent();
                 case STUDENT_MENU_OPTION_DELETE -> controller.deleteStudent();
                 case STUDENT_MENU_OPTION_BACK -> {
                     on = false;
@@ -76,11 +76,16 @@ public class Management{
             switch (select) {
                 case SCORE_MENU_OPTION_REGISTER -> controller.registerScore();
                 case SCORE_MENU_OPTION_INQUIRE -> controller.inquireScore();
+<<<<<<< Updated upstream
                 case SCORE_MENU_OPTION_CHANGE -> controller.changeScore();
                 // 점수 삭제 구현 하기
                 case SCORE_MENU_OPTION_BACK -> {
                     on = false;
                 }
+=======
+                case SCORE_MENU_OPTION_CHANGE -> controller.updateScore();
+                case SCORE_MENU_OPTION_BACK -> on = false;
+>>>>>>> Stashed changes
                 // ERROR
                 default -> System.out.println(printMenuOption.getStringData(INPUT_ERROR_MENU));
             }

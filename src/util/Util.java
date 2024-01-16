@@ -28,8 +28,13 @@ public class Util {
         do {
             System.out.print("> ");
             input = sc.nextLine();
+<<<<<<< Updated upstream
             // 문자열의 길이가 0이 아니고, 숫자만으로 구성되어있는지 확인
             if (input.length() != 0 && isDigit(input)) {
+=======
+            // 문자열의 길이가 0이 아니고, "0000"과 같은 문자열이 아니고, 숫자로만 구성
+            if (input.length() > 0 && !input.startsWith("00") && isDigit(input)) {
+>>>>>>> Stashed changes
                 int number = Integer.parseInt(input);
                 // 현재 메뉴옵션의 범위에 존재하는 숫자인지 확인
                 if (number >= start && number <= end) {
