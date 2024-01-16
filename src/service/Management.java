@@ -78,12 +78,15 @@ public class Management{
                 case SCORE_MENU_OPTION_INQUIRE -> controller.inquireScore();
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 case SCORE_MENU_OPTION_CHANGE -> controller.changeScore();
                 // 점수 삭제 구현 하기
                 case SCORE_MENU_OPTION_BACK -> {
                     on = false;
                 }
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                 case SCORE_MENU_OPTION_CHANGE -> controller.updateScore();

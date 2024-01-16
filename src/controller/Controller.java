@@ -108,6 +108,7 @@ public class Controller {
             System.out.println("수강생의 이름을 입력해주세요");
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             System.out.print("> ");
             String studentName = sc.nextLine();
             System.out.println("수강생의 상태를 선택해주세요");
@@ -120,15 +121,23 @@ public class Controller {
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
             studentName = inputStudentName();
             System.out.println("수강생의 상태에 해당하는 숫자를 입력해주세요.");
             status = inputStudentStatus();
             subjectNameList = new ArrayList<>(List.of("dummy"));
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
             addMandatorySubjectHelper(studentId, subjectNameList);
             addSelectSubjectHelper(studentId, subjectNameList);
+=======
+
+            addMandatorySubjectHelper(studentId, subjectNameList);
+            addOptionSubjectHelper(studentId, subjectNameList);
+>>>>>>> Stashed changes
 =======
 
             addMandatorySubjectHelper(studentId, subjectNameList);
@@ -166,11 +175,14 @@ public class Controller {
             System.out.println("필수과목 목록");
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = MandatorySubject
                     .get(util.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
             printAddingSubjectList(studentId, mandatorySubjectStringList, subjectSet);
@@ -233,11 +245,14 @@ public class Controller {
             System.out.println("선택과목 목록");
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             OptionSubject selectSubject = OptionSubject
                     .get(util.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
             printAddingSubjectList(studentId, optionSubjectStringList, subjectSet);
