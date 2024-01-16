@@ -68,11 +68,11 @@ public class Database {
             if (!student.getStatus().equals(status)) {
                 studentsByStatusMap.get(student.getStatus()).remove(student);
                 student.setStatus(status);
-            }
-            else {
                 studentsByStatusMap.get(status).add(student);
             }
-            student.setStudentName(studentName);
+            if (!student.getStudentName().equals(studentName)){
+                student.setStudentName(studentName);
+            }
         }
     }
 
