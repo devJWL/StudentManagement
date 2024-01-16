@@ -107,6 +107,7 @@ public class Controller {
             System.out.println("수강생의 고유번호 : " + studentId);
             System.out.println("수강생의 이름을 입력해주세요");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             System.out.print("> ");
             String studentName = sc.nextLine();
             System.out.println("수강생의 상태를 선택해주세요");
@@ -117,14 +118,22 @@ public class Controller {
 
             List<String> subjectNameList = new ArrayList<>(List.of("dummy"));
 =======
+=======
+>>>>>>> Stashed changes
             studentName = inputStudentName();
             System.out.println("수강생의 상태에 해당하는 숫자를 입력해주세요.");
             status = inputStudentStatus();
             subjectNameList = new ArrayList<>(List.of("dummy"));
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
             addMandatorySubjectHelper(studentId, subjectNameList);
             addSelectSubjectHelper(studentId, subjectNameList);
+=======
+
+            addMandatorySubjectHelper(studentId, subjectNameList);
+            addOptionSubjectHelper(studentId, subjectNameList);
+>>>>>>> Stashed changes
 
             System.out.printf("고유번호 : %s\n", studentId);
             System.out.printf("이름 : %s\n", studentName);
@@ -156,11 +165,14 @@ public class Controller {
             System.out.println("수강생이 수강 중인 필수과목을 입력해주세요 (필수과목은 3가지 이상 선택 해야합니다.)");
             System.out.println("필수과목 목록");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             printAddingSubjectList(studentId, MandatorySubject.getMandatorySubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             MandatorySubject mandatorySubject = MandatorySubject
                     .get(util.returnValidOutput(JAVA.ordinal(), MYSQL.ordinal()));
 =======
+=======
+>>>>>>> Stashed changes
             printAddingSubjectList(studentId, mandatorySubjectStringList, subjectSet);
             System.out.println("선택할 과목에 해당하는 숫자를 입력해주세요");
             mandatorySubject = MandatorySubject
@@ -220,11 +232,14 @@ public class Controller {
             System.out.println("수강생이 수강 중인 선택과목을 입력해주세요 (선택과목은 2가지 이상 선택 해야합니다.)");
             System.out.println("선택과목 목록");
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             printAddingSubjectList(studentId, OptionSubject.getOptionSubjectStringList(), subjectSet);
             System.out.println("과목에 해당하는 숫자를 입력해주세요");
             OptionSubject selectSubject = OptionSubject
                     .get(util.returnValidOutput(DESIGN_PATTERN.ordinal(), MONGODB.ordinal()));
 =======
+=======
+>>>>>>> Stashed changes
             printAddingSubjectList(studentId, optionSubjectStringList, subjectSet);
             System.out.println("선택할 과목에 해당하는 숫자를 입력해주세요");
             OptionSubject optionSubject = OptionSubject
