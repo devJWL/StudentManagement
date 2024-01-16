@@ -14,6 +14,9 @@ public class Database {
     private final Map<String, Student> studentByIdMap = new TreeMap<>();
     // key : 상태                      value : 학생리스트            상태별 학생리스트
     private final Map<String, List<Student>> studentsByStatusMap = new HashMap<>();
+    // "Green"  s -s-s-s-s-s-
+    // "Yellow" s-s-s-s-s-s-
+    // "Red"   s=-s-s-s-s-
     // key : studentId + subjectName   value : 해당id학생의 해당과목의 회차별 점수 목록
     private final Map<String, List<SubjectScore>> subjectScoreMap = new HashMap<>();
     // ============================= 데이터 베이스 저장관련 자료 =======================================
@@ -59,18 +62,15 @@ public class Database {
         return studentsByStatusMap.get(status);
     }
 
-    // 학생 정보 변경
+                                 // 어떤 객체 ID, 키      새로운 이름       새로운 상태
     public void updateStudent (String studentId, String studentName, String status) {
         Student student = studentByIdMap.get(studentId);
+
         if (student != null) {
-            if (!student.getStatus().equals(status)) {
-                studentsByStatusMap.get(student.getStatus()).remove(student);
-                student.setStatus(status);
-                studentsByStatusMap.get(status).add(student);
-            }
-            if (!student.getStudentName().equals(studentName)) {
-                student.setStudentName(studentName);
-            }
+            studentsByStatusMap.get(student.getStatus()).remove(student);
+            student.setStatus(status);
+            student.setStudentName(studentName);
+            studentsByStatusMap.get(status).add(student);
         }
     }
 
@@ -115,7 +115,7 @@ public class Database {
     }
 
     private void TestInput() {
-        String[] names = {"티모", "야스오", "마이", "베인", "징크스"};
+        String[] names = {"티모", "야스오", "마스터 이", "베인", "징크스"};
         String[] statuses = {"Green", "Red", "Yellow", "Red", "Green"};
         String[] subjects = {"Java", "OOP", "Spring", "JPA","MySQL", "Design Pattern", "Spring Security", "Redis", "MongoDB"};
 

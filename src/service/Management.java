@@ -31,8 +31,8 @@ public class Management{
         boolean on = true;
         while (on) {
             System.out.println(printMenuOption.getStringData(MAIN_MENU));
-            MainMenuOption select = MainMenuOption
-                    .get(util.returnValidOutput(MAIN_MENU_OPTION_STU.ordinal(), MAIN_MENU_OPTION_EXIT.ordinal()));
+            int input = sc.nextInt();
+            MainMenuOption select = MainMenuOption.get(input);
             switch (select) {
                 case MAIN_MENU_OPTION_STU-> studentMenu();
                 case MAIN_MENU_OPTION_SCORE-> scoreMenu();
